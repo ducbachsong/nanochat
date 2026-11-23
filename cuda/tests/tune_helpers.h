@@ -154,4 +154,97 @@ static void start_tune_log(const char *file_ptr)
     print_gpu();
 }
 
+// ── a sweep: every value of every tuneable list, with every other ─────────────
+
+/// One tuneable setting: its name and the values a sweep tries.
+struct TuneList
+{
+    const char *name_ptr;
+    std::vector<int> values_list;
+
+    /// Makes the list from a C array of values.
+    ///
+    ///   name_ptr     the setting's name, for the log: "warps"
+    ///   array_list   the values to try, in order
+    template <typename T, size_t N>
+    TuneList(const char *name_ptr, const T (&array_list)[N]) : name_ptr(name_ptr), values_list(array_list, array_list + N) {}
+};
+
+/// One point of a sweep: for each list, the value taken and where it sits in its list.
+struct TunePoint
+{
+    std::vector<int> index_list;   // index_list[k]: the place in list k, for tables indexed by it
+    std::vector<int> value_list;   // value_list[k]: list k's value there
+
+    /// Gives list k's value.
+    ///
+    ///   tune_index_val   k: the list's place in the sweep
+    int value(int tune_index_val) const { return value_list[tune_index_val]; }
+
+    /// Gives where list k's value sits in its list.
+    ///
+    ///   tune_index_val   k: the list's place in the sweep
+    int index(int tune_index_val) const { return index_list[tune_index_val]; }
+};
+
+/// Gives how many points a sweep of these lists has: their sizes multiplied.
+///
+///   tunes_list   the tuneable lists
+static size_t count_settings(const std::vector<TuneList> &tunes_list)
+{
+    size_t count_val = 1;
+    for (const TuneList &tune_val : tunes_list)
+        count_val *= tune_val.values_list.size();
+    return count_val;
+}
+
+/// Calls use_val once for every point of the lists, every value with every other, the first list turning slowest.
+///
+///   tunes_list   the tuneable lists, father to son: the first list is the outermost loop, the last the innermost
+///   use_val      called with each TunePoint: builds, checks or runs that setting
+template <typename Use>
+static void for_every_setting(const std::vector<TuneList> &tunes_list, Use use_val)
+{
+    // The same order as nested for loops, one per list: like a counter whose last digit turns fastest. A list with no
+    // values: no points at all.
+    for (const TuneList &tune_val : tunes_list)
+        if (tune_val.values_list.empty())
+            return;
+    TunePoint point_val;
+    point_val.index_list.assign(tunes_list.size(), 0);
+    point_val.value_list.resize(tunes_list.size());
+    while (true)
+    {
+        // 1. this point's values, then use it
+        for (size_t tune_index_val = 0; tune_index_val < tunes_list.size(); tune_index_val++)
+            point_val.value_list[tune_index_val] = tunes_list[tune_index_val].values_list[point_val.index_list[tune_index_val]];
+        use_val((const TunePoint &)point_val);
+        // 2. the next point: the last list one on; at its end back to its first value, and the list before one on
+        int tune_index_val = (int)tunes_list.size() - 1;
+        while (tune_index_val >= 0 && ++point_val.index_list[tune_index_val] == (int)tunes_list[tune_index_val].values_list.size())
+        {
+            point_val.index_list[tune_index_val] = 0;
+            tune_index_val--;
+        }
+        if (tune_index_val < 0)
+            return;   // every list went round: every point used
+    }
+}
+
+/// Gives a point as one line: each list's name and value, "blocks_per_sm 2, warps 8, ...".
+///
+///   tunes_list   the tuneable lists
+///   point_val    the point
+static std::string describe_point(const std::vector<TuneList> &tunes_list, const TunePoint &point_val)
+{
+    std::string line_val;
+    for (size_t tune_index_val = 0; tune_index_val < tunes_list.size(); tune_index_val++)
+    {
+        if (tune_index_val > 0)
+            line_val += ", ";
+        line_val += std::string(tunes_list[tune_index_val].name_ptr) + " " + std::to_string(point_val.value(tune_index_val));
+    }
+    return line_val;
+}
+
 #endif

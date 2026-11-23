@@ -1,0 +1,1069 @@
+log: cuda/tests/results/H100/adamw_tma_bf16_2026-11-22_144452.txt
+GPU: NVIDIA H100 80GB HBM3   compute 9.0   132 SMs   85.0 GB   peak memory bandwidth 3352 GB/s   peak bfloat16 1071 TFLOPS   CUDA 13.4
+
+    5120 settings in the sweep: blocks_per_sm x threads x values x tma_store x parts
+    4544 settings to run (2424 with fewer than B blocks on an SM at once: they run in waves), 576 skipped (listed below)
+    ... 1000 of 4544 settings, 7 s
+    ... 2000 of 4544 settings, 13 s
+    ... 3000 of 4544 settings, 20 s
+    ... 4000 of 4544 settings, 29 s
+
+time_every_setting
+    GPT-2 small: 124439808 values (124439040 decayed), a float master: 2488.8 MB a step; this GPU's peak 3352 GB/s
+    registers a thread (S: spills to local memory, its settings skipped; X: CUDA refused it, its settings skipped)
+    threads  store       4 values    8 values   16 values   32 values
+         32  TMA             48          60          92         157  
+         32  threads         54          68          98         164  
+         64  TMA             48          60          92         157  
+         64  threads         54          61          98         164  
+         96  TMA             48          60          92         157  
+         96  threads         54          68          98         164  
+        128  TMA             48          60          92         157  
+        128  threads         54          61          98         171  
+        192  TMA             48          60          92         183  
+        192  threads         54          61          97         171  
+        256  TMA             48          60          92         183  
+        256  threads         50          61          97         173  
+        384  TMA             48          60          92         154  
+        384  threads         48          61          97         153  
+        512  TMA             48          60          92         128 S
+        512  threads         50          61          90         128 S
+        768  TMA             48          58          80 S        80 S
+        768  threads         48          61          80          80 S
+       1024  TMA             48          57          64 S        64 S
+       1024  threads         48          56          64 S        64 S
+    4544 settings ran, 576 skipped
+         576  kernel spills
+    skipped, each one (blocks an SM, then the setting: why)
+       1/SM   512 threads, 32 values, TMA     store, 1 parts of 23136 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM   512 threads, 32 values, TMA     store, 2 parts of 11568 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM   512 threads, 32 values, TMA     store, 3 parts of  7712 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM   512 threads, 32 values, TMA     store, 4 parts of  5784 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM   512 threads, 32 values, TMA     store, 5 parts of  4624 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM   512 threads, 32 values, TMA     store, 6 parts of  3856 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM   512 threads, 32 values, TMA     store, 7 parts of  3304 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM   512 threads, 32 values, TMA     store, 8 parts of  2888 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM   512 threads, 32 values, threads store, 1 parts of 23136 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 96 bytes a thread
+       1/SM   512 threads, 32 values, threads store, 2 parts of 11568 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 96 bytes a thread
+       1/SM   512 threads, 32 values, threads store, 3 parts of  7712 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 96 bytes a thread
+       1/SM   512 threads, 32 values, threads store, 4 parts of  5784 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 96 bytes a thread
+       1/SM   512 threads, 32 values, threads store, 5 parts of  4624 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 96 bytes a thread
+       1/SM   512 threads, 32 values, threads store, 6 parts of  3856 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 96 bytes a thread
+       1/SM   512 threads, 32 values, threads store, 7 parts of  3304 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 96 bytes a thread
+       1/SM   512 threads, 32 values, threads store, 8 parts of  2888 values  (128 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 96 bytes a thread
+       1/SM   768 threads, 16 values, TMA     store, 1 parts of 23136 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 16 bytes a thread
+       1/SM   768 threads, 16 values, TMA     store, 2 parts of 11568 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 16 bytes a thread
+       1/SM   768 threads, 16 values, TMA     store, 3 parts of  7712 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 16 bytes a thread
+       1/SM   768 threads, 16 values, TMA     store, 4 parts of  5784 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 16 bytes a thread
+       1/SM   768 threads, 16 values, TMA     store, 5 parts of  4624 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 16 bytes a thread
+       1/SM   768 threads, 16 values, TMA     store, 6 parts of  3856 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 16 bytes a thread
+       1/SM   768 threads, 16 values, TMA     store, 7 parts of  3304 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 16 bytes a thread
+       1/SM   768 threads, 16 values, TMA     store, 8 parts of  2888 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 16 bytes a thread
+       1/SM   768 threads, 32 values, TMA     store, 1 parts of 23136 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 272 bytes a thread
+       1/SM   768 threads, 32 values, TMA     store, 2 parts of 11568 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 272 bytes a thread
+       1/SM   768 threads, 32 values, TMA     store, 3 parts of  7712 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 272 bytes a thread
+       1/SM   768 threads, 32 values, TMA     store, 4 parts of  5784 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 272 bytes a thread
+       1/SM   768 threads, 32 values, TMA     store, 5 parts of  4624 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 272 bytes a thread
+       1/SM   768 threads, 32 values, TMA     store, 6 parts of  3856 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 272 bytes a thread
+       1/SM   768 threads, 32 values, TMA     store, 7 parts of  3304 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 272 bytes a thread
+       1/SM   768 threads, 32 values, TMA     store, 8 parts of  2888 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 272 bytes a thread
+       1/SM   768 threads, 32 values, threads store, 1 parts of 23136 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 304 bytes a thread
+       1/SM   768 threads, 32 values, threads store, 2 parts of 11568 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 304 bytes a thread
+       1/SM   768 threads, 32 values, threads store, 3 parts of  7712 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 304 bytes a thread
+       1/SM   768 threads, 32 values, threads store, 4 parts of  5784 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 304 bytes a thread
+       1/SM   768 threads, 32 values, threads store, 5 parts of  4624 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 304 bytes a thread
+       1/SM   768 threads, 32 values, threads store, 6 parts of  3856 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 304 bytes a thread
+       1/SM   768 threads, 32 values, threads store, 7 parts of  3304 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 304 bytes a thread
+       1/SM   768 threads, 32 values, threads store, 8 parts of  2888 values  ( 80 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 304 bytes a thread
+       1/SM  1024 threads, 16 values, TMA     store, 1 parts of 23136 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM  1024 threads, 16 values, TMA     store, 2 parts of 11568 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM  1024 threads, 16 values, TMA     store, 3 parts of  7712 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM  1024 threads, 16 values, TMA     store, 4 parts of  5784 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM  1024 threads, 16 values, TMA     store, 5 parts of  4624 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM  1024 threads, 16 values, TMA     store, 6 parts of  3856 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM  1024 threads, 16 values, TMA     store, 7 parts of  3304 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM  1024 threads, 16 values, TMA     store, 8 parts of  2888 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 56 bytes a thread
+       1/SM  1024 threads, 16 values, threads store, 1 parts of 23136 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 88 bytes a thread
+       1/SM  1024 threads, 16 values, threads store, 2 parts of 11568 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 88 bytes a thread
+       1/SM  1024 threads, 16 values, threads store, 3 parts of  7712 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 88 bytes a thread
+       1/SM  1024 threads, 16 values, threads store, 4 parts of  5784 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 88 bytes a thread
+       1/SM  1024 threads, 16 values, threads store, 5 parts of  4624 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 88 bytes a thread
+       1/SM  1024 threads, 16 values, threads store, 6 parts of  3856 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 88 bytes a thread
+       1/SM  1024 threads, 16 values, threads store, 7 parts of  3304 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 88 bytes a thread
+       1/SM  1024 threads, 16 values, threads store, 8 parts of  2888 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 88 bytes a thread
+       1/SM  1024 threads, 32 values, TMA     store, 1 parts of 23136 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 336 bytes a thread
+       1/SM  1024 threads, 32 values, TMA     store, 2 parts of 11568 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 336 bytes a thread
+       1/SM  1024 threads, 32 values, TMA     store, 3 parts of  7712 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 336 bytes a thread
+       1/SM  1024 threads, 32 values, TMA     store, 4 parts of  5784 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 336 bytes a thread
+       1/SM  1024 threads, 32 values, TMA     store, 5 parts of  4624 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 336 bytes a thread
+       1/SM  1024 threads, 32 values, TMA     store, 6 parts of  3856 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 336 bytes a thread
+       1/SM  1024 threads, 32 values, TMA     store, 7 parts of  3304 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 336 bytes a thread
+       1/SM  1024 threads, 32 values, TMA     store, 8 parts of  2888 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 336 bytes a thread
+       1/SM  1024 threads, 32 values, threads store, 1 parts of 23136 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 368 bytes a thread
+       1/SM  1024 threads, 32 values, threads store, 2 parts of 11568 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 368 bytes a thread
+       1/SM  1024 threads, 32 values, threads store, 3 parts of  7712 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 368 bytes a thread
+       1/SM  1024 threads, 32 values, threads store, 4 parts of  5784 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 368 bytes a thread
+       1/SM  1024 threads, 32 values, threads store, 5 parts of  4624 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 368 bytes a thread
+       1/SM  1024 threads, 32 values, threads store, 6 parts of  3856 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 368 bytes a thread
+       1/SM  1024 threads, 32 values, threads store, 7 parts of  3304 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 368 bytes a thread
+       1/SM  1024 threads, 32 values, threads store, 8 parts of  2888 values  ( 64 registers SPILLS,      0 B shared,  0 of  1 blocks on an SM): kernel spills 368 bytes a thread
+       2/SM   512 threads, 32 values, TMA     store, 1 parts of 11464 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM   512 threads, 32 values, TMA     store, 2 parts of  5728 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM   512 threads, 32 values, TMA     store, 3 parts of  3816 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM   512 threads, 32 values, TMA     store, 4 parts of  2864 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM   512 threads, 32 values, TMA     store, 5 parts of  2288 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM   512 threads, 32 values, TMA     store, 6 parts of  1904 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM   512 threads, 32 values, TMA     store, 7 parts of  1632 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM   512 threads, 32 values, TMA     store, 8 parts of  1432 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM   512 threads, 32 values, threads store, 1 parts of 11464 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 96 bytes a thread
+       2/SM   512 threads, 32 values, threads store, 2 parts of  5728 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 96 bytes a thread
+       2/SM   512 threads, 32 values, threads store, 3 parts of  3816 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 96 bytes a thread
+       2/SM   512 threads, 32 values, threads store, 4 parts of  2864 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 96 bytes a thread
+       2/SM   512 threads, 32 values, threads store, 5 parts of  2288 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 96 bytes a thread
+       2/SM   512 threads, 32 values, threads store, 6 parts of  1904 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 96 bytes a thread
+       2/SM   512 threads, 32 values, threads store, 7 parts of  1632 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 96 bytes a thread
+       2/SM   512 threads, 32 values, threads store, 8 parts of  1432 values  (128 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 96 bytes a thread
+       2/SM   768 threads, 16 values, TMA     store, 1 parts of 11464 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 16 bytes a thread
+       2/SM   768 threads, 16 values, TMA     store, 2 parts of  5728 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 16 bytes a thread
+       2/SM   768 threads, 16 values, TMA     store, 3 parts of  3816 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 16 bytes a thread
+       2/SM   768 threads, 16 values, TMA     store, 4 parts of  2864 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 16 bytes a thread
+       2/SM   768 threads, 16 values, TMA     store, 5 parts of  2288 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 16 bytes a thread
+       2/SM   768 threads, 16 values, TMA     store, 6 parts of  1904 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 16 bytes a thread
+       2/SM   768 threads, 16 values, TMA     store, 7 parts of  1632 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 16 bytes a thread
+       2/SM   768 threads, 16 values, TMA     store, 8 parts of  1432 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 16 bytes a thread
+       2/SM   768 threads, 32 values, TMA     store, 1 parts of 11464 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 272 bytes a thread
+       2/SM   768 threads, 32 values, TMA     store, 2 parts of  5728 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 272 bytes a thread
+       2/SM   768 threads, 32 values, TMA     store, 3 parts of  3816 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 272 bytes a thread
+       2/SM   768 threads, 32 values, TMA     store, 4 parts of  2864 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 272 bytes a thread
+       2/SM   768 threads, 32 values, TMA     store, 5 parts of  2288 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 272 bytes a thread
+       2/SM   768 threads, 32 values, TMA     store, 6 parts of  1904 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 272 bytes a thread
+       2/SM   768 threads, 32 values, TMA     store, 7 parts of  1632 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 272 bytes a thread
+       2/SM   768 threads, 32 values, TMA     store, 8 parts of  1432 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 272 bytes a thread
+       2/SM   768 threads, 32 values, threads store, 1 parts of 11464 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 304 bytes a thread
+       2/SM   768 threads, 32 values, threads store, 2 parts of  5728 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 304 bytes a thread
+       2/SM   768 threads, 32 values, threads store, 3 parts of  3816 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 304 bytes a thread
+       2/SM   768 threads, 32 values, threads store, 4 parts of  2864 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 304 bytes a thread
+       2/SM   768 threads, 32 values, threads store, 5 parts of  2288 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 304 bytes a thread
+       2/SM   768 threads, 32 values, threads store, 6 parts of  1904 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 304 bytes a thread
+       2/SM   768 threads, 32 values, threads store, 7 parts of  1632 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 304 bytes a thread
+       2/SM   768 threads, 32 values, threads store, 8 parts of  1432 values  ( 80 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 304 bytes a thread
+       2/SM  1024 threads, 16 values, TMA     store, 1 parts of 11464 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM  1024 threads, 16 values, TMA     store, 2 parts of  5728 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM  1024 threads, 16 values, TMA     store, 3 parts of  3816 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM  1024 threads, 16 values, TMA     store, 4 parts of  2864 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM  1024 threads, 16 values, TMA     store, 5 parts of  2288 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM  1024 threads, 16 values, TMA     store, 6 parts of  1904 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM  1024 threads, 16 values, TMA     store, 7 parts of  1632 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM  1024 threads, 16 values, TMA     store, 8 parts of  1432 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 56 bytes a thread
+       2/SM  1024 threads, 16 values, threads store, 1 parts of 11464 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 88 bytes a thread
+       2/SM  1024 threads, 16 values, threads store, 2 parts of  5728 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 88 bytes a thread
+       2/SM  1024 threads, 16 values, threads store, 3 parts of  3816 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 88 bytes a thread
+       2/SM  1024 threads, 16 values, threads store, 4 parts of  2864 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 88 bytes a thread
+       2/SM  1024 threads, 16 values, threads store, 5 parts of  2288 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 88 bytes a thread
+       2/SM  1024 threads, 16 values, threads store, 6 parts of  1904 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 88 bytes a thread
+       2/SM  1024 threads, 16 values, threads store, 7 parts of  1632 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 88 bytes a thread
+       2/SM  1024 threads, 16 values, threads store, 8 parts of  1432 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 88 bytes a thread
+       2/SM  1024 threads, 32 values, TMA     store, 1 parts of 11464 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 336 bytes a thread
+       2/SM  1024 threads, 32 values, TMA     store, 2 parts of  5728 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 336 bytes a thread
+       2/SM  1024 threads, 32 values, TMA     store, 3 parts of  3816 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 336 bytes a thread
+       2/SM  1024 threads, 32 values, TMA     store, 4 parts of  2864 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 336 bytes a thread
+       2/SM  1024 threads, 32 values, TMA     store, 5 parts of  2288 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 336 bytes a thread
+       2/SM  1024 threads, 32 values, TMA     store, 6 parts of  1904 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 336 bytes a thread
+       2/SM  1024 threads, 32 values, TMA     store, 7 parts of  1632 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 336 bytes a thread
+       2/SM  1024 threads, 32 values, TMA     store, 8 parts of  1432 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 336 bytes a thread
+       2/SM  1024 threads, 32 values, threads store, 1 parts of 11464 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 368 bytes a thread
+       2/SM  1024 threads, 32 values, threads store, 2 parts of  5728 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 368 bytes a thread
+       2/SM  1024 threads, 32 values, threads store, 3 parts of  3816 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 368 bytes a thread
+       2/SM  1024 threads, 32 values, threads store, 4 parts of  2864 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 368 bytes a thread
+       2/SM  1024 threads, 32 values, threads store, 5 parts of  2288 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 368 bytes a thread
+       2/SM  1024 threads, 32 values, threads store, 6 parts of  1904 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 368 bytes a thread
+       2/SM  1024 threads, 32 values, threads store, 7 parts of  1632 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 368 bytes a thread
+       2/SM  1024 threads, 32 values, threads store, 8 parts of  1432 values  ( 64 registers SPILLS,      0 B shared,  0 of  2 blocks on an SM): kernel spills 368 bytes a thread
+       3/SM   512 threads, 32 values, TMA     store, 1 parts of  7576 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM   512 threads, 32 values, TMA     store, 2 parts of  3784 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM   512 threads, 32 values, TMA     store, 3 parts of  2520 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM   512 threads, 32 values, TMA     store, 4 parts of  1888 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM   512 threads, 32 values, TMA     store, 5 parts of  1512 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM   512 threads, 32 values, TMA     store, 6 parts of  1256 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM   512 threads, 32 values, TMA     store, 7 parts of  1080 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM   512 threads, 32 values, TMA     store, 8 parts of   944 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM   512 threads, 32 values, threads store, 1 parts of  7576 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 96 bytes a thread
+       3/SM   512 threads, 32 values, threads store, 2 parts of  3784 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 96 bytes a thread
+       3/SM   512 threads, 32 values, threads store, 3 parts of  2520 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 96 bytes a thread
+       3/SM   512 threads, 32 values, threads store, 4 parts of  1888 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 96 bytes a thread
+       3/SM   512 threads, 32 values, threads store, 5 parts of  1512 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 96 bytes a thread
+       3/SM   512 threads, 32 values, threads store, 6 parts of  1256 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 96 bytes a thread
+       3/SM   512 threads, 32 values, threads store, 7 parts of  1080 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 96 bytes a thread
+       3/SM   512 threads, 32 values, threads store, 8 parts of   944 values  (128 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 96 bytes a thread
+       3/SM   768 threads, 16 values, TMA     store, 1 parts of  7576 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 16 bytes a thread
+       3/SM   768 threads, 16 values, TMA     store, 2 parts of  3784 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 16 bytes a thread
+       3/SM   768 threads, 16 values, TMA     store, 3 parts of  2520 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 16 bytes a thread
+       3/SM   768 threads, 16 values, TMA     store, 4 parts of  1888 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 16 bytes a thread
+       3/SM   768 threads, 16 values, TMA     store, 5 parts of  1512 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 16 bytes a thread
+       3/SM   768 threads, 16 values, TMA     store, 6 parts of  1256 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 16 bytes a thread
+       3/SM   768 threads, 16 values, TMA     store, 7 parts of  1080 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 16 bytes a thread
+       3/SM   768 threads, 16 values, TMA     store, 8 parts of   944 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 16 bytes a thread
+       3/SM   768 threads, 32 values, TMA     store, 1 parts of  7576 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 272 bytes a thread
+       3/SM   768 threads, 32 values, TMA     store, 2 parts of  3784 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 272 bytes a thread
+       3/SM   768 threads, 32 values, TMA     store, 3 parts of  2520 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 272 bytes a thread
+       3/SM   768 threads, 32 values, TMA     store, 4 parts of  1888 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 272 bytes a thread
+       3/SM   768 threads, 32 values, TMA     store, 5 parts of  1512 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 272 bytes a thread
+       3/SM   768 threads, 32 values, TMA     store, 6 parts of  1256 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 272 bytes a thread
+       3/SM   768 threads, 32 values, TMA     store, 7 parts of  1080 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 272 bytes a thread
+       3/SM   768 threads, 32 values, TMA     store, 8 parts of   944 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 272 bytes a thread
+       3/SM   768 threads, 32 values, threads store, 1 parts of  7576 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 304 bytes a thread
+       3/SM   768 threads, 32 values, threads store, 2 parts of  3784 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 304 bytes a thread
+       3/SM   768 threads, 32 values, threads store, 3 parts of  2520 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 304 bytes a thread
+       3/SM   768 threads, 32 values, threads store, 4 parts of  1888 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 304 bytes a thread
+       3/SM   768 threads, 32 values, threads store, 5 parts of  1512 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 304 bytes a thread
+       3/SM   768 threads, 32 values, threads store, 6 parts of  1256 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 304 bytes a thread
+       3/SM   768 threads, 32 values, threads store, 7 parts of  1080 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 304 bytes a thread
+       3/SM   768 threads, 32 values, threads store, 8 parts of   944 values  ( 80 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 304 bytes a thread
+       3/SM  1024 threads, 16 values, TMA     store, 1 parts of  7576 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM  1024 threads, 16 values, TMA     store, 2 parts of  3784 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM  1024 threads, 16 values, TMA     store, 3 parts of  2520 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM  1024 threads, 16 values, TMA     store, 4 parts of  1888 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM  1024 threads, 16 values, TMA     store, 5 parts of  1512 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM  1024 threads, 16 values, TMA     store, 6 parts of  1256 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM  1024 threads, 16 values, TMA     store, 7 parts of  1080 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM  1024 threads, 16 values, TMA     store, 8 parts of   944 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 56 bytes a thread
+       3/SM  1024 threads, 16 values, threads store, 1 parts of  7576 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 88 bytes a thread
+       3/SM  1024 threads, 16 values, threads store, 2 parts of  3784 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 88 bytes a thread
+       3/SM  1024 threads, 16 values, threads store, 3 parts of  2520 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 88 bytes a thread
+       3/SM  1024 threads, 16 values, threads store, 4 parts of  1888 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 88 bytes a thread
+       3/SM  1024 threads, 16 values, threads store, 5 parts of  1512 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 88 bytes a thread
+       3/SM  1024 threads, 16 values, threads store, 6 parts of  1256 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 88 bytes a thread
+       3/SM  1024 threads, 16 values, threads store, 7 parts of  1080 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 88 bytes a thread
+       3/SM  1024 threads, 16 values, threads store, 8 parts of   944 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 88 bytes a thread
+       3/SM  1024 threads, 32 values, TMA     store, 1 parts of  7576 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 336 bytes a thread
+       3/SM  1024 threads, 32 values, TMA     store, 2 parts of  3784 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 336 bytes a thread
+       3/SM  1024 threads, 32 values, TMA     store, 3 parts of  2520 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 336 bytes a thread
+       3/SM  1024 threads, 32 values, TMA     store, 4 parts of  1888 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 336 bytes a thread
+       3/SM  1024 threads, 32 values, TMA     store, 5 parts of  1512 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 336 bytes a thread
+       3/SM  1024 threads, 32 values, TMA     store, 6 parts of  1256 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 336 bytes a thread
+       3/SM  1024 threads, 32 values, TMA     store, 7 parts of  1080 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 336 bytes a thread
+       3/SM  1024 threads, 32 values, TMA     store, 8 parts of   944 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 336 bytes a thread
+       3/SM  1024 threads, 32 values, threads store, 1 parts of  7576 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 368 bytes a thread
+       3/SM  1024 threads, 32 values, threads store, 2 parts of  3784 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 368 bytes a thread
+       3/SM  1024 threads, 32 values, threads store, 3 parts of  2520 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 368 bytes a thread
+       3/SM  1024 threads, 32 values, threads store, 4 parts of  1888 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 368 bytes a thread
+       3/SM  1024 threads, 32 values, threads store, 5 parts of  1512 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 368 bytes a thread
+       3/SM  1024 threads, 32 values, threads store, 6 parts of  1256 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 368 bytes a thread
+       3/SM  1024 threads, 32 values, threads store, 7 parts of  1080 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 368 bytes a thread
+       3/SM  1024 threads, 32 values, threads store, 8 parts of   944 values  ( 64 registers SPILLS,      0 B shared,  0 of  3 blocks on an SM): kernel spills 368 bytes a thread
+       4/SM   512 threads, 32 values, TMA     store, 1 parts of  5632 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM   512 threads, 32 values, TMA     store, 2 parts of  2816 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM   512 threads, 32 values, TMA     store, 3 parts of  1872 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM   512 threads, 32 values, TMA     store, 4 parts of  1408 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM   512 threads, 32 values, TMA     store, 5 parts of  1120 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM   512 threads, 32 values, TMA     store, 6 parts of   936 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM   512 threads, 32 values, TMA     store, 7 parts of   800 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM   512 threads, 32 values, TMA     store, 8 parts of   704 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM   512 threads, 32 values, threads store, 1 parts of  5632 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 96 bytes a thread
+       4/SM   512 threads, 32 values, threads store, 2 parts of  2816 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 96 bytes a thread
+       4/SM   512 threads, 32 values, threads store, 3 parts of  1872 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 96 bytes a thread
+       4/SM   512 threads, 32 values, threads store, 4 parts of  1408 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 96 bytes a thread
+       4/SM   512 threads, 32 values, threads store, 5 parts of  1120 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 96 bytes a thread
+       4/SM   512 threads, 32 values, threads store, 6 parts of   936 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 96 bytes a thread
+       4/SM   512 threads, 32 values, threads store, 7 parts of   800 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 96 bytes a thread
+       4/SM   512 threads, 32 values, threads store, 8 parts of   704 values  (128 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 96 bytes a thread
+       4/SM   768 threads, 16 values, TMA     store, 1 parts of  5632 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 16 bytes a thread
+       4/SM   768 threads, 16 values, TMA     store, 2 parts of  2816 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 16 bytes a thread
+       4/SM   768 threads, 16 values, TMA     store, 3 parts of  1872 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 16 bytes a thread
+       4/SM   768 threads, 16 values, TMA     store, 4 parts of  1408 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 16 bytes a thread
+       4/SM   768 threads, 16 values, TMA     store, 5 parts of  1120 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 16 bytes a thread
+       4/SM   768 threads, 16 values, TMA     store, 6 parts of   936 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 16 bytes a thread
+       4/SM   768 threads, 16 values, TMA     store, 7 parts of   800 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 16 bytes a thread
+       4/SM   768 threads, 16 values, TMA     store, 8 parts of   704 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 16 bytes a thread
+       4/SM   768 threads, 32 values, TMA     store, 1 parts of  5632 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 272 bytes a thread
+       4/SM   768 threads, 32 values, TMA     store, 2 parts of  2816 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 272 bytes a thread
+       4/SM   768 threads, 32 values, TMA     store, 3 parts of  1872 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 272 bytes a thread
+       4/SM   768 threads, 32 values, TMA     store, 4 parts of  1408 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 272 bytes a thread
+       4/SM   768 threads, 32 values, TMA     store, 5 parts of  1120 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 272 bytes a thread
+       4/SM   768 threads, 32 values, TMA     store, 6 parts of   936 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 272 bytes a thread
+       4/SM   768 threads, 32 values, TMA     store, 7 parts of   800 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 272 bytes a thread
+       4/SM   768 threads, 32 values, TMA     store, 8 parts of   704 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 272 bytes a thread
+       4/SM   768 threads, 32 values, threads store, 1 parts of  5632 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 304 bytes a thread
+       4/SM   768 threads, 32 values, threads store, 2 parts of  2816 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 304 bytes a thread
+       4/SM   768 threads, 32 values, threads store, 3 parts of  1872 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 304 bytes a thread
+       4/SM   768 threads, 32 values, threads store, 4 parts of  1408 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 304 bytes a thread
+       4/SM   768 threads, 32 values, threads store, 5 parts of  1120 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 304 bytes a thread
+       4/SM   768 threads, 32 values, threads store, 6 parts of   936 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 304 bytes a thread
+       4/SM   768 threads, 32 values, threads store, 7 parts of   800 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 304 bytes a thread
+       4/SM   768 threads, 32 values, threads store, 8 parts of   704 values  ( 80 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 304 bytes a thread
+       4/SM  1024 threads, 16 values, TMA     store, 1 parts of  5632 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM  1024 threads, 16 values, TMA     store, 2 parts of  2816 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM  1024 threads, 16 values, TMA     store, 3 parts of  1872 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM  1024 threads, 16 values, TMA     store, 4 parts of  1408 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM  1024 threads, 16 values, TMA     store, 5 parts of  1120 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM  1024 threads, 16 values, TMA     store, 6 parts of   936 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM  1024 threads, 16 values, TMA     store, 7 parts of   800 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM  1024 threads, 16 values, TMA     store, 8 parts of   704 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 56 bytes a thread
+       4/SM  1024 threads, 16 values, threads store, 1 parts of  5632 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 88 bytes a thread
+       4/SM  1024 threads, 16 values, threads store, 2 parts of  2816 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 88 bytes a thread
+       4/SM  1024 threads, 16 values, threads store, 3 parts of  1872 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 88 bytes a thread
+       4/SM  1024 threads, 16 values, threads store, 4 parts of  1408 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 88 bytes a thread
+       4/SM  1024 threads, 16 values, threads store, 5 parts of  1120 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 88 bytes a thread
+       4/SM  1024 threads, 16 values, threads store, 6 parts of   936 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 88 bytes a thread
+       4/SM  1024 threads, 16 values, threads store, 7 parts of   800 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 88 bytes a thread
+       4/SM  1024 threads, 16 values, threads store, 8 parts of   704 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 88 bytes a thread
+       4/SM  1024 threads, 32 values, TMA     store, 1 parts of  5632 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 336 bytes a thread
+       4/SM  1024 threads, 32 values, TMA     store, 2 parts of  2816 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 336 bytes a thread
+       4/SM  1024 threads, 32 values, TMA     store, 3 parts of  1872 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 336 bytes a thread
+       4/SM  1024 threads, 32 values, TMA     store, 4 parts of  1408 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 336 bytes a thread
+       4/SM  1024 threads, 32 values, TMA     store, 5 parts of  1120 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 336 bytes a thread
+       4/SM  1024 threads, 32 values, TMA     store, 6 parts of   936 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 336 bytes a thread
+       4/SM  1024 threads, 32 values, TMA     store, 7 parts of   800 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 336 bytes a thread
+       4/SM  1024 threads, 32 values, TMA     store, 8 parts of   704 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 336 bytes a thread
+       4/SM  1024 threads, 32 values, threads store, 1 parts of  5632 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 368 bytes a thread
+       4/SM  1024 threads, 32 values, threads store, 2 parts of  2816 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 368 bytes a thread
+       4/SM  1024 threads, 32 values, threads store, 3 parts of  1872 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 368 bytes a thread
+       4/SM  1024 threads, 32 values, threads store, 4 parts of  1408 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 368 bytes a thread
+       4/SM  1024 threads, 32 values, threads store, 5 parts of  1120 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 368 bytes a thread
+       4/SM  1024 threads, 32 values, threads store, 6 parts of   936 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 368 bytes a thread
+       4/SM  1024 threads, 32 values, threads store, 7 parts of   800 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 368 bytes a thread
+       4/SM  1024 threads, 32 values, threads store, 8 parts of   704 values  ( 64 registers SPILLS,      0 B shared,  0 of  4 blocks on an SM): kernel spills 368 bytes a thread
+       6/SM   512 threads, 32 values, TMA     store, 1 parts of  3680 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM   512 threads, 32 values, TMA     store, 2 parts of  1840 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM   512 threads, 32 values, TMA     store, 3 parts of  1224 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM   512 threads, 32 values, TMA     store, 4 parts of   920 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM   512 threads, 32 values, TMA     store, 5 parts of   736 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM   512 threads, 32 values, TMA     store, 6 parts of   608 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM   512 threads, 32 values, TMA     store, 7 parts of   520 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM   512 threads, 32 values, TMA     store, 8 parts of   456 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM   512 threads, 32 values, threads store, 1 parts of  3680 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 96 bytes a thread
+       6/SM   512 threads, 32 values, threads store, 2 parts of  1840 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 96 bytes a thread
+       6/SM   512 threads, 32 values, threads store, 3 parts of  1224 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 96 bytes a thread
+       6/SM   512 threads, 32 values, threads store, 4 parts of   920 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 96 bytes a thread
+       6/SM   512 threads, 32 values, threads store, 5 parts of   736 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 96 bytes a thread
+       6/SM   512 threads, 32 values, threads store, 6 parts of   608 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 96 bytes a thread
+       6/SM   512 threads, 32 values, threads store, 7 parts of   520 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 96 bytes a thread
+       6/SM   512 threads, 32 values, threads store, 8 parts of   456 values  (128 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 96 bytes a thread
+       6/SM   768 threads, 16 values, TMA     store, 1 parts of  3680 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 16 bytes a thread
+       6/SM   768 threads, 16 values, TMA     store, 2 parts of  1840 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 16 bytes a thread
+       6/SM   768 threads, 16 values, TMA     store, 3 parts of  1224 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 16 bytes a thread
+       6/SM   768 threads, 16 values, TMA     store, 4 parts of   920 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 16 bytes a thread
+       6/SM   768 threads, 16 values, TMA     store, 5 parts of   736 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 16 bytes a thread
+       6/SM   768 threads, 16 values, TMA     store, 6 parts of   608 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 16 bytes a thread
+       6/SM   768 threads, 16 values, TMA     store, 7 parts of   520 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 16 bytes a thread
+       6/SM   768 threads, 16 values, TMA     store, 8 parts of   456 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 16 bytes a thread
+       6/SM   768 threads, 32 values, TMA     store, 1 parts of  3680 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 272 bytes a thread
+       6/SM   768 threads, 32 values, TMA     store, 2 parts of  1840 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 272 bytes a thread
+       6/SM   768 threads, 32 values, TMA     store, 3 parts of  1224 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 272 bytes a thread
+       6/SM   768 threads, 32 values, TMA     store, 4 parts of   920 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 272 bytes a thread
+       6/SM   768 threads, 32 values, TMA     store, 5 parts of   736 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 272 bytes a thread
+       6/SM   768 threads, 32 values, TMA     store, 6 parts of   608 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 272 bytes a thread
+       6/SM   768 threads, 32 values, TMA     store, 7 parts of   520 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 272 bytes a thread
+       6/SM   768 threads, 32 values, TMA     store, 8 parts of   456 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 272 bytes a thread
+       6/SM   768 threads, 32 values, threads store, 1 parts of  3680 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 304 bytes a thread
+       6/SM   768 threads, 32 values, threads store, 2 parts of  1840 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 304 bytes a thread
+       6/SM   768 threads, 32 values, threads store, 3 parts of  1224 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 304 bytes a thread
+       6/SM   768 threads, 32 values, threads store, 4 parts of   920 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 304 bytes a thread
+       6/SM   768 threads, 32 values, threads store, 5 parts of   736 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 304 bytes a thread
+       6/SM   768 threads, 32 values, threads store, 6 parts of   608 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 304 bytes a thread
+       6/SM   768 threads, 32 values, threads store, 7 parts of   520 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 304 bytes a thread
+       6/SM   768 threads, 32 values, threads store, 8 parts of   456 values  ( 80 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 304 bytes a thread
+       6/SM  1024 threads, 16 values, TMA     store, 1 parts of  3680 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM  1024 threads, 16 values, TMA     store, 2 parts of  1840 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM  1024 threads, 16 values, TMA     store, 3 parts of  1224 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM  1024 threads, 16 values, TMA     store, 4 parts of   920 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM  1024 threads, 16 values, TMA     store, 5 parts of   736 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM  1024 threads, 16 values, TMA     store, 6 parts of   608 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM  1024 threads, 16 values, TMA     store, 7 parts of   520 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM  1024 threads, 16 values, TMA     store, 8 parts of   456 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 56 bytes a thread
+       6/SM  1024 threads, 16 values, threads store, 1 parts of  3680 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 88 bytes a thread
+       6/SM  1024 threads, 16 values, threads store, 2 parts of  1840 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 88 bytes a thread
+       6/SM  1024 threads, 16 values, threads store, 3 parts of  1224 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 88 bytes a thread
+       6/SM  1024 threads, 16 values, threads store, 4 parts of   920 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 88 bytes a thread
+       6/SM  1024 threads, 16 values, threads store, 5 parts of   736 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 88 bytes a thread
+       6/SM  1024 threads, 16 values, threads store, 6 parts of   608 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 88 bytes a thread
+       6/SM  1024 threads, 16 values, threads store, 7 parts of   520 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 88 bytes a thread
+       6/SM  1024 threads, 16 values, threads store, 8 parts of   456 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 88 bytes a thread
+       6/SM  1024 threads, 32 values, TMA     store, 1 parts of  3680 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 336 bytes a thread
+       6/SM  1024 threads, 32 values, TMA     store, 2 parts of  1840 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 336 bytes a thread
+       6/SM  1024 threads, 32 values, TMA     store, 3 parts of  1224 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 336 bytes a thread
+       6/SM  1024 threads, 32 values, TMA     store, 4 parts of   920 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 336 bytes a thread
+       6/SM  1024 threads, 32 values, TMA     store, 5 parts of   736 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 336 bytes a thread
+       6/SM  1024 threads, 32 values, TMA     store, 6 parts of   608 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 336 bytes a thread
+       6/SM  1024 threads, 32 values, TMA     store, 7 parts of   520 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 336 bytes a thread
+       6/SM  1024 threads, 32 values, TMA     store, 8 parts of   456 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 336 bytes a thread
+       6/SM  1024 threads, 32 values, threads store, 1 parts of  3680 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 368 bytes a thread
+       6/SM  1024 threads, 32 values, threads store, 2 parts of  1840 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 368 bytes a thread
+       6/SM  1024 threads, 32 values, threads store, 3 parts of  1224 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 368 bytes a thread
+       6/SM  1024 threads, 32 values, threads store, 4 parts of   920 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 368 bytes a thread
+       6/SM  1024 threads, 32 values, threads store, 5 parts of   736 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 368 bytes a thread
+       6/SM  1024 threads, 32 values, threads store, 6 parts of   608 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 368 bytes a thread
+       6/SM  1024 threads, 32 values, threads store, 7 parts of   520 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 368 bytes a thread
+       6/SM  1024 threads, 32 values, threads store, 8 parts of   456 values  ( 64 registers SPILLS,      0 B shared,  0 of  6 blocks on an SM): kernel spills 368 bytes a thread
+       8/SM   512 threads, 32 values, TMA     store, 1 parts of  2760 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM   512 threads, 32 values, TMA     store, 2 parts of  1376 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM   512 threads, 32 values, TMA     store, 3 parts of   920 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM   512 threads, 32 values, TMA     store, 4 parts of   688 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM   512 threads, 32 values, TMA     store, 5 parts of   552 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM   512 threads, 32 values, TMA     store, 6 parts of   456 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM   512 threads, 32 values, TMA     store, 7 parts of   392 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM   512 threads, 32 values, TMA     store, 8 parts of   344 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM   512 threads, 32 values, threads store, 1 parts of  2760 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 96 bytes a thread
+       8/SM   512 threads, 32 values, threads store, 2 parts of  1376 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 96 bytes a thread
+       8/SM   512 threads, 32 values, threads store, 3 parts of   920 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 96 bytes a thread
+       8/SM   512 threads, 32 values, threads store, 4 parts of   688 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 96 bytes a thread
+       8/SM   512 threads, 32 values, threads store, 5 parts of   552 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 96 bytes a thread
+       8/SM   512 threads, 32 values, threads store, 6 parts of   456 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 96 bytes a thread
+       8/SM   512 threads, 32 values, threads store, 7 parts of   392 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 96 bytes a thread
+       8/SM   512 threads, 32 values, threads store, 8 parts of   344 values  (128 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 96 bytes a thread
+       8/SM   768 threads, 16 values, TMA     store, 1 parts of  2760 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 16 bytes a thread
+       8/SM   768 threads, 16 values, TMA     store, 2 parts of  1376 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 16 bytes a thread
+       8/SM   768 threads, 16 values, TMA     store, 3 parts of   920 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 16 bytes a thread
+       8/SM   768 threads, 16 values, TMA     store, 4 parts of   688 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 16 bytes a thread
+       8/SM   768 threads, 16 values, TMA     store, 5 parts of   552 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 16 bytes a thread
+       8/SM   768 threads, 16 values, TMA     store, 6 parts of   456 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 16 bytes a thread
+       8/SM   768 threads, 16 values, TMA     store, 7 parts of   392 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 16 bytes a thread
+       8/SM   768 threads, 16 values, TMA     store, 8 parts of   344 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 16 bytes a thread
+       8/SM   768 threads, 32 values, TMA     store, 1 parts of  2760 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 272 bytes a thread
+       8/SM   768 threads, 32 values, TMA     store, 2 parts of  1376 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 272 bytes a thread
+       8/SM   768 threads, 32 values, TMA     store, 3 parts of   920 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 272 bytes a thread
+       8/SM   768 threads, 32 values, TMA     store, 4 parts of   688 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 272 bytes a thread
+       8/SM   768 threads, 32 values, TMA     store, 5 parts of   552 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 272 bytes a thread
+       8/SM   768 threads, 32 values, TMA     store, 6 parts of   456 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 272 bytes a thread
+       8/SM   768 threads, 32 values, TMA     store, 7 parts of   392 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 272 bytes a thread
+       8/SM   768 threads, 32 values, TMA     store, 8 parts of   344 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 272 bytes a thread
+       8/SM   768 threads, 32 values, threads store, 1 parts of  2760 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 304 bytes a thread
+       8/SM   768 threads, 32 values, threads store, 2 parts of  1376 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 304 bytes a thread
+       8/SM   768 threads, 32 values, threads store, 3 parts of   920 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 304 bytes a thread
+       8/SM   768 threads, 32 values, threads store, 4 parts of   688 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 304 bytes a thread
+       8/SM   768 threads, 32 values, threads store, 5 parts of   552 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 304 bytes a thread
+       8/SM   768 threads, 32 values, threads store, 6 parts of   456 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 304 bytes a thread
+       8/SM   768 threads, 32 values, threads store, 7 parts of   392 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 304 bytes a thread
+       8/SM   768 threads, 32 values, threads store, 8 parts of   344 values  ( 80 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 304 bytes a thread
+       8/SM  1024 threads, 16 values, TMA     store, 1 parts of  2760 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM  1024 threads, 16 values, TMA     store, 2 parts of  1376 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM  1024 threads, 16 values, TMA     store, 3 parts of   920 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM  1024 threads, 16 values, TMA     store, 4 parts of   688 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM  1024 threads, 16 values, TMA     store, 5 parts of   552 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM  1024 threads, 16 values, TMA     store, 6 parts of   456 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM  1024 threads, 16 values, TMA     store, 7 parts of   392 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM  1024 threads, 16 values, TMA     store, 8 parts of   344 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 56 bytes a thread
+       8/SM  1024 threads, 16 values, threads store, 1 parts of  2760 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 88 bytes a thread
+       8/SM  1024 threads, 16 values, threads store, 2 parts of  1376 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 88 bytes a thread
+       8/SM  1024 threads, 16 values, threads store, 3 parts of   920 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 88 bytes a thread
+       8/SM  1024 threads, 16 values, threads store, 4 parts of   688 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 88 bytes a thread
+       8/SM  1024 threads, 16 values, threads store, 5 parts of   552 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 88 bytes a thread
+       8/SM  1024 threads, 16 values, threads store, 6 parts of   456 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 88 bytes a thread
+       8/SM  1024 threads, 16 values, threads store, 7 parts of   392 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 88 bytes a thread
+       8/SM  1024 threads, 16 values, threads store, 8 parts of   344 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 88 bytes a thread
+       8/SM  1024 threads, 32 values, TMA     store, 1 parts of  2760 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 336 bytes a thread
+       8/SM  1024 threads, 32 values, TMA     store, 2 parts of  1376 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 336 bytes a thread
+       8/SM  1024 threads, 32 values, TMA     store, 3 parts of   920 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 336 bytes a thread
+       8/SM  1024 threads, 32 values, TMA     store, 4 parts of   688 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 336 bytes a thread
+       8/SM  1024 threads, 32 values, TMA     store, 5 parts of   552 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 336 bytes a thread
+       8/SM  1024 threads, 32 values, TMA     store, 6 parts of   456 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 336 bytes a thread
+       8/SM  1024 threads, 32 values, TMA     store, 7 parts of   392 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 336 bytes a thread
+       8/SM  1024 threads, 32 values, TMA     store, 8 parts of   344 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 336 bytes a thread
+       8/SM  1024 threads, 32 values, threads store, 1 parts of  2760 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 368 bytes a thread
+       8/SM  1024 threads, 32 values, threads store, 2 parts of  1376 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 368 bytes a thread
+       8/SM  1024 threads, 32 values, threads store, 3 parts of   920 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 368 bytes a thread
+       8/SM  1024 threads, 32 values, threads store, 4 parts of   688 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 368 bytes a thread
+       8/SM  1024 threads, 32 values, threads store, 5 parts of   552 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 368 bytes a thread
+       8/SM  1024 threads, 32 values, threads store, 6 parts of   456 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 368 bytes a thread
+       8/SM  1024 threads, 32 values, threads store, 7 parts of   392 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 368 bytes a thread
+       8/SM  1024 threads, 32 values, threads store, 8 parts of   344 values  ( 64 registers SPILLS,      0 B shared,  0 of  8 blocks on an SM): kernel spills 368 bytes a thread
+      16/SM   512 threads, 32 values, TMA     store, 1 parts of  1328 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM   512 threads, 32 values, TMA     store, 2 parts of   664 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM   512 threads, 32 values, TMA     store, 3 parts of   440 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM   512 threads, 32 values, TMA     store, 4 parts of   328 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM   512 threads, 32 values, TMA     store, 5 parts of   264 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM   512 threads, 32 values, TMA     store, 6 parts of   216 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM   512 threads, 32 values, TMA     store, 7 parts of   184 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM   512 threads, 32 values, TMA     store, 8 parts of   160 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM   512 threads, 32 values, threads store, 1 parts of  1328 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 96 bytes a thread
+      16/SM   512 threads, 32 values, threads store, 2 parts of   664 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 96 bytes a thread
+      16/SM   512 threads, 32 values, threads store, 3 parts of   440 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 96 bytes a thread
+      16/SM   512 threads, 32 values, threads store, 4 parts of   328 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 96 bytes a thread
+      16/SM   512 threads, 32 values, threads store, 5 parts of   264 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 96 bytes a thread
+      16/SM   512 threads, 32 values, threads store, 6 parts of   216 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 96 bytes a thread
+      16/SM   512 threads, 32 values, threads store, 7 parts of   184 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 96 bytes a thread
+      16/SM   512 threads, 32 values, threads store, 8 parts of   160 values  (128 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 96 bytes a thread
+      16/SM   768 threads, 16 values, TMA     store, 1 parts of  1328 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 16 bytes a thread
+      16/SM   768 threads, 16 values, TMA     store, 2 parts of   664 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 16 bytes a thread
+      16/SM   768 threads, 16 values, TMA     store, 3 parts of   440 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 16 bytes a thread
+      16/SM   768 threads, 16 values, TMA     store, 4 parts of   328 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 16 bytes a thread
+      16/SM   768 threads, 16 values, TMA     store, 5 parts of   264 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 16 bytes a thread
+      16/SM   768 threads, 16 values, TMA     store, 6 parts of   216 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 16 bytes a thread
+      16/SM   768 threads, 16 values, TMA     store, 7 parts of   184 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 16 bytes a thread
+      16/SM   768 threads, 16 values, TMA     store, 8 parts of   160 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 16 bytes a thread
+      16/SM   768 threads, 32 values, TMA     store, 1 parts of  1328 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 272 bytes a thread
+      16/SM   768 threads, 32 values, TMA     store, 2 parts of   664 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 272 bytes a thread
+      16/SM   768 threads, 32 values, TMA     store, 3 parts of   440 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 272 bytes a thread
+      16/SM   768 threads, 32 values, TMA     store, 4 parts of   328 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 272 bytes a thread
+      16/SM   768 threads, 32 values, TMA     store, 5 parts of   264 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 272 bytes a thread
+      16/SM   768 threads, 32 values, TMA     store, 6 parts of   216 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 272 bytes a thread
+      16/SM   768 threads, 32 values, TMA     store, 7 parts of   184 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 272 bytes a thread
+      16/SM   768 threads, 32 values, TMA     store, 8 parts of   160 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 272 bytes a thread
+      16/SM   768 threads, 32 values, threads store, 1 parts of  1328 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 304 bytes a thread
+      16/SM   768 threads, 32 values, threads store, 2 parts of   664 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 304 bytes a thread
+      16/SM   768 threads, 32 values, threads store, 3 parts of   440 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 304 bytes a thread
+      16/SM   768 threads, 32 values, threads store, 4 parts of   328 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 304 bytes a thread
+      16/SM   768 threads, 32 values, threads store, 5 parts of   264 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 304 bytes a thread
+      16/SM   768 threads, 32 values, threads store, 6 parts of   216 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 304 bytes a thread
+      16/SM   768 threads, 32 values, threads store, 7 parts of   184 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 304 bytes a thread
+      16/SM   768 threads, 32 values, threads store, 8 parts of   160 values  ( 80 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 304 bytes a thread
+      16/SM  1024 threads, 16 values, TMA     store, 1 parts of  1328 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM  1024 threads, 16 values, TMA     store, 2 parts of   664 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM  1024 threads, 16 values, TMA     store, 3 parts of   440 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM  1024 threads, 16 values, TMA     store, 4 parts of   328 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM  1024 threads, 16 values, TMA     store, 5 parts of   264 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM  1024 threads, 16 values, TMA     store, 6 parts of   216 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM  1024 threads, 16 values, TMA     store, 7 parts of   184 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM  1024 threads, 16 values, TMA     store, 8 parts of   160 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 56 bytes a thread
+      16/SM  1024 threads, 16 values, threads store, 1 parts of  1328 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 88 bytes a thread
+      16/SM  1024 threads, 16 values, threads store, 2 parts of   664 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 88 bytes a thread
+      16/SM  1024 threads, 16 values, threads store, 3 parts of   440 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 88 bytes a thread
+      16/SM  1024 threads, 16 values, threads store, 4 parts of   328 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 88 bytes a thread
+      16/SM  1024 threads, 16 values, threads store, 5 parts of   264 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 88 bytes a thread
+      16/SM  1024 threads, 16 values, threads store, 6 parts of   216 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 88 bytes a thread
+      16/SM  1024 threads, 16 values, threads store, 7 parts of   184 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 88 bytes a thread
+      16/SM  1024 threads, 16 values, threads store, 8 parts of   160 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 88 bytes a thread
+      16/SM  1024 threads, 32 values, TMA     store, 1 parts of  1328 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 336 bytes a thread
+      16/SM  1024 threads, 32 values, TMA     store, 2 parts of   664 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 336 bytes a thread
+      16/SM  1024 threads, 32 values, TMA     store, 3 parts of   440 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 336 bytes a thread
+      16/SM  1024 threads, 32 values, TMA     store, 4 parts of   328 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 336 bytes a thread
+      16/SM  1024 threads, 32 values, TMA     store, 5 parts of   264 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 336 bytes a thread
+      16/SM  1024 threads, 32 values, TMA     store, 6 parts of   216 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 336 bytes a thread
+      16/SM  1024 threads, 32 values, TMA     store, 7 parts of   184 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 336 bytes a thread
+      16/SM  1024 threads, 32 values, TMA     store, 8 parts of   160 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 336 bytes a thread
+      16/SM  1024 threads, 32 values, threads store, 1 parts of  1328 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 368 bytes a thread
+      16/SM  1024 threads, 32 values, threads store, 2 parts of   664 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 368 bytes a thread
+      16/SM  1024 threads, 32 values, threads store, 3 parts of   440 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 368 bytes a thread
+      16/SM  1024 threads, 32 values, threads store, 4 parts of   328 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 368 bytes a thread
+      16/SM  1024 threads, 32 values, threads store, 5 parts of   264 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 368 bytes a thread
+      16/SM  1024 threads, 32 values, threads store, 6 parts of   216 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 368 bytes a thread
+      16/SM  1024 threads, 32 values, threads store, 7 parts of   184 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 368 bytes a thread
+      16/SM  1024 threads, 32 values, threads store, 8 parts of   160 values  ( 64 registers SPILLS,      0 B shared,  0 of 16 blocks on an SM): kernel spills 368 bytes a thread
+      32/SM   512 threads, 32 values, TMA     store, 1 parts of   608 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM   512 threads, 32 values, TMA     store, 2 parts of   304 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM   512 threads, 32 values, TMA     store, 3 parts of   200 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM   512 threads, 32 values, TMA     store, 4 parts of   152 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM   512 threads, 32 values, TMA     store, 5 parts of   120 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM   512 threads, 32 values, TMA     store, 6 parts of    96 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM   512 threads, 32 values, TMA     store, 7 parts of    80 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM   512 threads, 32 values, TMA     store, 8 parts of    72 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM   512 threads, 32 values, threads store, 1 parts of   608 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 96 bytes a thread
+      32/SM   512 threads, 32 values, threads store, 2 parts of   304 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 96 bytes a thread
+      32/SM   512 threads, 32 values, threads store, 3 parts of   200 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 96 bytes a thread
+      32/SM   512 threads, 32 values, threads store, 4 parts of   152 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 96 bytes a thread
+      32/SM   512 threads, 32 values, threads store, 5 parts of   120 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 96 bytes a thread
+      32/SM   512 threads, 32 values, threads store, 6 parts of    96 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 96 bytes a thread
+      32/SM   512 threads, 32 values, threads store, 7 parts of    80 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 96 bytes a thread
+      32/SM   512 threads, 32 values, threads store, 8 parts of    72 values  (128 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 96 bytes a thread
+      32/SM   768 threads, 16 values, TMA     store, 1 parts of   608 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 16 bytes a thread
+      32/SM   768 threads, 16 values, TMA     store, 2 parts of   304 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 16 bytes a thread
+      32/SM   768 threads, 16 values, TMA     store, 3 parts of   200 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 16 bytes a thread
+      32/SM   768 threads, 16 values, TMA     store, 4 parts of   152 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 16 bytes a thread
+      32/SM   768 threads, 16 values, TMA     store, 5 parts of   120 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 16 bytes a thread
+      32/SM   768 threads, 16 values, TMA     store, 6 parts of    96 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 16 bytes a thread
+      32/SM   768 threads, 16 values, TMA     store, 7 parts of    80 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 16 bytes a thread
+      32/SM   768 threads, 16 values, TMA     store, 8 parts of    72 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 16 bytes a thread
+      32/SM   768 threads, 32 values, TMA     store, 1 parts of   608 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 272 bytes a thread
+      32/SM   768 threads, 32 values, TMA     store, 2 parts of   304 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 272 bytes a thread
+      32/SM   768 threads, 32 values, TMA     store, 3 parts of   200 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 272 bytes a thread
+      32/SM   768 threads, 32 values, TMA     store, 4 parts of   152 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 272 bytes a thread
+      32/SM   768 threads, 32 values, TMA     store, 5 parts of   120 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 272 bytes a thread
+      32/SM   768 threads, 32 values, TMA     store, 6 parts of    96 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 272 bytes a thread
+      32/SM   768 threads, 32 values, TMA     store, 7 parts of    80 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 272 bytes a thread
+      32/SM   768 threads, 32 values, TMA     store, 8 parts of    72 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 272 bytes a thread
+      32/SM   768 threads, 32 values, threads store, 1 parts of   608 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 304 bytes a thread
+      32/SM   768 threads, 32 values, threads store, 2 parts of   304 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 304 bytes a thread
+      32/SM   768 threads, 32 values, threads store, 3 parts of   200 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 304 bytes a thread
+      32/SM   768 threads, 32 values, threads store, 4 parts of   152 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 304 bytes a thread
+      32/SM   768 threads, 32 values, threads store, 5 parts of   120 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 304 bytes a thread
+      32/SM   768 threads, 32 values, threads store, 6 parts of    96 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 304 bytes a thread
+      32/SM   768 threads, 32 values, threads store, 7 parts of    80 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 304 bytes a thread
+      32/SM   768 threads, 32 values, threads store, 8 parts of    72 values  ( 80 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 304 bytes a thread
+      32/SM  1024 threads, 16 values, TMA     store, 1 parts of   608 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM  1024 threads, 16 values, TMA     store, 2 parts of   304 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM  1024 threads, 16 values, TMA     store, 3 parts of   200 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM  1024 threads, 16 values, TMA     store, 4 parts of   152 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM  1024 threads, 16 values, TMA     store, 5 parts of   120 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM  1024 threads, 16 values, TMA     store, 6 parts of    96 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM  1024 threads, 16 values, TMA     store, 7 parts of    80 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM  1024 threads, 16 values, TMA     store, 8 parts of    72 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 56 bytes a thread
+      32/SM  1024 threads, 16 values, threads store, 1 parts of   608 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 88 bytes a thread
+      32/SM  1024 threads, 16 values, threads store, 2 parts of   304 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 88 bytes a thread
+      32/SM  1024 threads, 16 values, threads store, 3 parts of   200 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 88 bytes a thread
+      32/SM  1024 threads, 16 values, threads store, 4 parts of   152 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 88 bytes a thread
+      32/SM  1024 threads, 16 values, threads store, 5 parts of   120 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 88 bytes a thread
+      32/SM  1024 threads, 16 values, threads store, 6 parts of    96 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 88 bytes a thread
+      32/SM  1024 threads, 16 values, threads store, 7 parts of    80 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 88 bytes a thread
+      32/SM  1024 threads, 16 values, threads store, 8 parts of    72 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 88 bytes a thread
+      32/SM  1024 threads, 32 values, TMA     store, 1 parts of   608 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 336 bytes a thread
+      32/SM  1024 threads, 32 values, TMA     store, 2 parts of   304 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 336 bytes a thread
+      32/SM  1024 threads, 32 values, TMA     store, 3 parts of   200 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 336 bytes a thread
+      32/SM  1024 threads, 32 values, TMA     store, 4 parts of   152 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 336 bytes a thread
+      32/SM  1024 threads, 32 values, TMA     store, 5 parts of   120 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 336 bytes a thread
+      32/SM  1024 threads, 32 values, TMA     store, 6 parts of    96 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 336 bytes a thread
+      32/SM  1024 threads, 32 values, TMA     store, 7 parts of    80 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 336 bytes a thread
+      32/SM  1024 threads, 32 values, TMA     store, 8 parts of    72 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 336 bytes a thread
+      32/SM  1024 threads, 32 values, threads store, 1 parts of   608 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 368 bytes a thread
+      32/SM  1024 threads, 32 values, threads store, 2 parts of   304 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 368 bytes a thread
+      32/SM  1024 threads, 32 values, threads store, 3 parts of   200 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 368 bytes a thread
+      32/SM  1024 threads, 32 values, threads store, 4 parts of   152 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 368 bytes a thread
+      32/SM  1024 threads, 32 values, threads store, 5 parts of   120 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 368 bytes a thread
+      32/SM  1024 threads, 32 values, threads store, 6 parts of    96 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 368 bytes a thread
+      32/SM  1024 threads, 32 values, threads store, 7 parts of    80 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 368 bytes a thread
+      32/SM  1024 threads, 32 values, threads store, 8 parts of    72 values  ( 64 registers SPILLS,      0 B shared,  0 of 32 blocks on an SM): kernel spills 368 bytes a thread
+    the current kernel: fastest 243047 blocks x 128 threads, 0.8306 ms, 2996 GB/s
+    the tree, first pass: the fastest under each father (ms, GB/s, x the current kernel's best)
+    blocks 132 (1x SMs)   0.8412   2959   0.99x    192 threads,  8 values, TMA     store, 5 parts of  4624 values  ( 60 registers, 231200 B shared,  1 of  1 blocks on an SM)
+        threads 32           2.5119    991   0.33x     32 threads,  4 values, TMA     store, 2 parts of 11568 values  ( 48 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 4             2.5119    991   0.33x     32 threads,  4 values, TMA     store, 2 parts of 11568 values  ( 48 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 8             2.9804    835   0.28x     32 threads,  8 values, TMA     store, 2 parts of 11568 values  ( 60 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 16            2.8480    874   0.29x     32 threads, 16 values, TMA     store, 2 parts of 11568 values  ( 92 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 32            2.8964    859   0.29x     32 threads, 32 values, TMA     store, 2 parts of 11568 values  (157 registers, 231360 B shared,  1 of  1 blocks on an SM)
+        threads 64           1.3530   1839   0.61x     64 threads,  4 values, threads store, 2 parts of 11568 values  ( 54 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 4             1.3530   1839   0.61x     64 threads,  4 values, threads store, 2 parts of 11568 values  ( 54 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 8             1.5527   1603   0.53x     64 threads,  8 values, threads store, 2 parts of 11568 values  ( 61 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 16            1.5494   1606   0.54x     64 threads, 16 values, TMA     store, 2 parts of 11568 values  ( 92 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 32            1.5499   1606   0.54x     64 threads, 32 values, threads store, 2 parts of 11568 values  (164 registers, 231360 B shared,  1 of  1 blocks on an SM)
+        threads 96           0.9326   2669   0.89x     96 threads,  4 values, threads store, 2 parts of 11568 values  ( 54 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 4             0.9326   2669   0.89x     96 threads,  4 values, threads store, 2 parts of 11568 values  ( 54 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 8             1.0605   2347   0.78x     96 threads,  8 values, threads store, 2 parts of 11568 values  ( 68 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 16            1.0714   2323   0.78x     96 threads, 16 values, threads store, 2 parts of 11568 values  ( 98 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 32            1.0683   2330   0.78x     96 threads, 32 values, threads store, 2 parts of 11568 values  (164 registers, 231360 B shared,  1 of  1 blocks on an SM)
+        threads 128          0.8435   2951   0.98x    128 threads,  4 values, TMA     store, 3 parts of  7712 values  ( 48 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 4             0.8435   2951   0.98x    128 threads,  4 values, TMA     store, 3 parts of  7712 values  ( 48 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 8             0.8660   2874   0.96x    128 threads,  8 values, threads store, 3 parts of  7712 values  ( 61 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 16            0.8684   2866   0.96x    128 threads, 16 values, threads store, 3 parts of  7712 values  ( 98 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 32            0.8737   2849   0.95x    128 threads, 32 values, threads store, 6 parts of  3856 values  (171 registers, 231360 B shared,  1 of  1 blocks on an SM)
+        threads 192          0.8412   2959   0.99x    192 threads,  8 values, TMA     store, 5 parts of  4624 values  ( 60 registers, 231200 B shared,  1 of  1 blocks on an SM)
+            values 4             0.8620   2887   0.96x    192 threads,  4 values, TMA     store, 5 parts of  4624 values  ( 48 registers, 231200 B shared,  1 of  1 blocks on an SM)
+            values 8             0.8412   2959   0.99x    192 threads,  8 values, TMA     store, 5 parts of  4624 values  ( 60 registers, 231200 B shared,  1 of  1 blocks on an SM)
+            values 16            0.8443   2948   0.98x    192 threads, 16 values, TMA     store, 5 parts of  4624 values  ( 92 registers, 231200 B shared,  1 of  1 blocks on an SM)
+            values 32            0.8455   2944   0.98x    192 threads, 32 values, TMA     store, 5 parts of  4624 values  (183 registers, 231200 B shared,  1 of  1 blocks on an SM)
+        threads 256          0.8469   2939   0.98x    256 threads, 32 values, TMA     store, 7 parts of  3304 values  (183 registers, 231280 B shared,  1 of  1 blocks on an SM)
+            values 4             0.8594   2896   0.97x    256 threads,  4 values, TMA     store, 3 parts of  7712 values  ( 48 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 8             0.8665   2872   0.96x    256 threads,  8 values, TMA     store, 5 parts of  4624 values  ( 60 registers, 231200 B shared,  1 of  1 blocks on an SM)
+            values 16            0.8565   2906   0.97x    256 threads, 16 values, TMA     store, 3 parts of  7712 values  ( 92 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 32            0.8469   2939   0.98x    256 threads, 32 values, TMA     store, 7 parts of  3304 values  (183 registers, 231280 B shared,  1 of  1 blocks on an SM)
+        threads 384          0.8583   2900   0.97x    384 threads,  4 values, TMA     store, 3 parts of  7712 values  ( 48 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 4             0.8583   2900   0.97x    384 threads,  4 values, TMA     store, 3 parts of  7712 values  ( 48 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 8             0.8636   2882   0.96x    384 threads,  8 values, TMA     store, 8 parts of  2888 values  ( 60 registers, 231040 B shared,  1 of  1 blocks on an SM)
+            values 16            0.8621   2887   0.96x    384 threads, 16 values, TMA     store, 7 parts of  3304 values  ( 92 registers, 231280 B shared,  1 of  1 blocks on an SM)
+            values 32            0.8636   2882   0.96x    384 threads, 32 values, TMA     store, 7 parts of  3304 values  (154 registers, 231280 B shared,  1 of  1 blocks on an SM)
+        threads 512          0.8536   2916   0.97x    512 threads, 16 values, TMA     store, 3 parts of  7712 values  ( 92 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 4             0.8599   2894   0.97x    512 threads,  4 values, TMA     store, 3 parts of  7712 values  ( 48 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 8             0.8580   2901   0.97x    512 threads,  8 values, TMA     store, 3 parts of  7712 values  ( 60 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 16            0.8536   2916   0.97x    512 threads, 16 values, TMA     store, 3 parts of  7712 values  ( 92 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 32          nothing runs
+        threads 768          0.8549   2911   0.97x    768 threads,  8 values, TMA     store, 3 parts of  7712 values  ( 58 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 4             0.8573   2903   0.97x    768 threads,  4 values, TMA     store, 5 parts of  4624 values  ( 48 registers, 231200 B shared,  1 of  1 blocks on an SM)
+            values 8             0.8549   2911   0.97x    768 threads,  8 values, TMA     store, 3 parts of  7712 values  ( 58 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 16            1.2822   1941   0.65x    768 threads, 16 values, threads store, 5 parts of  4624 values  ( 80 registers, 231200 B shared,  1 of  1 blocks on an SM)
+            values 32          nothing runs
+        threads 1024         0.8574   2903   0.97x   1024 threads,  4 values, TMA     store, 3 parts of  7712 values  ( 48 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 4             0.8574   2903   0.97x   1024 threads,  4 values, TMA     store, 3 parts of  7712 values  ( 48 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 8             0.8614   2889   0.96x   1024 threads,  8 values, TMA     store, 3 parts of  7712 values  ( 57 registers, 231360 B shared,  1 of  1 blocks on an SM)
+            values 16          nothing runs
+            values 32          nothing runs
+    blocks 264 (2x SMs)   0.8481   2934   0.98x     96 threads,  8 values, TMA     store, 7 parts of  1632 values  ( 60 registers, 114240 B shared,  2 of  2 blocks on an SM)
+        threads 32           1.3211   1884   0.63x     32 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 4             1.3211   1884   0.63x     32 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 8             1.5233   1634   0.55x     32 threads,  8 values, threads store, 2 parts of  5728 values  ( 68 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 16            1.5325   1624   0.54x     32 threads, 16 values, TMA     store, 2 parts of  5728 values  ( 92 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 32            1.5499   1606   0.54x     32 threads, 32 values, TMA     store, 2 parts of  5728 values  (157 registers, 114560 B shared,  2 of  2 blocks on an SM)
+        threads 64           0.8528   2918   0.97x     64 threads,  4 values, TMA     store, 7 parts of  1632 values  ( 48 registers, 114240 B shared,  2 of  2 blocks on an SM)
+            values 4             0.8528   2918   0.97x     64 threads,  4 values, TMA     store, 7 parts of  1632 values  ( 48 registers, 114240 B shared,  2 of  2 blocks on an SM)
+            values 8             0.8644   2879   0.96x     64 threads,  8 values, threads store, 5 parts of  2288 values  ( 61 registers, 114400 B shared,  2 of  2 blocks on an SM)
+            values 16            0.8742   2847   0.95x     64 threads, 16 values, TMA     store, 2 parts of  5728 values  ( 92 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 32            0.8957   2779   0.93x     64 threads, 32 values, threads store, 6 parts of  1904 values  (164 registers, 114240 B shared,  2 of  2 blocks on an SM)
+        threads 96           0.8481   2934   0.98x     96 threads,  8 values, TMA     store, 7 parts of  1632 values  ( 60 registers, 114240 B shared,  2 of  2 blocks on an SM)
+            values 4             0.8823   2821   0.94x     96 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 8             0.8481   2934   0.98x     96 threads,  8 values, TMA     store, 7 parts of  1632 values  ( 60 registers, 114240 B shared,  2 of  2 blocks on an SM)
+            values 16            0.8506   2926   0.98x     96 threads, 16 values, TMA     store, 7 parts of  1632 values  ( 92 registers, 114240 B shared,  2 of  2 blocks on an SM)
+            values 32            0.8506   2926   0.98x     96 threads, 32 values, TMA     store, 7 parts of  1632 values  (157 registers, 114240 B shared,  2 of  2 blocks on an SM)
+        threads 128          0.8603   2893   0.97x    128 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 4             0.8603   2893   0.97x    128 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 8             0.8803   2827   0.94x    128 threads,  8 values, TMA     store, 2 parts of  5728 values  ( 60 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 16            0.8796   2830   0.94x    128 threads, 16 values, TMA     store, 2 parts of  5728 values  ( 92 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 32            0.8749   2845   0.95x    128 threads, 32 values, TMA     store, 6 parts of  1904 values  (157 registers, 114240 B shared,  2 of  2 blocks on an SM)
+        threads 192          0.8580   2901   0.97x    192 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 4             0.8580   2901   0.97x    192 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 8             0.8608   2891   0.96x    192 threads,  8 values, TMA     store, 2 parts of  5728 values  ( 60 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 16            0.8628   2885   0.96x    192 threads, 16 values, TMA     store, 2 parts of  5728 values  ( 92 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 32            0.8595   2896   0.97x    192 threads, 32 values, TMA     store, 3 parts of  3816 values  (183 registers, 114480 B shared,  1 of  2 blocks on an SM)
+        threads 256          0.8541   2914   0.97x    256 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 4             0.8541   2914   0.97x    256 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 8             0.8587   2898   0.97x    256 threads,  8 values, TMA     store, 2 parts of  5728 values  ( 60 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 16            0.8595   2896   0.97x    256 threads, 16 values, TMA     store, 2 parts of  5728 values  ( 92 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 32            0.8711   2857   0.95x    256 threads, 32 values, TMA     store, 2 parts of  5728 values  (183 registers, 114560 B shared,  1 of  2 blocks on an SM)
+        threads 384          0.8511   2924   0.98x    384 threads, 16 values, TMA     store, 6 parts of  1904 values  ( 92 registers, 114240 B shared,  1 of  2 blocks on an SM)
+            values 4             0.8530   2918   0.97x    384 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 8             0.8540   2914   0.97x    384 threads,  8 values, TMA     store, 2 parts of  5728 values  ( 60 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 16            0.8511   2924   0.98x    384 threads, 16 values, TMA     store, 6 parts of  1904 values  ( 92 registers, 114240 B shared,  1 of  2 blocks on an SM)
+            values 32            0.8599   2894   0.97x    384 threads, 32 values, TMA     store, 2 parts of  5728 values  (154 registers, 114560 B shared,  1 of  2 blocks on an SM)
+        threads 512          0.8496   2929   0.98x    512 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 4             0.8496   2929   0.98x    512 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 8             0.8518   2922   0.98x    512 threads,  8 values, TMA     store, 2 parts of  5728 values  ( 60 registers, 114560 B shared,  2 of  2 blocks on an SM)
+            values 16            0.8644   2879   0.96x    512 threads, 16 values, TMA     store, 2 parts of  5728 values  ( 92 registers, 114560 B shared,  1 of  2 blocks on an SM)
+            values 32          nothing runs
+        threads 768          0.8588   2898   0.97x    768 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  1 of  2 blocks on an SM)
+            values 4             0.8588   2898   0.97x    768 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  1 of  2 blocks on an SM)
+            values 8             0.8646   2878   0.96x    768 threads,  8 values, TMA     store, 4 parts of  2864 values  ( 58 registers, 114560 B shared,  1 of  2 blocks on an SM)
+            values 16            1.1633   2139   0.71x    768 threads, 16 values, threads store, 7 parts of  1632 values  ( 80 registers, 114240 B shared,  1 of  2 blocks on an SM)
+            values 32          nothing runs
+        threads 1024         0.8599   2894   0.97x   1024 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  1 of  2 blocks on an SM)
+            values 4             0.8599   2894   0.97x   1024 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  1 of  2 blocks on an SM)
+            values 8             0.8607   2892   0.97x   1024 threads,  8 values, TMA     store, 2 parts of  5728 values  ( 57 registers, 114560 B shared,  1 of  2 blocks on an SM)
+            values 16          nothing runs
+            values 32          nothing runs
+    blocks 396 (3x SMs)   0.8592   2897   0.97x     96 threads,  8 values, TMA     store, 4 parts of  1888 values  ( 60 registers,  75520 B shared,  3 of  3 blocks on an SM)
+        threads 32           0.9219   2700   0.90x     32 threads,  4 values, TMA     store, 4 parts of  1888 values  ( 48 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 4             0.9219   2700   0.90x     32 threads,  4 values, TMA     store, 4 parts of  1888 values  ( 48 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 8             1.0486   2374   0.79x     32 threads,  8 values, threads store, 2 parts of  3784 values  ( 68 registers,  75680 B shared,  3 of  3 blocks on an SM)
+            values 16            1.0609   2346   0.78x     32 threads, 16 values, TMA     store, 3 parts of  2520 values  ( 92 registers,  75600 B shared,  3 of  3 blocks on an SM)
+            values 32            1.0697   2327   0.78x     32 threads, 32 values, threads store, 2 parts of  3784 values  (164 registers,  75680 B shared,  3 of  3 blocks on an SM)
+        threads 64           0.8859   2809   0.94x     64 threads, 16 values, TMA     store, 4 parts of  1888 values  ( 92 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 4             0.8898   2797   0.93x     64 threads,  4 values, TMA     store, 2 parts of  3784 values  ( 48 registers,  75680 B shared,  3 of  3 blocks on an SM)
+            values 8             0.8937   2785   0.93x     64 threads,  8 values, TMA     store, 7 parts of  1080 values  ( 60 registers,  75600 B shared,  3 of  3 blocks on an SM)
+            values 16            0.8859   2809   0.94x     64 threads, 16 values, TMA     store, 4 parts of  1888 values  ( 92 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 32            0.8866   2807   0.94x     64 threads, 32 values, TMA     store, 8 parts of   944 values  (157 registers,  75520 B shared,  3 of  3 blocks on an SM)
+        threads 96           0.8592   2897   0.97x     96 threads,  8 values, TMA     store, 4 parts of  1888 values  ( 60 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 4             0.8812   2824   0.94x     96 threads,  4 values, TMA     store, 4 parts of  1888 values  ( 48 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 8             0.8592   2897   0.97x     96 threads,  8 values, TMA     store, 4 parts of  1888 values  ( 60 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 16            0.8863   2808   0.94x     96 threads, 16 values, TMA     store, 4 parts of  1888 values  ( 92 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 32            0.8803   2827   0.94x     96 threads, 32 values, TMA     store, 4 parts of  1888 values  (157 registers,  75520 B shared,  3 of  3 blocks on an SM)
+        threads 128          0.8616   2888   0.96x    128 threads, 16 values, TMA     store, 4 parts of  1888 values  ( 92 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 4             0.8661   2874   0.96x    128 threads,  4 values, TMA     store, 4 parts of  1888 values  ( 48 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 8             0.8651   2877   0.96x    128 threads,  8 values, TMA     store, 4 parts of  1888 values  ( 60 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 16            0.8616   2888   0.96x    128 threads, 16 values, TMA     store, 4 parts of  1888 values  ( 92 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 32            0.8780   2835   0.95x    128 threads, 32 values, TMA     store, 2 parts of  3784 values  (157 registers,  75680 B shared,  3 of  3 blocks on an SM)
+        threads 192          0.8663   2873   0.96x    192 threads, 32 values, TMA     store, 2 parts of  3784 values  (183 registers,  75680 B shared,  1 of  3 blocks on an SM)
+            values 4             0.8710   2858   0.95x    192 threads,  4 values, TMA     store, 4 parts of  1888 values  ( 48 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 8             0.8770   2838   0.95x    192 threads,  8 values, TMA     store, 4 parts of  1888 values  ( 60 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 16            0.8735   2849   0.95x    192 threads, 16 values, TMA     store, 4 parts of  1888 values  ( 92 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 32            0.8663   2873   0.96x    192 threads, 32 values, TMA     store, 2 parts of  3784 values  (183 registers,  75680 B shared,  1 of  3 blocks on an SM)
+        threads 256          0.8696   2862   0.96x    256 threads,  4 values, TMA     store, 4 parts of  1888 values  ( 48 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 4             0.8696   2862   0.96x    256 threads,  4 values, TMA     store, 4 parts of  1888 values  ( 48 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 8             0.8740   2848   0.95x    256 threads,  8 values, TMA     store, 4 parts of  1888 values  ( 60 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 16            0.9191   2708   0.90x    256 threads, 16 values, TMA     store, 2 parts of  3784 values  ( 92 registers,  75680 B shared,  2 of  3 blocks on an SM)
+            values 32            0.8801   2828   0.94x    256 threads, 32 values, TMA     store, 2 parts of  3784 values  (183 registers,  75680 B shared,  1 of  3 blocks on an SM)
+        threads 384          0.8613   2889   0.96x    384 threads, 16 values, TMA     store, 4 parts of  1888 values  ( 92 registers,  75520 B shared,  1 of  3 blocks on an SM)
+            values 4             0.8695   2862   0.96x    384 threads,  4 values, TMA     store, 4 parts of  1888 values  ( 48 registers,  75520 B shared,  3 of  3 blocks on an SM)
+            values 8             0.9311   2673   0.89x    384 threads,  8 values, TMA     store, 3 parts of  2520 values  ( 60 registers,  75600 B shared,  2 of  3 blocks on an SM)
+            values 16            0.8613   2889   0.96x    384 threads, 16 values, TMA     store, 4 parts of  1888 values  ( 92 registers,  75520 B shared,  1 of  3 blocks on an SM)
+            values 32            0.8699   2861   0.95x    384 threads, 32 values, TMA     store, 3 parts of  2520 values  (154 registers,  75600 B shared,  1 of  3 blocks on an SM)
+        threads 512          0.8783   2834   0.95x    512 threads, 16 values, TMA     store, 4 parts of  1888 values  ( 92 registers,  75520 B shared,  1 of  3 blocks on an SM)
+            values 4             0.9100   2735   0.91x    512 threads,  4 values, TMA     store, 4 parts of  1888 values  ( 48 registers,  75520 B shared,  2 of  3 blocks on an SM)
+            values 8             0.9292   2678   0.89x    512 threads,  8 values, TMA     store, 3 parts of  2520 values  ( 60 registers,  75600 B shared,  2 of  3 blocks on an SM)
+            values 16            0.8783   2834   0.95x    512 threads, 16 values, TMA     store, 4 parts of  1888 values  ( 92 registers,  75520 B shared,  1 of  3 blocks on an SM)
+            values 32          nothing runs
+        threads 768          0.8769   2838   0.95x    768 threads,  4 values, TMA     store, 4 parts of  1888 values  ( 48 registers,  75520 B shared,  1 of  3 blocks on an SM)
+            values 4             0.8769   2838   0.95x    768 threads,  4 values, TMA     store, 4 parts of  1888 values  ( 48 registers,  75520 B shared,  1 of  3 blocks on an SM)
+            values 8             0.8813   2824   0.94x    768 threads,  8 values, TMA     store, 5 parts of  1512 values  ( 58 registers,  75600 B shared,  1 of  3 blocks on an SM)
+            values 16            1.2249   2032   0.68x    768 threads, 16 values, threads store, 4 parts of  1888 values  ( 80 registers,  75520 B shared,  1 of  3 blocks on an SM)
+            values 32          nothing runs
+        threads 1024         0.8756   2843   0.95x   1024 threads,  4 values, TMA     store, 4 parts of  1888 values  ( 48 registers,  75520 B shared,  1 of  3 blocks on an SM)
+            values 4             0.8756   2843   0.95x   1024 threads,  4 values, TMA     store, 4 parts of  1888 values  ( 48 registers,  75520 B shared,  1 of  3 blocks on an SM)
+            values 8             0.8763   2840   0.95x   1024 threads,  8 values, TMA     store, 5 parts of  1512 values  ( 57 registers,  75600 B shared,  1 of  3 blocks on an SM)
+            values 16          nothing runs
+            values 32          nothing runs
+    blocks 528 (4x SMs)   0.8432   2952   0.99x     32 threads,  4 values, TMA     store, 8 parts of   704 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+        threads 32           0.8432   2952   0.99x     32 threads,  4 values, TMA     store, 8 parts of   704 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 4             0.8432   2952   0.99x     32 threads,  4 values, TMA     store, 8 parts of   704 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 8             0.8439   2949   0.98x     32 threads,  8 values, TMA     store, 4 parts of  1408 values  ( 60 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 16            0.8609   2891   0.96x     32 threads, 16 values, threads store, 4 parts of  1408 values  ( 98 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 32            0.8789   2832   0.95x     32 threads, 32 values, TMA     store, 2 parts of  2816 values  (157 registers,  56320 B shared,  4 of  4 blocks on an SM)
+        threads 64           0.8602   2893   0.97x     64 threads, 32 values, TMA     store, 2 parts of  2816 values  (157 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 4             0.8640   2881   0.96x     64 threads,  4 values, TMA     store, 2 parts of  2816 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 8             0.8662   2873   0.96x     64 threads,  8 values, TMA     store, 2 parts of  2816 values  ( 60 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 16            0.8666   2872   0.96x     64 threads, 16 values, TMA     store, 2 parts of  2816 values  ( 92 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 32            0.8602   2893   0.97x     64 threads, 32 values, TMA     store, 2 parts of  2816 values  (157 registers,  56320 B shared,  4 of  4 blocks on an SM)
+        threads 96           0.8514   2923   0.98x     96 threads, 32 values, TMA     store, 2 parts of  2816 values  (157 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 4             0.8523   2920   0.97x     96 threads,  4 values, TMA     store, 4 parts of  1408 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 8             0.8608   2891   0.96x     96 threads,  8 values, TMA     store, 2 parts of  2816 values  ( 60 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 16            0.8637   2882   0.96x     96 threads, 16 values, TMA     store, 2 parts of  2816 values  ( 92 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 32            0.8514   2923   0.98x     96 threads, 32 values, TMA     store, 2 parts of  2816 values  (157 registers,  56320 B shared,  4 of  4 blocks on an SM)
+        threads 128          0.8511   2924   0.98x    128 threads,  4 values, TMA     store, 2 parts of  2816 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 4             0.8511   2924   0.98x    128 threads,  4 values, TMA     store, 2 parts of  2816 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 8             0.8550   2911   0.97x    128 threads,  8 values, TMA     store, 2 parts of  2816 values  ( 60 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 16            0.8512   2924   0.98x    128 threads, 16 values, TMA     store, 4 parts of  1408 values  ( 92 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 32            0.8688   2865   0.96x    128 threads, 32 values, threads store, 1 parts of  5632 values  (171 registers,  56320 B shared,  2 of  4 blocks on an SM)
+        threads 192          0.8471   2938   0.98x    192 threads,  4 values, TMA     store, 2 parts of  2816 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 4             0.8471   2938   0.98x    192 threads,  4 values, TMA     store, 2 parts of  2816 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 8             0.8543   2913   0.97x    192 threads,  8 values, TMA     store, 4 parts of  1408 values  ( 60 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 16            0.8743   2847   0.95x    192 threads, 16 values, threads store, 1 parts of  5632 values  ( 97 registers,  56320 B shared,  2 of  4 blocks on an SM)
+            values 32            0.8746   2846   0.95x    192 threads, 32 values, threads store, 2 parts of  2816 values  (171 registers,  56320 B shared,  1 of  4 blocks on an SM)
+        threads 256          0.8501   2928   0.98x    256 threads,  4 values, TMA     store, 2 parts of  2816 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 4             0.8501   2928   0.98x    256 threads,  4 values, TMA     store, 2 parts of  2816 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 8             0.8531   2917   0.97x    256 threads,  8 values, TMA     store, 2 parts of  2816 values  ( 60 registers,  56320 B shared,  4 of  4 blocks on an SM)
+            values 16            0.8532   2917   0.97x    256 threads, 16 values, TMA     store, 2 parts of  2816 values  ( 92 registers,  56320 B shared,  2 of  4 blocks on an SM)
+            values 32            0.8591   2897   0.97x    256 threads, 32 values, TMA     store, 2 parts of  2816 values  (183 registers,  56320 B shared,  1 of  4 blocks on an SM)
+        threads 384          0.8556   2909   0.97x    384 threads, 16 values, TMA     store, 2 parts of  2816 values  ( 92 registers,  56320 B shared,  1 of  4 blocks on an SM)
+            values 4             0.9148   2721   0.91x    384 threads,  4 values, TMA     store, 2 parts of  2816 values  ( 48 registers,  56320 B shared,  3 of  4 blocks on an SM)
+            values 8             0.8614   2889   0.96x    384 threads,  8 values, TMA     store, 2 parts of  2816 values  ( 60 registers,  56320 B shared,  2 of  4 blocks on an SM)
+            values 16            0.8556   2909   0.97x    384 threads, 16 values, TMA     store, 2 parts of  2816 values  ( 92 registers,  56320 B shared,  1 of  4 blocks on an SM)
+            values 32            0.8573   2903   0.97x    384 threads, 32 values, TMA     store, 2 parts of  2816 values  (154 registers,  56320 B shared,  1 of  4 blocks on an SM)
+        threads 512          0.8570   2904   0.97x    512 threads,  8 values, TMA     store, 2 parts of  2816 values  ( 60 registers,  56320 B shared,  2 of  4 blocks on an SM)
+            values 4             0.8587   2898   0.97x    512 threads,  4 values, TMA     store, 2 parts of  2816 values  ( 48 registers,  56320 B shared,  2 of  4 blocks on an SM)
+            values 8             0.8570   2904   0.97x    512 threads,  8 values, TMA     store, 2 parts of  2816 values  ( 60 registers,  56320 B shared,  2 of  4 blocks on an SM)
+            values 16            0.8574   2903   0.97x    512 threads, 16 values, TMA     store, 2 parts of  2816 values  ( 92 registers,  56320 B shared,  1 of  4 blocks on an SM)
+            values 32          nothing runs
+        threads 768          0.8538   2915   0.97x    768 threads,  4 values, TMA     store, 2 parts of  2816 values  ( 48 registers,  56320 B shared,  1 of  4 blocks on an SM)
+            values 4             0.8538   2915   0.97x    768 threads,  4 values, TMA     store, 2 parts of  2816 values  ( 48 registers,  56320 B shared,  1 of  4 blocks on an SM)
+            values 8             0.8547   2912   0.97x    768 threads,  8 values, TMA     store, 2 parts of  2816 values  ( 58 registers,  56320 B shared,  1 of  4 blocks on an SM)
+            values 16            1.0174   2446   0.82x    768 threads, 16 values, threads store, 1 parts of  5632 values  ( 80 registers,  56320 B shared,  1 of  4 blocks on an SM)
+            values 32          nothing runs
+        threads 1024         0.8555   2909   0.97x   1024 threads,  8 values, TMA     store, 2 parts of  2816 values  ( 57 registers,  56320 B shared,  1 of  4 blocks on an SM)
+            values 4             0.8564   2906   0.97x   1024 threads,  4 values, TMA     store, 2 parts of  2816 values  ( 48 registers,  56320 B shared,  1 of  4 blocks on an SM)
+            values 8             0.8555   2909   0.97x   1024 threads,  8 values, TMA     store, 2 parts of  2816 values  ( 57 registers,  56320 B shared,  1 of  4 blocks on an SM)
+            values 16          nothing runs
+            values 32          nothing runs
+    blocks 792 (6x SMs)   0.8703   2860   0.95x    384 threads,  4 values, TMA     store, 1 parts of  3680 values  ( 48 registers,  36800 B shared,  3 of  6 blocks on an SM)
+        threads 32           0.9122   2728   0.91x     32 threads, 32 values, TMA     store, 5 parts of   736 values  (157 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 4             0.9145   2722   0.91x     32 threads,  4 values, TMA     store, 6 parts of   608 values  ( 48 registers,  36480 B shared,  6 of  6 blocks on an SM)
+            values 8             0.9242   2693   0.90x     32 threads,  8 values, threads store, 1 parts of  3680 values  ( 68 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 16            0.9158   2718   0.91x     32 threads, 16 values, TMA     store, 1 parts of  3680 values  ( 92 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 32            0.9122   2728   0.91x     32 threads, 32 values, TMA     store, 5 parts of   736 values  (157 registers,  36800 B shared,  6 of  6 blocks on an SM)
+        threads 64           0.8810   2825   0.94x     64 threads,  8 values, TMA     store, 5 parts of   736 values  ( 60 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 4             0.8882   2802   0.94x     64 threads,  4 values, TMA     store, 5 parts of   736 values  ( 48 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 8             0.8810   2825   0.94x     64 threads,  8 values, TMA     store, 5 parts of   736 values  ( 60 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 16            0.8911   2793   0.93x     64 threads, 16 values, TMA     store, 1 parts of  3680 values  ( 92 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 32            0.8924   2789   0.93x     64 threads, 32 values, TMA     store, 1 parts of  3680 values  (157 registers,  36800 B shared,  6 of  6 blocks on an SM)
+        threads 96           0.8814   2824   0.94x     96 threads,  4 values, TMA     store, 1 parts of  3680 values  ( 48 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 4             0.8814   2824   0.94x     96 threads,  4 values, TMA     store, 1 parts of  3680 values  ( 48 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 8             0.8925   2789   0.93x     96 threads,  8 values, TMA     store, 1 parts of  3680 values  ( 60 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 16            0.8862   2808   0.94x     96 threads, 16 values, TMA     store, 1 parts of  3680 values  ( 92 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 32            0.9229   2697   0.90x     96 threads, 32 values, TMA     store, 2 parts of  1840 values  (157 registers,  36800 B shared,  4 of  6 blocks on an SM)
+        threads 128          0.8730   2851   0.95x    128 threads,  4 values, TMA     store, 1 parts of  3680 values  ( 48 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 4             0.8730   2851   0.95x    128 threads,  4 values, TMA     store, 1 parts of  3680 values  ( 48 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 8             0.8799   2828   0.94x    128 threads,  8 values, TMA     store, 1 parts of  3680 values  ( 60 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 16            0.9697   2566   0.86x    128 threads, 16 values, TMA     store, 2 parts of  1840 values  ( 92 registers,  36800 B shared,  5 of  6 blocks on an SM)
+            values 32            0.8813   2824   0.94x    128 threads, 32 values, TMA     store, 1 parts of  3680 values  (157 registers,  36800 B shared,  3 of  6 blocks on an SM)
+        threads 192          0.8719   2854   0.95x    192 threads,  4 values, TMA     store, 1 parts of  3680 values  ( 48 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 4             0.8719   2854   0.95x    192 threads,  4 values, TMA     store, 1 parts of  3680 values  ( 48 registers,  36800 B shared,  6 of  6 blocks on an SM)
+            values 8             0.9586   2596   0.87x    192 threads,  8 values, TMA     store, 1 parts of  3680 values  ( 60 registers,  36800 B shared,  5 of  6 blocks on an SM)
+            values 16            0.8778   2835   0.95x    192 threads, 16 values, TMA     store, 1 parts of  3680 values  ( 92 registers,  36800 B shared,  3 of  6 blocks on an SM)
+            values 32            1.0217   2436   0.81x    192 threads, 32 values, threads store, 2 parts of  1840 values  (171 registers,  36800 B shared,  1 of  6 blocks on an SM)
+        threads 256          0.8717   2855   0.95x    256 threads, 16 values, TMA     store, 1 parts of  3680 values  ( 92 registers,  36800 B shared,  2 of  6 blocks on an SM)
+            values 4             0.9303   2675   0.89x    256 threads,  4 values, TMA     store, 1 parts of  3680 values  ( 48 registers,  36800 B shared,  5 of  6 blocks on an SM)
+            values 8             0.8963   2777   0.93x    256 threads,  8 values, TMA     store, 2 parts of  1840 values  ( 60 registers,  36800 B shared,  4 of  6 blocks on an SM)
+            values 16            0.8717   2855   0.95x    256 threads, 16 values, TMA     store, 1 parts of  3680 values  ( 92 registers,  36800 B shared,  2 of  6 blocks on an SM)
+            values 32            0.9858   2525   0.84x    256 threads, 32 values, TMA     store, 2 parts of  1840 values  (183 registers,  36800 B shared,  1 of  6 blocks on an SM)
+        threads 384          0.8703   2860   0.95x    384 threads,  4 values, TMA     store, 1 parts of  3680 values  ( 48 registers,  36800 B shared,  3 of  6 blocks on an SM)
+            values 4             0.8703   2860   0.95x    384 threads,  4 values, TMA     store, 1 parts of  3680 values  ( 48 registers,  36800 B shared,  3 of  6 blocks on an SM)
+            values 8             0.8728   2852   0.95x    384 threads,  8 values, TMA     store, 1 parts of  3680 values  ( 60 registers,  36800 B shared,  2 of  6 blocks on an SM)
+            values 16            0.9606   2591   0.86x    384 threads, 16 values, TMA     store, 2 parts of  1840 values  ( 92 registers,  36800 B shared,  1 of  6 blocks on an SM)
+            values 32            1.0255   2427   0.81x    384 threads, 32 values, TMA     store, 2 parts of  1840 values  (154 registers,  36800 B shared,  1 of  6 blocks on an SM)
+        threads 512          0.8712   2857   0.95x    512 threads,  4 values, TMA     store, 1 parts of  3680 values  ( 48 registers,  36800 B shared,  2 of  6 blocks on an SM)
+            values 4             0.8712   2857   0.95x    512 threads,  4 values, TMA     store, 1 parts of  3680 values  ( 48 registers,  36800 B shared,  2 of  6 blocks on an SM)
+            values 8             0.8732   2850   0.95x    512 threads,  8 values, TMA     store, 1 parts of  3680 values  ( 60 registers,  36800 B shared,  2 of  6 blocks on an SM)
+            values 16            0.9371   2656   0.89x    512 threads, 16 values, TMA     store, 2 parts of  1840 values  ( 92 registers,  36800 B shared,  1 of  6 blocks on an SM)
+            values 32          nothing runs
+        threads 768          0.9149   2720   0.91x    768 threads,  4 values, TMA     store, 2 parts of  1840 values  ( 48 registers,  36800 B shared,  1 of  6 blocks on an SM)
+            values 4             0.9149   2720   0.91x    768 threads,  4 values, TMA     store, 2 parts of  1840 values  ( 48 registers,  36800 B shared,  1 of  6 blocks on an SM)
+            values 8             0.9255   2689   0.90x    768 threads,  8 values, TMA     store, 2 parts of  1840 values  ( 58 registers,  36800 B shared,  1 of  6 blocks on an SM)
+            values 16            1.2463   1997   0.67x    768 threads, 16 values, threads store, 2 parts of  1840 values  ( 80 registers,  36800 B shared,  1 of  6 blocks on an SM)
+            values 32          nothing runs
+        threads 1024         0.9260   2688   0.90x   1024 threads,  4 values, TMA     store, 2 parts of  1840 values  ( 48 registers,  36800 B shared,  1 of  6 blocks on an SM)
+            values 4             0.9260   2688   0.90x   1024 threads,  4 values, TMA     store, 2 parts of  1840 values  ( 48 registers,  36800 B shared,  1 of  6 blocks on an SM)
+            values 8             0.9447   2634   0.88x   1024 threads,  8 values, TMA     store, 2 parts of  1840 values  ( 57 registers,  36800 B shared,  1 of  6 blocks on an SM)
+            values 16          nothing runs
+            values 32          nothing runs
+    blocks 1056 (8x SMs)   0.8646   2878   0.96x    128 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  8 of  8 blocks on an SM)
+        threads 32           0.8794   2830   0.94x     32 threads, 32 values, TMA     store, 2 parts of  1376 values  (157 registers,  27520 B shared,  8 of  8 blocks on an SM)
+            values 4             0.8830   2819   0.94x     32 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  8 of  8 blocks on an SM)
+            values 8             0.8940   2784   0.93x     32 threads,  8 values, TMA     store, 2 parts of  1376 values  ( 60 registers,  27520 B shared,  8 of  8 blocks on an SM)
+            values 16            0.8809   2825   0.94x     32 threads, 16 values, TMA     store, 2 parts of  1376 values  ( 92 registers,  27520 B shared,  8 of  8 blocks on an SM)
+            values 32            0.8794   2830   0.94x     32 threads, 32 values, TMA     store, 2 parts of  1376 values  (157 registers,  27520 B shared,  8 of  8 blocks on an SM)
+        threads 64           0.8824   2820   0.94x     64 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  8 of  8 blocks on an SM)
+            values 4             0.8824   2820   0.94x     64 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  8 of  8 blocks on an SM)
+            values 8             0.8858   2810   0.94x     64 threads,  8 values, TMA     store, 2 parts of  1376 values  ( 60 registers,  27520 B shared,  8 of  8 blocks on an SM)
+            values 16            0.8861   2809   0.94x     64 threads, 16 values, TMA     store, 2 parts of  1376 values  ( 92 registers,  27520 B shared,  8 of  8 blocks on an SM)
+            values 32            0.9999   2489   0.83x     64 threads, 32 values, TMA     store, 1 parts of  2760 values  (157 registers,  27600 B shared,  6 of  8 blocks on an SM)
+        threads 96           0.8648   2878   0.96x     96 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  8 of  8 blocks on an SM)
+            values 4             0.8648   2878   0.96x     96 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  8 of  8 blocks on an SM)
+            values 8             0.8684   2866   0.96x     96 threads,  8 values, TMA     store, 2 parts of  1376 values  ( 60 registers,  27520 B shared,  8 of  8 blocks on an SM)
+            values 16            0.9039   2753   0.92x     96 threads, 16 values, TMA     store, 2 parts of  1376 values  ( 92 registers,  27520 B shared,  6 of  8 blocks on an SM)
+            values 32            0.8719   2855   0.95x     96 threads, 32 values, TMA     store, 2 parts of  1376 values  (157 registers,  27520 B shared,  4 of  8 blocks on an SM)
+        threads 128          0.8646   2878   0.96x    128 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  8 of  8 blocks on an SM)
+            values 4             0.8646   2878   0.96x    128 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  8 of  8 blocks on an SM)
+            values 8             0.8687   2865   0.96x    128 threads,  8 values, TMA     store, 2 parts of  1376 values  ( 60 registers,  27520 B shared,  8 of  8 blocks on an SM)
+            values 16            0.8872   2805   0.94x    128 threads, 16 values, TMA     store, 2 parts of  1376 values  ( 92 registers,  27520 B shared,  5 of  8 blocks on an SM)
+            values 32            0.9057   2748   0.92x    128 threads, 32 values, TMA     store, 2 parts of  1376 values  (157 registers,  27520 B shared,  3 of  8 blocks on an SM)
+        threads 192          0.9011   2762   0.92x    192 threads, 16 values, TMA     store, 2 parts of  1376 values  ( 92 registers,  27520 B shared,  3 of  8 blocks on an SM)
+            values 4             0.9440   2636   0.88x    192 threads,  4 values, TMA     store, 1 parts of  2760 values  ( 48 registers,  27600 B shared,  6 of  8 blocks on an SM)
+            values 8             0.9246   2692   0.90x    192 threads,  8 values, TMA     store, 1 parts of  2760 values  ( 60 registers,  27600 B shared,  5 of  8 blocks on an SM)
+            values 16            0.9011   2762   0.92x    192 threads, 16 values, TMA     store, 2 parts of  1376 values  ( 92 registers,  27520 B shared,  3 of  8 blocks on an SM)
+            values 32            1.0915   2280   0.76x    192 threads, 32 values, threads store, 2 parts of  1376 values  (171 registers,  27520 B shared,  1 of  8 blocks on an SM)
+        threads 256          0.8729   2851   0.95x    256 threads,  8 values, TMA     store, 2 parts of  1376 values  ( 60 registers,  27520 B shared,  4 of  8 blocks on an SM)
+            values 4             0.8824   2820   0.94x    256 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  5 of  8 blocks on an SM)
+            values 8             0.8729   2851   0.95x    256 threads,  8 values, TMA     store, 2 parts of  1376 values  ( 60 registers,  27520 B shared,  4 of  8 blocks on an SM)
+            values 16            0.8839   2816   0.94x    256 threads, 16 values, TMA     store, 2 parts of  1376 values  ( 92 registers,  27520 B shared,  2 of  8 blocks on an SM)
+            values 32            1.2079   2060   0.69x    256 threads, 32 values, TMA     store, 2 parts of  1376 values  (183 registers,  27520 B shared,  1 of  8 blocks on an SM)
+        threads 384          0.8835   2817   0.94x    384 threads,  8 values, TMA     store, 2 parts of  1376 values  ( 60 registers,  27520 B shared,  2 of  8 blocks on an SM)
+            values 4             0.8924   2789   0.93x    384 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  3 of  8 blocks on an SM)
+            values 8             0.8835   2817   0.94x    384 threads,  8 values, TMA     store, 2 parts of  1376 values  ( 60 registers,  27520 B shared,  2 of  8 blocks on an SM)
+            values 16            1.0225   2434   0.81x    384 threads, 16 values, TMA     store, 2 parts of  1376 values  ( 92 registers,  27520 B shared,  1 of  8 blocks on an SM)
+            values 32            1.0722   2321   0.77x    384 threads, 32 values, TMA     store, 2 parts of  1376 values  (154 registers,  27520 B shared,  1 of  8 blocks on an SM)
+        threads 512          0.8857   2810   0.94x    512 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  2 of  8 blocks on an SM)
+            values 4             0.8857   2810   0.94x    512 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  2 of  8 blocks on an SM)
+            values 8             0.8870   2806   0.94x    512 threads,  8 values, TMA     store, 2 parts of  1376 values  ( 60 registers,  27520 B shared,  2 of  8 blocks on an SM)
+            values 16            1.0246   2429   0.81x    512 threads, 16 values, TMA     store, 2 parts of  1376 values  ( 92 registers,  27520 B shared,  1 of  8 blocks on an SM)
+            values 32          nothing runs
+        threads 768          1.0002   2488   0.83x    768 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  1 of  8 blocks on an SM)
+            values 4             1.0002   2488   0.83x    768 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  1 of  8 blocks on an SM)
+            values 8             1.0185   2444   0.82x    768 threads,  8 values, TMA     store, 2 parts of  1376 values  ( 58 registers,  27520 B shared,  1 of  8 blocks on an SM)
+            values 16            1.2038   2067   0.69x    768 threads, 16 values, threads store, 2 parts of  1376 values  ( 80 registers,  27520 B shared,  1 of  8 blocks on an SM)
+            values 32          nothing runs
+        threads 1024         1.0145   2453   0.82x   1024 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  1 of  8 blocks on an SM)
+            values 4             1.0145   2453   0.82x   1024 threads,  4 values, TMA     store, 2 parts of  1376 values  ( 48 registers,  27520 B shared,  1 of  8 blocks on an SM)
+            values 8             1.0340   2407   0.80x   1024 threads,  8 values, TMA     store, 2 parts of  1376 values  ( 57 registers,  27520 B shared,  1 of  8 blocks on an SM)
+            values 16          nothing runs
+            values 32          nothing runs
+    blocks 2112 (16x SMs)   0.8962   2777   0.93x    192 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared,  6 of 16 blocks on an SM)
+        threads 32           0.9088   2739   0.91x     32 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared, 16 of 16 blocks on an SM)
+            values 4             0.9088   2739   0.91x     32 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared, 16 of 16 blocks on an SM)
+            values 8             0.9186   2709   0.90x     32 threads,  8 values, TMA     store, 1 parts of  1328 values  ( 60 registers,  13280 B shared, 16 of 16 blocks on an SM)
+            values 16            0.9166   2715   0.91x     32 threads, 16 values, TMA     store, 1 parts of  1328 values  ( 92 registers,  13280 B shared, 16 of 16 blocks on an SM)
+            values 32            1.0072   2471   0.82x     32 threads, 32 values, TMA     store, 1 parts of  1328 values  (157 registers,  13280 B shared, 12 of 16 blocks on an SM)
+        threads 64           0.9099   2735   0.91x     64 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared, 16 of 16 blocks on an SM)
+            values 4             0.9099   2735   0.91x     64 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared, 16 of 16 blocks on an SM)
+            values 8             0.9246   2692   0.90x     64 threads,  8 values, TMA     store, 1 parts of  1328 values  ( 60 registers,  13280 B shared, 16 of 16 blocks on an SM)
+            values 16            0.9103   2734   0.91x     64 threads, 16 values, TMA     store, 1 parts of  1328 values  ( 92 registers,  13280 B shared, 10 of 16 blocks on an SM)
+            values 32            0.9120   2729   0.91x     64 threads, 32 values, TMA     store, 1 parts of  1328 values  (157 registers,  13280 B shared,  6 of 16 blocks on an SM)
+        threads 96           0.8992   2768   0.92x     96 threads, 32 values, TMA     store, 1 parts of  1328 values  (157 registers,  13280 B shared,  4 of 16 blocks on an SM)
+            values 4             0.9358   2659   0.89x     96 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared, 13 of 16 blocks on an SM)
+            values 8             0.9210   2702   0.90x     96 threads,  8 values, TMA     store, 1 parts of  1328 values  ( 60 registers,  13280 B shared, 10 of 16 blocks on an SM)
+            values 16            0.9072   2743   0.92x     96 threads, 16 values, TMA     store, 1 parts of  1328 values  ( 92 registers,  13280 B shared,  6 of 16 blocks on an SM)
+            values 32            0.8992   2768   0.92x     96 threads, 32 values, TMA     store, 1 parts of  1328 values  (157 registers,  13280 B shared,  4 of 16 blocks on an SM)
+        threads 128          0.8972   2774   0.93x    128 threads,  8 values, TMA     store, 1 parts of  1328 values  ( 60 registers,  13280 B shared,  8 of 16 blocks on an SM)
+            values 4             0.9096   2736   0.91x    128 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared, 10 of 16 blocks on an SM)
+            values 8             0.8972   2774   0.93x    128 threads,  8 values, TMA     store, 1 parts of  1328 values  ( 60 registers,  13280 B shared,  8 of 16 blocks on an SM)
+            values 16            0.9474   2627   0.88x    128 threads, 16 values, TMA     store, 1 parts of  1328 values  ( 92 registers,  13280 B shared,  5 of 16 blocks on an SM)
+            values 32            1.0305   2415   0.81x    128 threads, 32 values, TMA     store, 1 parts of  1328 values  (157 registers,  13280 B shared,  3 of 16 blocks on an SM)
+        threads 192          0.8962   2777   0.93x    192 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared,  6 of 16 blocks on an SM)
+            values 4             0.8962   2777   0.93x    192 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared,  6 of 16 blocks on an SM)
+            values 8             0.9415   2643   0.88x    192 threads,  8 values, TMA     store, 1 parts of  1328 values  ( 60 registers,  13280 B shared,  5 of 16 blocks on an SM)
+            values 16            0.9681   2571   0.86x    192 threads, 16 values, TMA     store, 1 parts of  1328 values  ( 92 registers,  13280 B shared,  3 of 16 blocks on an SM)
+            values 32            1.7075   1458   0.49x    192 threads, 32 values, threads store, 2 parts of   664 values  (171 registers,  13280 B shared,  1 of 16 blocks on an SM)
+        threads 256          0.8974   2773   0.93x    256 threads,  8 values, TMA     store, 1 parts of  1328 values  ( 60 registers,  13280 B shared,  4 of 16 blocks on an SM)
+            values 4             0.9382   2653   0.89x    256 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared,  5 of 16 blocks on an SM)
+            values 8             0.8974   2773   0.93x    256 threads,  8 values, TMA     store, 1 parts of  1328 values  ( 60 registers,  13280 B shared,  4 of 16 blocks on an SM)
+            values 16            1.0639   2339   0.78x    256 threads, 16 values, TMA     store, 2 parts of   664 values  ( 92 registers,  13280 B shared,  2 of 16 blocks on an SM)
+            values 32            1.6548   1504   0.50x    256 threads, 32 values, threads store, 2 parts of   664 values  (173 registers,  13280 B shared,  1 of 16 blocks on an SM)
+        threads 384          0.9332   2667   0.89x    384 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared,  3 of 16 blocks on an SM)
+            values 4             0.9332   2667   0.89x    384 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared,  3 of 16 blocks on an SM)
+            values 8             1.0276   2422   0.81x    384 threads,  8 values, TMA     store, 1 parts of  1328 values  ( 60 registers,  13280 B shared,  2 of 16 blocks on an SM)
+            values 16            1.4981   1661   0.55x    384 threads, 16 values, threads store, 2 parts of   664 values  ( 97 registers,  13280 B shared,  1 of 16 blocks on an SM)
+            values 32            1.7251   1443   0.48x    384 threads, 32 values, TMA     store, 1 parts of  1328 values  (154 registers,  13280 B shared,  1 of 16 blocks on an SM)
+        threads 512          1.0145   2453   0.82x    512 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared,  2 of 16 blocks on an SM)
+            values 4             1.0145   2453   0.82x    512 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared,  2 of 16 blocks on an SM)
+            values 8             1.0297   2417   0.81x    512 threads,  8 values, TMA     store, 1 parts of  1328 values  ( 60 registers,  13280 B shared,  2 of 16 blocks on an SM)
+            values 16            1.5534   1602   0.53x    512 threads, 16 values, threads store, 2 parts of   664 values  ( 90 registers,  13280 B shared,  1 of 16 blocks on an SM)
+            values 32          nothing runs
+        threads 768          1.4731   1690   0.56x    768 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared,  1 of 16 blocks on an SM)
+            values 4             1.4731   1690   0.56x    768 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared,  1 of 16 blocks on an SM)
+            values 8             1.5336   1623   0.54x    768 threads,  8 values, TMA     store, 1 parts of  1328 values  ( 58 registers,  13280 B shared,  1 of 16 blocks on an SM)
+            values 16            1.7851   1394   0.47x    768 threads, 16 values, threads store, 1 parts of  1328 values  ( 80 registers,  13280 B shared,  1 of 16 blocks on an SM)
+            values 32          nothing runs
+        threads 1024         1.5333   1623   0.54x   1024 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared,  1 of 16 blocks on an SM)
+            values 4             1.5333   1623   0.54x   1024 threads,  4 values, TMA     store, 1 parts of  1328 values  ( 48 registers,  13280 B shared,  1 of 16 blocks on an SM)
+            values 8             1.6181   1538   0.51x   1024 threads,  8 values, TMA     store, 1 parts of  1328 values  ( 57 registers,  13280 B shared,  1 of 16 blocks on an SM)
+            values 16          nothing runs
+            values 32          nothing runs
+    blocks 4224 (32x SMs)   0.9118   2729   0.91x     64 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared, 20 of 32 blocks on an SM)
+        threads 32           0.9163   2716   0.91x     32 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared, 32 of 32 blocks on an SM)
+            values 4             0.9163   2716   0.91x     32 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared, 32 of 32 blocks on an SM)
+            values 8             0.9220   2699   0.90x     32 threads,  8 values, TMA     store, 1 parts of   608 values  ( 60 registers,   6080 B shared, 32 of 32 blocks on an SM)
+            values 16            0.9529   2612   0.87x     32 threads, 16 values, TMA     store, 1 parts of   608 values  ( 92 registers,   6080 B shared, 20 of 32 blocks on an SM)
+            values 32            0.9300   2676   0.89x     32 threads, 32 values, TMA     store, 1 parts of   608 values  (157 registers,   6080 B shared, 12 of 32 blocks on an SM)
+        threads 64           0.9118   2729   0.91x     64 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared, 20 of 32 blocks on an SM)
+            values 4             0.9118   2729   0.91x     64 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared, 20 of 32 blocks on an SM)
+            values 8             0.9185   2710   0.90x     64 threads,  8 values, TMA     store, 1 parts of   608 values  ( 60 registers,   6080 B shared, 16 of 32 blocks on an SM)
+            values 16            0.9422   2642   0.88x     64 threads, 16 values, threads store, 1 parts of   608 values  ( 98 registers,   6080 B shared,  8 of 32 blocks on an SM)
+            values 32            1.0449   2382   0.79x     64 threads, 32 values, TMA     store, 1 parts of   608 values  (157 registers,   6080 B shared,  6 of 32 blocks on an SM)
+        threads 96           0.9239   2694   0.90x     96 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared, 13 of 32 blocks on an SM)
+            values 4             0.9239   2694   0.90x     96 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared, 13 of 32 blocks on an SM)
+            values 8             0.9586   2596   0.87x     96 threads,  8 values, TMA     store, 1 parts of   608 values  ( 60 registers,   6080 B shared, 10 of 32 blocks on an SM)
+            values 16            0.9853   2526   0.84x     96 threads, 16 values, TMA     store, 1 parts of   608 values  ( 92 registers,   6080 B shared,  6 of 32 blocks on an SM)
+            values 32            1.1090   2244   0.75x     96 threads, 32 values, TMA     store, 1 parts of   608 values  (157 registers,   6080 B shared,  4 of 32 blocks on an SM)
+        threads 128          0.9146   2721   0.91x    128 threads,  8 values, TMA     store, 1 parts of   608 values  ( 60 registers,   6080 B shared,  8 of 32 blocks on an SM)
+            values 4             0.9447   2634   0.88x    128 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared, 10 of 32 blocks on an SM)
+            values 8             0.9146   2721   0.91x    128 threads,  8 values, TMA     store, 1 parts of   608 values  ( 60 registers,   6080 B shared,  8 of 32 blocks on an SM)
+            values 16            1.0309   2414   0.81x    128 threads, 16 values, TMA     store, 1 parts of   608 values  ( 92 registers,   6080 B shared,  5 of 32 blocks on an SM)
+            values 32            1.3448   1851   0.62x    128 threads, 32 values, TMA     store, 1 parts of   608 values  (157 registers,   6080 B shared,  3 of 32 blocks on an SM)
+        threads 192          0.9476   2626   0.88x    192 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared,  6 of 32 blocks on an SM)
+            values 4             0.9476   2626   0.88x    192 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared,  6 of 32 blocks on an SM)
+            values 8             0.9931   2506   0.84x    192 threads,  8 values, TMA     store, 1 parts of   608 values  ( 60 registers,   6080 B shared,  5 of 32 blocks on an SM)
+            values 16            1.1735   2121   0.71x    192 threads, 16 values, TMA     store, 1 parts of   608 values  ( 92 registers,   6080 B shared,  3 of 32 blocks on an SM)
+            values 32            2.7807    895   0.30x    192 threads, 32 values, threads store, 1 parts of   608 values  (171 registers,   6080 B shared,  1 of 32 blocks on an SM)
+        threads 256          0.9727   2559   0.85x    256 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared,  5 of 32 blocks on an SM)
+            values 4             0.9727   2559   0.85x    256 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared,  5 of 32 blocks on an SM)
+            values 8             1.0313   2413   0.81x    256 threads,  8 values, TMA     store, 1 parts of   608 values  ( 60 registers,   6080 B shared,  4 of 32 blocks on an SM)
+            values 16            1.4768   1685   0.56x    256 threads, 16 values, threads store, 1 parts of   608 values  ( 97 registers,   6080 B shared,  2 of 32 blocks on an SM)
+            values 32            2.7054    920   0.31x    256 threads, 32 values, threads store, 1 parts of   608 values  (173 registers,   6080 B shared,  1 of 32 blocks on an SM)
+        threads 384          1.1166   2229   0.74x    384 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared,  3 of 32 blocks on an SM)
+            values 4             1.1166   2229   0.74x    384 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared,  3 of 32 blocks on an SM)
+            values 8             1.4134   1761   0.59x    384 threads,  8 values, threads store, 1 parts of   608 values  ( 61 registers,   6080 B shared,  2 of 32 blocks on an SM)
+            values 16            2.5254    985   0.33x    384 threads, 16 values, threads store, 1 parts of   608 values  ( 97 registers,   6080 B shared,  1 of 32 blocks on an SM)
+            values 32            2.8050    887   0.30x    384 threads, 32 values, threads store, 1 parts of   608 values  (153 registers,   6080 B shared,  1 of 32 blocks on an SM)
+        threads 512          1.3676   1820   0.61x    512 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared,  2 of 32 blocks on an SM)
+            values 4             1.3676   1820   0.61x    512 threads,  4 values, TMA     store, 1 parts of   608 values  ( 48 registers,   6080 B shared,  2 of 32 blocks on an SM)
+            values 8             1.4349   1734   0.58x    512 threads,  8 values, threads store, 1 parts of   608 values  ( 61 registers,   6080 B shared,  2 of 32 blocks on an SM)
+            values 16            2.4909    999   0.33x    512 threads, 16 values, threads store, 1 parts of   608 values  ( 90 registers,   6080 B shared,  1 of 32 blocks on an SM)
+            values 32          nothing runs
+        threads 768          2.3088   1078   0.36x    768 threads,  4 values, threads store, 1 parts of   608 values  ( 48 registers,   6080 B shared,  1 of 32 blocks on an SM)
+            values 4             2.3088   1078   0.36x    768 threads,  4 values, threads store, 1 parts of   608 values  ( 48 registers,   6080 B shared,  1 of 32 blocks on an SM)
+            values 8             2.3987   1038   0.35x    768 threads,  8 values, threads store, 1 parts of   608 values  ( 61 registers,   6080 B shared,  1 of 32 blocks on an SM)
+            values 16            2.6631    935   0.31x    768 threads, 16 values, threads store, 1 parts of   608 values  ( 80 registers,   6080 B shared,  1 of 32 blocks on an SM)
+            values 32          nothing runs
+        threads 1024         2.3800   1046   0.35x   1024 threads,  4 values, threads store, 1 parts of   608 values  ( 48 registers,   6080 B shared,  1 of 32 blocks on an SM)
+            values 4             2.3800   1046   0.35x   1024 threads,  4 values, threads store, 1 parts of   608 values  ( 48 registers,   6080 B shared,  1 of 32 blocks on an SM)
+            values 8             2.5403    980   0.33x   1024 threads,  8 values, threads store, 1 parts of   608 values  ( 56 registers,   6080 B shared,  1 of 32 blocks on an SM)
+            values 16          nothing runs
+            values 32          nothing runs
+    TMA store, the fastest at each blocks an SM and parts (first pass, x the current kernel's best)
+    blocks/SM   share KB  1 parts  2 parts  3 parts  4 parts  5 parts  6 parts  7 parts  8 parts
+            1      226.0    0.96x    0.96x    0.98x    0.97x    0.99x    0.97x    0.98x    0.97x
+            2      112.0    0.95x    0.98x    0.97x    0.98x    0.96x    0.98x    0.98x    0.95x
+            3       74.0    0.95x    0.96x    0.95x    0.97x    0.95x    0.94x    0.94x    0.94x
+            4       55.0    0.97x    0.98x    0.97x    0.98x    0.96x    0.92x    0.96x    0.99x
+            6       36.0    0.95x    0.95x    0.92x    0.91x    0.94x    0.94x    0.90x    0.91x
+            8       27.0    0.94x    0.96x    0.91x    0.94x    0.89x    0.90x    0.90x    0.88x
+           16       13.0    0.93x    0.89x    0.87x    0.85x    0.82x    0.79x    0.82x    0.87x
+           32        6.0    0.91x    0.85x    0.76x    0.79x    0.77x    0.79x    0.81x    0.73x
+    threads store, the fastest at each blocks an SM and parts (first pass, x the current kernel's best)
+    blocks/SM   share KB  1 parts  2 parts  3 parts  4 parts  5 parts  6 parts  7 parts  8 parts
+            1      226.0    0.91x    0.94x    0.96x    0.95x    0.92x    0.95x    0.92x    0.92x
+            2      112.0    0.90x    0.91x    0.89x    0.95x    0.96x    0.93x    0.93x    0.89x
+            3       74.0    0.89x    0.89x    0.92x    0.88x    0.86x    0.84x    0.83x    0.87x
+            4       55.0    0.96x    0.96x    0.92x    0.96x    0.95x    0.91x    0.96x    0.97x
+            6       36.0    0.93x    0.89x    0.84x    0.84x    0.88x    0.86x    0.84x    0.79x
+            8       27.0    0.88x    0.90x    0.83x    0.87x    0.84x    0.90x    0.80x    0.87x
+           16       13.0    0.88x    0.82x    0.83x    0.84x    0.81x    0.77x    0.76x    0.85x
+           32        6.0    0.88x    0.81x    0.73x    0.73x    0.78x    0.78x    0.84x    0.76x
+    the 20 fastest, timed again over 20 rounds with the current kernel (243047 x 128: 0.8307 ms, 2996 GB/s, MBU 89%)
+         ms    GB/s   MBU   x current   blocks   setting
+     0.8423    2955   88%      0.99x      132    192 threads,  8 values, TMA     store, 5 parts of  4624 values  ( 60 registers, 231200 B shared,  1 of  1 blocks on an SM)
+     0.8424    2954   88%      0.99x      132    192 threads, 16 values, TMA     store, 5 parts of  4624 values  ( 92 registers, 231200 B shared,  1 of  1 blocks on an SM)
+     0.8444    2947   88%      0.98x      132    128 threads,  4 values, TMA     store, 3 parts of  7712 values  ( 48 registers, 231360 B shared,  1 of  1 blocks on an SM)
+     0.8453    2944   88%      0.98x      528     32 threads,  4 values, TMA     store, 8 parts of   704 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+     0.8464    2940   88%      0.98x      132    192 threads, 32 values, TMA     store, 5 parts of  4624 values  (183 registers, 231200 B shared,  1 of  1 blocks on an SM)
+     0.8481    2935   88%      0.98x      132    256 threads, 32 values, TMA     store, 7 parts of  3304 values  (183 registers, 231280 B shared,  1 of  1 blocks on an SM)
+     0.8486    2933   87%      0.98x      264     96 threads, 16 values, TMA     store, 7 parts of  1632 values  ( 92 registers, 114240 B shared,  2 of  2 blocks on an SM)
+     0.8490    2931   87%      0.98x      264     96 threads, 32 values, TMA     store, 7 parts of  1632 values  (157 registers, 114240 B shared,  2 of  2 blocks on an SM)
+     0.8501    2928   87%      0.98x      264     96 threads,  8 values, TMA     store, 7 parts of  1632 values  ( 60 registers, 114240 B shared,  2 of  2 blocks on an SM)
+     0.8504    2927   87%      0.98x      528     32 threads,  8 values, TMA     store, 4 parts of  1408 values  ( 60 registers,  56320 B shared,  4 of  4 blocks on an SM)
+     0.8508    2925   87%      0.98x      528    192 threads,  4 values, TMA     store, 2 parts of  2816 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+     0.8510    2924   87%      0.98x      264    512 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  2 of  2 blocks on an SM)
+     0.8515    2923   87%      0.98x      264    384 threads, 16 values, TMA     store, 6 parts of  1904 values  ( 92 registers, 114240 B shared,  1 of  2 blocks on an SM)
+     0.8518    2922   87%      0.98x      264    384 threads,  4 values, TMA     store, 2 parts of  5728 values  ( 48 registers, 114560 B shared,  2 of  2 blocks on an SM)
+     0.8523    2920   87%      0.97x      528    192 threads,  8 values, TMA     store, 2 parts of  2816 values  ( 60 registers,  56320 B shared,  4 of  4 blocks on an SM)
+     0.8531    2917   87%      0.97x      528    128 threads,  4 values, TMA     store, 2 parts of  2816 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+     0.8547    2912   87%      0.97x      528    256 threads,  4 values, TMA     store, 4 parts of  1408 values  ( 48 registers,  56320 B shared,  4 of  4 blocks on an SM)
+     0.8549    2911   87%      0.97x      132    256 threads, 32 values, TMA     store, 8 parts of  2888 values  (183 registers, 231040 B shared,  1 of  1 blocks on an SM)
+     0.8551    2911   87%      0.97x      264    384 threads,  8 values, TMA     store, 2 parts of  5728 values  ( 60 registers, 114560 B shared,  2 of  2 blocks on an SM)
+     0.8556    2909   87%      0.97x      264     64 threads,  4 values, TMA     store, 7 parts of  1632 values  ( 48 registers, 114240 B shared,  2 of  2 blocks on an SM)
+    every setting: cuda/tests/results/H100/adamw_tma_bf16_2026-11-22_144452.csv
+    input: same_count_val                       expected: 4544   actual: 4544   ok  (line 646)
+
+all tunes done

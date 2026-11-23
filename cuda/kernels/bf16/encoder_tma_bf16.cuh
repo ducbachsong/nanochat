@@ -38,6 +38,8 @@ bool encoder_tma_bf16_plan(EncoderTmaBf16Tile* tile_ptr, size_t* shared_bytes_pt
                            int tile_columns_val, int stages_val, int batch_size_val, int seq_len_val, int embed_dim_val);
 CUtensorMap encoder_tma_bf16_tensor_map(const nv_bfloat16* matrix_ptr, size_t matrix_rows_val, size_t matrix_columns_val,
                                         int box_columns_val, int box_rows_val, int swizzle_bytes_val);
+CUresult encoder_tma_bf16_try_tensor_map(CUtensorMap* map_ptr, const nv_bfloat16* matrix_ptr, size_t matrix_rows_val,
+                                         size_t matrix_columns_val, int box_columns_val, int box_rows_val, int swizzle_bytes_val);
 
 // ══ the code, in the order of the list above ══════════════════════════════════
 
@@ -420,7 +422,7 @@ inline bool encoder_tma_bf16_plan(EncoderTmaBf16Tile* tile_ptr, size_t* shared_b
     return true;
 }
 
-/// Makes TMA's description of a bfloat16 matrix, with boxes of box_rows rows of box_columns values.
+/// Makes TMA's description of a bfloat16 matrix, with boxes of box_rows rows of box_columns values; stops on an error.
 ///
 ///   matrix_ptr                               the matrix in GPU memory, on 16 bytes
 ///   matrix_rows_val, matrix_columns_val      its shape, rows of matrix_columns_val values
@@ -428,7 +430,25 @@ inline bool encoder_tma_bf16_plan(EncoderTmaBf16Tile* tile_ptr, size_t* shared_b
 ///   swizzle_bytes_val                        128 or 0
 inline CUtensorMap encoder_tma_bf16_tensor_map(const nv_bfloat16* matrix_ptr, size_t matrix_rows_val, size_t matrix_columns_val,
                                                int box_columns_val, int box_rows_val, int swizzle_bytes_val) {
-    // The driver's cuTensorMapEncodeTiled, found at run time; past the edges: 0s.
+    CUtensorMap map_val;
+    CUresult result_val = encoder_tma_bf16_try_tensor_map(&map_val, matrix_ptr, matrix_rows_val, matrix_columns_val, box_columns_val,
+                                                          box_rows_val, swizzle_bytes_val);
+    if (result_val != CUDA_SUCCESS) {
+        fprintf(stderr, "error: cuTensorMapEncodeTiled gave %d for a {%zu, %zu} matrix, box {%d, %d}, swizzle %d\n", (int)result_val,
+                matrix_rows_val, matrix_columns_val, box_rows_val, box_columns_val, swizzle_bytes_val);
+        exit(EXIT_FAILURE);
+    }
+    return map_val;
+}
+
+/// Makes TMA's description of a bfloat16 matrix, as encoder_tma_bf16_tensor_map, and gives the driver's result instead of stopping.
+///
+///   map_ptr                                  written: the description, when the result is CUDA_SUCCESS
+///   matrix_ptr ... swizzle_bytes_val         as in encoder_tma_bf16_tensor_map
+inline CUresult encoder_tma_bf16_try_tensor_map(CUtensorMap* map_ptr, const nv_bfloat16* matrix_ptr, size_t matrix_rows_val,
+                                                size_t matrix_columns_val, int box_columns_val, int box_rows_val, int swizzle_bytes_val) {
+    // The driver's cuTensorMapEncodeTiled, found at run time; past the edges: 0s. A tune skips a setting whose map the
+    // driver refuses, rather than stopping.
     static PFN_cuTensorMapEncodeTiled_v12000 encode_ptr = [] {
         void* function_ptr = nullptr;
         cudaDriverEntryPointQueryResult status_val;
@@ -439,21 +459,14 @@ inline CUtensorMap encoder_tma_bf16_tensor_map(const nv_bfloat16* matrix_ptr, si
         }
         return reinterpret_cast<PFN_cuTensorMapEncodeTiled_v12000>(function_ptr);
     }();
-    CUtensorMap map_val;
     cuuint64_t sizes_list[2] = {matrix_columns_val, matrix_rows_val};
     cuuint64_t row_bytes_list[1] = {matrix_columns_val * sizeof(nv_bfloat16)};
     cuuint32_t box_list[2] = {(cuuint32_t)box_columns_val, (cuuint32_t)box_rows_val};
     cuuint32_t element_steps_list[2] = {1, 1};
-    CUresult result_val = encode_ptr(&map_val, CU_TENSOR_MAP_DATA_TYPE_BFLOAT16, 2, const_cast<nv_bfloat16*>(matrix_ptr), sizes_list,
-                                     row_bytes_list, box_list, element_steps_list, CU_TENSOR_MAP_INTERLEAVE_NONE,
-                                     swizzle_bytes_val != 0 ? CU_TENSOR_MAP_SWIZZLE_128B : CU_TENSOR_MAP_SWIZZLE_NONE,
-                                     CU_TENSOR_MAP_L2_PROMOTION_L2_256B, CU_TENSOR_MAP_FLOAT_OOB_FILL_NONE);
-    if (result_val != CUDA_SUCCESS) {
-        fprintf(stderr, "error: cuTensorMapEncodeTiled gave %d for a {%zu, %zu} matrix, box {%d, %d}, swizzle %d\n", (int)result_val,
-                matrix_rows_val, matrix_columns_val, box_rows_val, box_columns_val, swizzle_bytes_val);
-        exit(EXIT_FAILURE);
-    }
-    return map_val;
+    return encode_ptr(map_ptr, CU_TENSOR_MAP_DATA_TYPE_BFLOAT16, 2, const_cast<nv_bfloat16*>(matrix_ptr), sizes_list, row_bytes_list,
+                      box_list, element_steps_list, CU_TENSOR_MAP_INTERLEAVE_NONE,
+                      swizzle_bytes_val != 0 ? CU_TENSOR_MAP_SWIZZLE_128B : CU_TENSOR_MAP_SWIZZLE_NONE, CU_TENSOR_MAP_L2_PROMOTION_L2_256B,
+                      CU_TENSOR_MAP_FLOAT_OOB_FILL_NONE);
 }
 
 #endif // ENCODER_TMA_BF16_CUH

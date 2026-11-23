@@ -1,0 +1,168 @@
+log: cuda/tests/results/H100/cutlass_mma_bf16_2026-11-23_074157.txt
+GPU: NVIDIA H100 PCIe   compute 9.0   114 SMs   85.0 GB   peak memory bandwidth 2039 GB/s   peak bfloat16 819 TFLOPS   CUDA 12.8
+
+nanochat d24: 15 products; CUTLASS's Sm80 products (mma.sync m16n8k16, no wgmma, no TMA) against cuBLAS
+
+qkv forward: output {32768, 4608}, sum of 1536: 0.46 TFLOP
+    PyTorch (cuBLAS, wgmma): 0.9688 ms, 479 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+     1.7021     273     0.57x  0.0e+00   block 128 x 256 x 32, warp  64 x  64,  3 stages, split 1
+     1.7106     271     0.57x  0.0e+00   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+     1.7193     270     0.56x  0.0e+00   block 256 x 128 x 32, warp  64 x  64,  3 stages, split 1
+     1.7573     264     0.55x  0.0e+00   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+     1.7839     260     0.54x  0.0e+00   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 1
+
+qkv input_grad: output {32768, 1536}, sum of 4608, right turned: 0.46 TFLOP
+    PyTorch (cuBLAS, wgmma): 0.9589 ms, 484 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+     1.6430     282     0.58x  0.0e+00   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+     1.6593     280     0.58x  0.0e+00   block 128 x 128 x 32, warp  64 x  64,  5 stages, split 1
+     1.6649     279     0.58x  0.0e+00   block 128 x 128 x 32, warp  64 x  64,  4 stages, split 1
+     1.6726     277     0.57x  0.0e+00   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+     1.7638     263     0.54x  0.0e+00   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 1
+
+qkv weight_grad: output {4608, 1536}, sum of 32768, left turned, right turned, added onto: 0.46 TFLOP
+    PyTorch (cuBLAS, wgmma): 0.9606 ms, 483 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+     1.5733     295     0.61x  0.0e+00   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+     1.5849     293     0.61x  0.0e+00   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 1
+     1.5958     291     0.60x  4.1e-03   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 2
+     1.6796     276     0.57x  0.0e+00   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+     1.6882     275     0.57x  4.1e-03   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 2
+
+attention_output forward: output {32768, 1536}, sum of 1536: 0.15 TFLOP
+    PyTorch (cuBLAS, wgmma): 0.3377 ms, 458 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+     0.5563     278     0.61x  0.0e+00   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+     0.5664     273     0.60x  0.0e+00   block 128 x 256 x 32, warp  64 x  64,  3 stages, split 1
+     0.5760     268     0.59x  0.0e+00   block 256 x 128 x 32, warp  64 x  64,  3 stages, split 1
+     0.5818     266     0.58x  0.0e+00   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+     0.5939     260     0.57x  0.0e+00   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 1
+
+attention_output input_grad: output {32768, 1536}, sum of 1536, right turned: 0.15 TFLOP
+    PyTorch (cuBLAS, wgmma): 0.3422 ms, 452 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+     0.5599     276     0.61x  0.0e+00   block 128 x 128 x 32, warp  64 x  64,  5 stages, split 1
+     0.5627     275     0.61x  0.0e+00   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+     0.5667     273     0.60x  0.0e+00   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+     0.5669     273     0.60x  0.0e+00   block 128 x 128 x 32, warp  64 x  64,  4 stages, split 1
+     0.6016     257     0.57x  0.0e+00   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 1
+
+attention_output weight_grad: output {1536, 1536}, sum of 32768, left turned, right turned, added onto: 0.15 TFLOP
+    PyTorch (cuBLAS, wgmma): 0.3729 ms, 415 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+     0.5629     275     0.66x  8.4e-03   block 128 x 128 x 32, warp  64 x  64,  4 stages, split 8
+     0.5677     272     0.66x  8.4e-03   block 128 x 128 x 32, warp  64 x  64,  5 stages, split 8
+     0.5738     269     0.65x  8.4e-03   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 8
+     0.5920     261     0.63x  4.2e-03   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 4
+     0.5942     260     0.63x  4.2e-03   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 4
+     0.7455     207     0.50x  0.0e+00   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+
+mlp_up forward: output {32768, 6144}, sum of 1536: 0.62 TFLOP
+    PyTorch (cuBLAS, wgmma): 1.3128 ms, 471 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+     2.3440     264     0.56x  0.0e+00   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+     2.3873     259     0.55x  0.0e+00   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+     2.4228     255     0.54x  0.0e+00   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 1
+     2.4949     248     0.53x  0.0e+00   block 128 x 128 x 32, warp  64 x  64,  5 stages, split 1
+     2.5767     240     0.51x  0.0e+00   block 128 x 128 x 32, warp  64 x  64,  4 stages, split 1
+
+mlp_up input_grad: output {32768, 1536}, sum of 6144, right turned: 0.62 TFLOP
+    PyTorch (cuBLAS, wgmma): 1.2812 ms, 483 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+     2.2103     280     0.58x  0.0e+00   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+     2.2251     278     0.58x  0.0e+00   block 128 x 128 x 32, warp  64 x  64,  5 stages, split 1
+     2.2365     277     0.57x  0.0e+00   block 128 x 128 x 32, warp  64 x  64,  4 stages, split 1
+     2.2501     275     0.57x  0.0e+00   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+     2.3618     262     0.54x  0.0e+00   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 1
+
+mlp_up weight_grad: output {6144, 1536}, sum of 32768, left turned, right turned, added onto: 0.62 TFLOP
+    PyTorch (cuBLAS, wgmma): 1.3902 ms, 445 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+     2.1798     284     0.64x  6.2e-03   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 4
+     2.1918     282     0.63x  6.2e-03   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 4
+     2.1951     282     0.63x  8.2e-03   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 8
+     2.2030     281     0.63x  6.2e-03   block 128 x 256 x 32, warp  64 x  64,  3 stages, split 4
+     2.2095     280     0.63x  8.2e-03   block 128 x 256 x 32, warp  64 x  64,  3 stages, split 8
+     2.2883     270     0.61x  0.0e+00   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+
+mlp_down forward: output {32768, 1536}, sum of 6144: 0.62 TFLOP
+    PyTorch (cuBLAS, wgmma): 1.2536 ms, 493 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+     2.2150     279     0.57x  0.0e+00   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+     2.2626     273     0.55x  0.0e+00   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+     2.3006     269     0.54x  0.0e+00   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 1
+     2.3271     266     0.54x  0.0e+00   block 128 x 128 x 32, warp  64 x  64,  5 stages, split 1
+     2.4823     249     0.51x  0.0e+00   block 128 x 128 x 64, warp  64 x  64,  4 stages, split 1
+
+mlp_down input_grad: output {32768, 6144}, sum of 1536, right turned: 0.62 TFLOP
+    PyTorch (cuBLAS, wgmma): 1.3490 ms, 458 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+     2.3117     268     0.58x  0.0e+00   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+     2.3580     262     0.57x  0.0e+00   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+     2.3582     262     0.57x  0.0e+00   block 128 x 128 x 32, warp  64 x  64,  5 stages, split 1
+     2.3720     261     0.57x  0.0e+00   block 128 x 128 x 32, warp  64 x  64,  4 stages, split 1
+     2.4536     252     0.55x  0.0e+00   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 1
+
+mlp_down weight_grad: output {1536, 6144}, sum of 32768, left turned, right turned, added onto: 0.62 TFLOP
+    PyTorch (cuBLAS, wgmma): 1.3998 ms, 442 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+     2.1820     283     0.64x  3.8e-03   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 4
+     2.2071     280     0.63x  3.8e-03   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 4
+     2.2136     279     0.63x  3.8e-03   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 4
+     2.2233     278     0.63x  7.6e-03   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 8
+     2.2298     277     0.63x  3.8e-03   block 128 x 256 x 32, warp  64 x  64,  3 stages, split 4
+     2.3243     266     0.60x  0.0e+00   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 1
+
+head forward: output {32768, 32768}, sum of 1536: 3.30 TFLOP
+    PyTorch (cuBLAS, wgmma): 6.7460 ms, 489 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+    12.1450     272     0.56x  0.0e+00   block 128 x 256 x 32, warp  64 x  64,  3 stages, split 1
+    12.2708     269     0.55x  0.0e+00   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+    12.2913     268     0.55x  0.0e+00   block 256 x 128 x 32, warp  64 x  64,  3 stages, split 1
+    12.7822     258     0.53x  0.0e+00   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+    12.9617     254     0.52x  0.0e+00   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 1
+
+head input_grad: output {32768, 1536}, sum of 32768, right turned: 3.30 TFLOP
+    PyTorch (cuBLAS, wgmma): 6.6024 ms, 500 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+    11.5902     285     0.57x  0.0e+00   block 128 x 128 x 32, warp  64 x  64,  5 stages, split 1
+    11.6154     284     0.57x  0.0e+00   block 128 x 128 x 32, warp  64 x  64,  4 stages, split 1
+    11.6378     283     0.57x  0.0e+00   block 128 x 256 x 32, warp  64 x  64,  3 stages, split 1
+    11.6731     283     0.57x  0.0e+00   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+    11.8977     277     0.55x  0.0e+00   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+
+head weight_grad: output {32768, 1536}, sum of 32768, left turned, right turned, added onto: 3.30 TFLOP
+    PyTorch (cuBLAS, wgmma): 6.5032 ms, 507 TFLOPS
+         ms  TFLOPS  x cuBLAS   error    setting
+    11.3895     290     0.57x  0.0e+00   block 128 x 128 x 32, warp  64 x  64,  5 stages, split 1
+    11.4082     289     0.57x  0.0e+00   block 256 x 128 x 64, warp  64 x  64,  3 stages, split 1
+    11.4283     289     0.57x  0.0e+00   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+    11.5454     286     0.56x  0.0e+00   block 128 x 256 x 32, warp  64 x  64,  3 stages, split 1
+    11.6946     282     0.56x  0.0e+00   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+
+every setting: cuda/tests/results/H100/cutlass_mma_bf16_2026-11-23_074157.csv
+
+every_product
+    product                         cuBLAS   CUTLASS  x cuBLAS  no split   best setting
+    qkv forward                     0.9688    1.7021     0.57x    1.7021   block 128 x 256 x 32, warp  64 x  64,  3 stages, split 1
+    qkv input_grad                  0.9589    1.6430     0.58x    1.6430   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+    qkv weight_grad                 0.9606    1.5733     0.61x    1.5733   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+    attention_output forward        0.3377    0.5563     0.61x    0.5563   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+    attention_output input_grad     0.3422    0.5599     0.61x    0.5599   block 128 x 128 x 32, warp  64 x  64,  5 stages, split 1
+    attention_output weight_grad    0.3729    0.5629     0.66x    0.7455   block 128 x 128 x 32, warp  64 x  64,  4 stages, split 8
+    mlp_up forward                  1.3128    2.3440     0.56x    2.3440   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+    mlp_up input_grad               1.2812    2.2103     0.58x    2.2103   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+    mlp_up weight_grad              1.3902    2.1798     0.64x    2.2883   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 4
+    mlp_down forward                1.2536    2.2150     0.57x    2.2150   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 1
+    mlp_down input_grad             1.3490    2.3117     0.58x    2.3117   block 128 x 256 x 64, warp  64 x  64,  3 stages, split 1
+    mlp_down weight_grad            1.3998    2.1820     0.64x    2.3243   block 128 x 128 x 64, warp  64 x  64,  3 stages, split 4
+    head forward                    6.7460   12.1450     0.56x   12.1450   block 128 x 256 x 32, warp  64 x  64,  3 stages, split 1
+    head input_grad                 6.6024   11.5902     0.57x   11.5902   block 128 x 128 x 32, warp  64 x  64,  5 stages, split 1
+    head weight_grad                6.5032   11.3895     0.57x   11.3895   block 128 x 128 x 32, warp  64 x  64,  5 stages, split 1
+    all, once each                 31.7790   55.1649     0.58x   55.5983
+
+main
+    input: (long)wrong_val                      expected: 0   actual: 0   ok  (line 351)
+
+all tunes done

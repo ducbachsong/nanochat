@@ -1,0 +1,1305 @@
+log: cuda/tests/results/H100/mma_tma_matmul_bf16_2026-11-23_052106.txt
+GPU: NVIDIA H100 PCIe   compute 9.0   114 SMs   85.0 GB   peak memory bandwidth 2039 GB/s   peak bfloat16 819 TFLOPS   CUDA 12.8
+
+nanochat d24: 32768 rows, embed_dim 1536, qkv 4608, mlp 6144, vocab 32768, no linear bias; 15 products
+each kernel: registers a thread for each pair of turned flags (S: spills; X: refused; its settings skipped)
+    square     k  threads  warps   swizzle    part B  sums   neither turned  right turned  both turned
+     64 x  64  16       32  1 x  1  swizzled     4096   128   168 regs        168 regs        168 regs     
+     64 x  64  16       32  1 x  1  none         4096   128   164 regs        165 regs        167 regs     
+     64 x  64  16       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+     64 x  64  16       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+     64 x  64  16       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+     64 x  64  16       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+     64 x  64  16       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+     64 x  64  16       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+     64 x  64  16       64  1 x  2  swizzled     4096    64   104 regs        124 regs        128 regs     
+     64 x  64  16       64  1 x  2  none         4096    64    92 regs        120 regs        128 regs     
+     64 x  64  16       64  2 x  1  swizzled     4096    64    96 regs        128 regs        128 regs     
+     64 x  64  16       64  2 x  1  none         4096    64   114 regs        127 regs         94 regs     
+     64 x  64  16       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+     64 x  64  16       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+     64 x  64  16       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+     64 x  64  16       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+     64 x  64  16      128  1 x  4  swizzled     4096    32    70 regs         77 regs        125 regs     
+     64 x  64  16      128  1 x  4  none         4096    32    53 regs         54 regs         64 regs     
+     64 x  64  16      128  2 x  2  swizzled     4096    32    70 regs         79 regs         56 regs     
+     64 x  64  16      128  2 x  2  none         4096    32    56 regs         63 regs         64 regs     
+     64 x  64  16      128  4 x  1  swizzled     4096    32    69 regs         56 regs        124 regs     
+     64 x  64  16      128  4 x  1  none         4096    32    53 regs         55 regs         54 regs     
+     64 x  64  16      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+     64 x  64  16      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+     64 x  64  16      256  1 x  8  swizzled     4096    16    40 regs         32 regs         71 regs     
+     64 x  64  16      256  1 x  8  none         4096    16    38 regs         39 regs         40 regs     
+     64 x  64  16      256  2 x  4  swizzled     4096    16    37 regs         39 regs         62 regs     
+     64 x  64  16      256  2 x  4  none         4096    16    38 regs         39 regs         48 regs     
+     64 x  64  16      256  4 x  2  swizzled     4096    16    46 regs         39 regs         40 regs     
+     64 x  64  16      256  4 x  2  none         4096    16    38 regs         39 regs         40 regs     
+     64 x  64  16      256  8 x  1  swizzled        0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  16      256  8 x  1  none            0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  16      512  1 x 16  swizzled        0     0   not built: warps do not split the square: 1 x 16 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  16      512  1 x 16  none            0     0   not built: warps do not split the square: 1 x 16 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  16      512  2 x  8  swizzled     4096     8    32 regs         32 regs         40 regs     
+     64 x  64  16      512  2 x  8  none         4096     8    32 regs         32 regs         40 regs     
+     64 x  64  16      512  4 x  4  swizzled     4096     8    32 regs         32 regs         32 regs     
+     64 x  64  16      512  4 x  4  none         4096     8    30 regs         30 regs         32 regs     
+     64 x  64  16      512  8 x  2  swizzled        0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  16      512  8 x  2  none            0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  16     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  16     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  16     1024  2 x 16  swizzled        0     0   not built: warps do not split the square: 2 x 16 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  16     1024  2 x 16  none            0     0   not built: warps do not split the square: 2 x 16 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  16     1024  4 x  8  swizzled     4096     4    28 regs         28 regs         28 regs     
+     64 x  64  16     1024  4 x  8  none         4096     4    28 regs         28 regs         28 regs     
+     64 x  64  16     1024  8 x  4  swizzled        0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  16     1024  8 x  4  none            0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  32       32  1 x  1  swizzled     8192   128   220 regs        254 regs        254 regs     
+     64 x  64  32       32  1 x  1  none         8192   128   164 regs        165 regs        195 regs     
+     64 x  64  32       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+     64 x  64  32       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+     64 x  64  32       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+     64 x  64  32       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+     64 x  64  32       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+     64 x  64  32       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+     64 x  64  32       64  1 x  2  swizzled     8192    64   128 regs        164 regs        168 regs     
+     64 x  64  32       64  1 x  2  none         8192    64    93 regs         95 regs        128 regs     
+     64 x  64  32       64  2 x  1  swizzled     8192    64   128 regs        128 regs        168 regs     
+     64 x  64  32       64  2 x  1  none         8192    64    94 regs         93 regs         95 regs     
+     64 x  64  32       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+     64 x  64  32       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+     64 x  64  32       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+     64 x  64  32       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+     64 x  64  32      128  1 x  4  swizzled     8192    32    94 regs         68 regs         64 regs     
+     64 x  64  32      128  1 x  4  none         8192    32    54 regs         63 regs         56 regs     
+     64 x  64  32      128  2 x  2  swizzled     8192    32    92 regs         64 regs         64 regs     
+     64 x  64  32      128  2 x  2  none         8192    32    55 regs         63 regs         64 regs     
+     64 x  64  32      128  4 x  1  swizzled     8192    32    92 regs         64 regs         64 regs     
+     64 x  64  32      128  4 x  1  none         8192    32    55 regs         54 regs         54 regs     
+     64 x  64  32      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+     64 x  64  32      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+     64 x  64  32      256  1 x  8  swizzled     8192    16    68 regs         40 regs         48 regs     
+     64 x  64  32      256  1 x  8  none         8192    16    38 regs         39 regs         40 regs     
+     64 x  64  32      256  2 x  4  swizzled     8192    16    64 regs         47 regs         48 regs     
+     64 x  64  32      256  2 x  4  none         8192    16    36 regs         38 regs         40 regs     
+     64 x  64  32      256  4 x  2  swizzled     8192    16    60 regs         40 regs         40 regs     
+     64 x  64  32      256  4 x  2  none         8192    16    38 regs         38 regs         38 regs     
+     64 x  64  32      256  8 x  1  swizzled        0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  32      256  8 x  1  none            0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  32      512  1 x 16  swizzled        0     0   not built: warps do not split the square: 1 x 16 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  32      512  1 x 16  none            0     0   not built: warps do not split the square: 1 x 16 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  32      512  2 x  8  swizzled     8192     8    32 regs         32 regs         70 regs     
+     64 x  64  32      512  2 x  8  none         8192     8    32 regs         32 regs         31 regs     
+     64 x  64  32      512  4 x  4  swizzled     8192     8    31 regs         32 regs         62 regs     
+     64 x  64  32      512  4 x  4  none         8192     8    31 regs         27 regs         32 regs     
+     64 x  64  32      512  8 x  2  swizzled        0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  32      512  8 x  2  none            0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  32     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  32     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  32     1024  2 x 16  swizzled        0     0   not built: warps do not split the square: 2 x 16 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  32     1024  2 x 16  none            0     0   not built: warps do not split the square: 2 x 16 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  32     1024  4 x  8  swizzled     8192     4    28 regs         31 regs         32 regs     
+     64 x  64  32     1024  4 x  8  none         8192     4    28 regs         28 regs         32 regs     
+     64 x  64  32     1024  8 x  4  swizzled        0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  32     1024  8 x  4  none            0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  64       32  1 x  1  swizzled    16384   128   236 regs        249 regs        255 regs S   
+     64 x  64  64       32  1 x  1  none        16384   128   170 regs        165 regs        201 regs     
+     64 x  64  64       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+     64 x  64  64       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+     64 x  64  64       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+     64 x  64  64       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+     64 x  64  64       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+     64 x  64  64       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+     64 x  64  64       64  1 x  2  swizzled    16384    64   128 regs        128 regs        254 regs     
+     64 x  64  64       64  1 x  2  none        16384    64    94 regs         93 regs        124 regs     
+     64 x  64  64       64  2 x  1  swizzled    16384    64   128 regs        147 regs        255 regs     
+     64 x  64  64       64  2 x  1  none        16384    64    93 regs         95 regs         95 regs     
+     64 x  64  64       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+     64 x  64  64       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+     64 x  64  64       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+     64 x  64  64       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+     64 x  64  64      128  1 x  4  swizzled    16384    32   128 regs         72 regs        118 regs     
+     64 x  64  64      128  1 x  4  none        16384    32    54 regs         55 regs         71 regs     
+     64 x  64  64      128  2 x  2  swizzled    16384    32   125 regs         72 regs         80 regs     
+     64 x  64  64      128  2 x  2  none        16384    32    54 regs         54 regs         64 regs     
+     64 x  64  64      128  4 x  1  swizzled    16384    32   128 regs         64 regs         64 regs     
+     64 x  64  64      128  4 x  1  none        16384    32    54 regs         54 regs         55 regs     
+     64 x  64  64      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+     64 x  64  64      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+     64 x  64  64      256  1 x  8  swizzled    16384    16    56 regs         60 regs         64 regs     
+     64 x  64  64      256  1 x  8  none        16384    16    30 regs         30 regs         59 regs     
+     64 x  64  64      256  2 x  4  swizzled    16384    16    43 regs         48 regs        126 regs     
+     64 x  64  64      256  2 x  4  none        16384    16    42 regs         43 regs         48 regs     
+     64 x  64  64      256  4 x  2  swizzled    16384    16    40 regs         48 regs        163 regs     
+     64 x  64  64      256  4 x  2  none        16384    16    37 regs         38 regs         38 regs     
+     64 x  64  64      256  8 x  1  swizzled        0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  64      256  8 x  1  none            0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  64      512  1 x 16  swizzled        0     0   not built: warps do not split the square: 1 x 16 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  64      512  1 x 16  none            0     0   not built: warps do not split the square: 1 x 16 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  64      512  2 x  8  swizzled    16384     8    32 regs         40 regs         40 regs     
+     64 x  64  64      512  2 x  8  none        16384     8    31 regs         30 regs         32 regs     
+     64 x  64  64      512  4 x  4  swizzled    16384     8    32 regs         40 regs         32 regs     
+     64 x  64  64      512  4 x  4  none        16384     8    31 regs         27 regs         32 regs     
+     64 x  64  64      512  8 x  2  swizzled        0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  64      512  8 x  2  none            0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  64     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  64     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  64     1024  2 x 16  swizzled        0     0   not built: warps do not split the square: 2 x 16 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  64     1024  2 x 16  none            0     0   not built: warps do not split the square: 2 x 16 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  64     1024  4 x  8  swizzled    16384     4    32 regs         32 regs         32 regs     
+     64 x  64  64     1024  4 x  8  none        16384     4    28 regs         26 regs         35 regs     
+     64 x  64  64     1024  8 x  4  swizzled        0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x  64  64     1024  8 x  4  none            0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 64 (whole mma tiles of 16 x 8)
+     64 x 128  16       32  1 x  1  swizzled     6144   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 32 threads
+     64 x 128  16       32  1 x  1  none         6144   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 32 threads
+     64 x 128  16       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+     64 x 128  16       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+     64 x 128  16       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+     64 x 128  16       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+     64 x 128  16       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+     64 x 128  16       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+     64 x 128  16       64  1 x  2  swizzled     6144   128   168 regs        168 regs        255 regs     
+     64 x 128  16       64  1 x  2  none         6144   128   163 regs        164 regs        217 regs     
+     64 x 128  16       64  2 x  1  swizzled     6144   128   167 regs        168 regs        252 regs     
+     64 x 128  16       64  2 x  1  none         6144   128   168 regs        168 regs        167 regs     
+     64 x 128  16       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+     64 x 128  16       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+     64 x 128  16       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+     64 x 128  16       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+     64 x 128  16      128  1 x  4  swizzled     6144    64   104 regs         96 regs        128 regs     
+     64 x 128  16      128  1 x  4  none         6144    64    93 regs        119 regs        128 regs     
+     64 x 128  16      128  2 x  2  swizzled     6144    64    96 regs         96 regs         96 regs     
+     64 x 128  16      128  2 x  2  none         6144    64    92 regs        125 regs         93 regs     
+     64 x 128  16      128  4 x  1  swizzled     6144    64    96 regs        168 regs        168 regs     
+     64 x 128  16      128  4 x  1  none         6144    64    94 regs         94 regs         94 regs     
+     64 x 128  16      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+     64 x 128  16      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+     64 x 128  16      256  1 x  8  swizzled     6144    32    69 regs         76 regs         80 regs     
+     64 x 128  16      256  1 x  8  none         6144    32    56 regs         54 regs         64 regs     
+     64 x 128  16      256  2 x  4  swizzled     6144    32    69 regs         77 regs         59 regs     
+     64 x 128  16      256  2 x  4  none         6144    32    54 regs         54 regs         64 regs     
+     64 x 128  16      256  4 x  2  swizzled     6144    32    68 regs         64 regs         60 regs     
+     64 x 128  16      256  4 x  2  none         6144    32    48 regs         48 regs         48 regs     
+     64 x 128  16      256  8 x  1  swizzled        0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  16      256  8 x  1  none            0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  16      512  1 x 16  swizzled     6144    16    40 regs         32 regs         93 regs     
+     64 x 128  16      512  1 x 16  none         6144    16    30 regs         30 regs         32 regs     
+     64 x 128  16      512  2 x  8  swizzled     6144    16    37 regs         40 regs         63 regs     
+     64 x 128  16      512  2 x  8  none         6144    16    38 regs         38 regs         40 regs     
+     64 x 128  16      512  4 x  4  swizzled     6144    16    32 regs         40 regs         63 regs     
+     64 x 128  16      512  4 x  4  none         6144    16    32 regs         32 regs         32 regs     
+     64 x 128  16      512  8 x  2  swizzled        0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  16      512  8 x  2  none            0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  16     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  16     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  16     1024  2 x 16  swizzled     6144     8    32 regs         30 regs         32 regs     
+     64 x 128  16     1024  2 x 16  none         6144     8    32 regs         32 regs         32 regs     
+     64 x 128  16     1024  4 x  8  swizzled     6144     8    28 regs         32 regs         32 regs     
+     64 x 128  16     1024  4 x  8  none         6144     8    28 regs         28 regs         32 regs     
+     64 x 128  16     1024  8 x  4  swizzled        0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  16     1024  8 x  4  none            0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  32       32  1 x  1  swizzled    12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 32 threads
+     64 x 128  32       32  1 x  1  none        12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 32 threads
+     64 x 128  32       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+     64 x 128  32       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+     64 x 128  32       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+     64 x 128  32       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+     64 x 128  32       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+     64 x 128  32       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+     64 x 128  32       64  1 x  2  swizzled    12288   128   220 regs        254 regs        254 regs     
+     64 x 128  32       64  1 x  2  none        12288   128   164 regs        165 regs        218 regs     
+     64 x 128  32       64  2 x  1  swizzled    12288   128   246 regs        168 regs        254 regs     
+     64 x 128  32       64  2 x  1  none        12288   128   164 regs        167 regs        206 regs     
+     64 x 128  32       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+     64 x 128  32       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+     64 x 128  32       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+     64 x 128  32       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+     64 x 128  32      128  1 x  4  swizzled    12288    64   128 regs        164 regs        128 regs S   
+     64 x 128  32      128  1 x  4  none        12288    64    93 regs         95 regs        128 regs     
+     64 x 128  32      128  2 x  2  swizzled    12288    64   128 regs        127 regs        144 regs     
+     64 x 128  32      128  2 x  2  none        12288    64    94 regs         93 regs        125 regs     
+     64 x 128  32      128  4 x  1  swizzled    12288    64   164 regs         96 regs         96 regs     
+     64 x 128  32      128  4 x  1  none        12288    64    93 regs         93 regs         93 regs     
+     64 x 128  32      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+     64 x 128  32      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+     64 x 128  32      256  1 x  8  swizzled    12288    32    65 regs         68 regs         64 regs     
+     64 x 128  32      256  1 x  8  none        12288    32    62 regs         62 regs         59 regs     
+     64 x 128  32      256  2 x  4  swizzled    12288    32    64 regs         64 regs         64 regs     
+     64 x 128  32      256  2 x  4  none        12288    32    56 regs         63 regs         63 regs     
+     64 x 128  32      256  4 x  2  swizzled    12288    32    64 regs         64 regs         64 regs     
+     64 x 128  32      256  4 x  2  none        12288    32    54 regs         54 regs         56 regs     
+     64 x 128  32      256  8 x  1  swizzled        0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  32      256  8 x  1  none            0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  32      512  1 x 16  swizzled    12288    16    81 regs         61 regs         60 regs     
+     64 x 128  32      512  1 x 16  none        12288    16    30 regs         30 regs         49 regs     
+     64 x 128  32      512  2 x  8  swizzled    12288    16    64 regs         49 regs         55 regs     
+     64 x 128  32      512  2 x  8  none        12288    16    36 regs         38 regs         40 regs     
+     64 x 128  32      512  4 x  4  swizzled    12288    16    59 regs         40 regs         64 regs     
+     64 x 128  32      512  4 x  4  none        12288    16    32 regs         32 regs         32 regs     
+     64 x 128  32      512  8 x  2  swizzled        0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  32      512  8 x  2  none            0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  32     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  32     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  32     1024  2 x 16  swizzled    12288     8    32 regs         32 regs         32 regs     
+     64 x 128  32     1024  2 x 16  none        12288     8    30 regs         30 regs         31 regs     
+     64 x 128  32     1024  4 x  8  swizzled    12288     8    31 regs         32 regs         32 regs     
+     64 x 128  32     1024  4 x  8  none        12288     8    31 regs         28 regs         32 regs     
+     64 x 128  32     1024  8 x  4  swizzled        0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  32     1024  8 x  4  none            0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  64       32  1 x  1  swizzled    24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 32 threads
+     64 x 128  64       32  1 x  1  none        24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 32 threads
+     64 x 128  64       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+     64 x 128  64       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+     64 x 128  64       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+     64 x 128  64       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+     64 x 128  64       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+     64 x 128  64       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+     64 x 128  64       64  1 x  2  swizzled    24576   128   233 regs        242 regs        255 regs S   
+     64 x 128  64       64  1 x  2  none        24576   128   170 regs        165 regs        218 regs     
+     64 x 128  64       64  2 x  1  swizzled    24576   128   254 regs        255 regs        255 regs     
+     64 x 128  64       64  2 x  1  none        24576   128   164 regs        208 regs        220 regs     
+     64 x 128  64       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+     64 x 128  64       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+     64 x 128  64       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+     64 x 128  64       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+     64 x 128  64      128  1 x  4  swizzled    24576    64   128 regs        128 regs        139 regs     
+     64 x 128  64      128  1 x  4  none        24576    64    96 regs         93 regs        128 regs     
+     64 x 128  64      128  2 x  2  swizzled    24576    64   128 regs        128 regs        128 regs     
+     64 x 128  64      128  2 x  2  none        24576    64    94 regs         93 regs         93 regs     
+     64 x 128  64      128  4 x  1  swizzled    24576    64   128 regs        128 regs        128 regs     
+     64 x 128  64      128  4 x  1  none        24576    64    94 regs         93 regs         94 regs     
+     64 x 128  64      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+     64 x 128  64      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+     64 x 128  64      256  1 x  8  swizzled    24576    32   128 regs         80 regs        122 regs     
+     64 x 128  64      256  1 x  8  none        24576    32    56 regs         56 regs         63 regs     
+     64 x 128  64      256  2 x  4  swizzled    24576    32   125 regs         80 regs         80 regs     
+     64 x 128  64      256  2 x  4  none        24576    32    54 regs         54 regs         55 regs     
+     64 x 128  64      256  4 x  2  swizzled    24576    32   164 regs         64 regs         64 regs     
+     64 x 128  64      256  4 x  2  none        24576    32    48 regs         48 regs         61 regs     
+     64 x 128  64      256  8 x  1  swizzled        0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  64      256  8 x  1  none            0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  64      512  1 x 16  swizzled    24576    16    63 regs         56 regs         64 regs     
+     64 x 128  64      512  1 x 16  none        24576    16    30 regs         30 regs         56 regs     
+     64 x 128  64      512  2 x  8  swizzled    24576    16    40 regs         60 regs        127 regs     
+     64 x 128  64      512  2 x  8  none        24576    16    40 regs         39 regs         56 regs     
+     64 x 128  64      512  4 x  4  swizzled    24576    16    40 regs         64 regs        128 regs     
+     64 x 128  64      512  4 x  4  none        24576    16    37 regs         38 regs         40 regs     
+     64 x 128  64      512  8 x  2  swizzled        0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  64      512  8 x  2  none            0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  64     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  64     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  64     1024  2 x 16  swizzled    24576     8    32 regs         58 regs         61 regs     
+     64 x 128  64     1024  2 x 16  none        24576     8    31 regs         30 regs         32 regs     
+     64 x 128  64     1024  4 x  8  swizzled    24576     8    32 regs         46 regs         46 regs     
+     64 x 128  64     1024  4 x  8  none        24576     8    31 regs         28 regs         32 regs     
+     64 x 128  64     1024  8 x  4  swizzled        0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 128  64     1024  8 x  4  none            0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 128 (whole mma tiles of 16 x 8)
+     64 x 256  16       32  1 x  1  swizzled    10240   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+     64 x 256  16       32  1 x  1  none        10240   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+     64 x 256  16       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+     64 x 256  16       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+     64 x 256  16       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+     64 x 256  16       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+     64 x 256  16       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+     64 x 256  16       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+     64 x 256  16       64  1 x  2  swizzled    10240   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+     64 x 256  16       64  1 x  2  none        10240   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+     64 x 256  16       64  2 x  1  swizzled    10240   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+     64 x 256  16       64  2 x  1  none        10240   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+     64 x 256  16       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+     64 x 256  16       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+     64 x 256  16       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+     64 x 256  16       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+     64 x 256  16      128  1 x  4  swizzled    10240   128   168 regs        168 regs        168 regs     
+     64 x 256  16      128  1 x  4  none        10240   128   164 regs        165 regs        167 regs     
+     64 x 256  16      128  2 x  2  swizzled    10240   128   168 regs        168 regs        168 regs     
+     64 x 256  16      128  2 x  2  none        10240   128   168 regs        168 regs        166 regs     
+     64 x 256  16      128  4 x  1  swizzled    10240   128   167 regs        168 regs        168 regs     
+     64 x 256  16      128  4 x  1  none        10240   128   166 regs        168 regs        168 regs     
+     64 x 256  16      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+     64 x 256  16      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+     64 x 256  16      256  1 x  8  swizzled    10240    64   111 regs        119 regs        127 regs     
+     64 x 256  16      256  1 x  8  none        10240    64    94 regs         95 regs         97 regs     
+     64 x 256  16      256  2 x  4  swizzled    10240    64    98 regs         95 regs         99 regs     
+     64 x 256  16      256  2 x  4  none        10240    64    94 regs         94 regs         95 regs     
+     64 x 256  16      256  4 x  2  swizzled    10240    64    98 regs        167 regs        167 regs     
+     64 x 256  16      256  4 x  2  none        10240    64    96 regs         95 regs         93 regs     
+     64 x 256  16      256  8 x  1  swizzled        0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  16      256  8 x  1  none            0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  16      512  1 x 16  swizzled    10240    32    86 regs         93 regs         86 regs     
+     64 x 256  16      512  1 x 16  none        10240    32    56 regs         54 regs         64 regs S   
+     64 x 256  16      512  2 x  8  swizzled    10240    32    87 regs         92 regs         59 regs     
+     64 x 256  16      512  2 x  8  none        10240    32    54 regs         54 regs         64 regs     
+     64 x 256  16      512  4 x  4  swizzled    10240    32    84 regs         64 regs         60 regs     
+     64 x 256  16      512  4 x  4  none        10240    32    49 regs         49 regs         49 regs     
+     64 x 256  16      512  8 x  2  swizzled        0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  16      512  8 x  2  none            0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  16     1024  1 x 32  swizzled    10240    16    58 regs         32 regs S       63 regs     
+     64 x 256  16     1024  1 x 32  none        10240    16    44 regs         44 regs         49 regs     
+     64 x 256  16     1024  2 x 16  swizzled    10240    16    38 regs         41 regs         55 regs     
+     64 x 256  16     1024  2 x 16  none        10240    16    36 regs         39 regs         41 regs     
+     64 x 256  16     1024  4 x  8  swizzled    10240    16    32 regs         32 regs         50 regs     
+     64 x 256  16     1024  4 x  8  none        10240    16    32 regs         32 regs         32 regs S   
+     64 x 256  16     1024  8 x  4  swizzled        0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  16     1024  8 x  4  none            0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  32       32  1 x  1  swizzled    20480   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+     64 x 256  32       32  1 x  1  none        20480   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+     64 x 256  32       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+     64 x 256  32       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+     64 x 256  32       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+     64 x 256  32       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+     64 x 256  32       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+     64 x 256  32       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+     64 x 256  32       64  1 x  2  swizzled    20480   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+     64 x 256  32       64  1 x  2  none        20480   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+     64 x 256  32       64  2 x  1  swizzled    20480   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+     64 x 256  32       64  2 x  1  none        20480   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+     64 x 256  32       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+     64 x 256  32       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+     64 x 256  32       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+     64 x 256  32       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+     64 x 256  32      128  1 x  4  swizzled    20480   128   222 regs        236 regs        249 regs     
+     64 x 256  32      128  1 x  4  none        20480   128   164 regs        165 regs        196 regs     
+     64 x 256  32      128  2 x  2  swizzled    20480   128   252 regs        244 regs        239 regs     
+     64 x 256  32      128  2 x  2  none        20480   128   164 regs        167 regs        167 regs     
+     64 x 256  32      128  4 x  1  swizzled    20480   128   255 regs        168 regs        168 regs     
+     64 x 256  32      128  4 x  1  none        20480   128   164 regs        164 regs        164 regs     
+     64 x 256  32      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+     64 x 256  32      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+     64 x 256  32      256  1 x  8  swizzled    20480    64   128 regs        167 regs        128 regs S   
+     64 x 256  32      256  1 x  8  none        20480    64    94 regs         95 regs        128 regs     
+     64 x 256  32      256  2 x  4  swizzled    20480    64   128 regs        127 regs        128 regs S   
+     64 x 256  32      256  2 x  4  none        20480    64    94 regs         93 regs         96 regs     
+     64 x 256  32      256  4 x  2  swizzled    20480    64   165 regs        106 regs        106 regs     
+     64 x 256  32      256  4 x  2  none        20480    64    94 regs         93 regs         93 regs     
+     64 x 256  32      256  8 x  1  swizzled        0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  32      256  8 x  1  none            0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  32      512  1 x 16  swizzled    20480    32    83 regs         82 regs        128 regs S   
+     64 x 256  32      512  1 x 16  none        20480    32    53 regs         63 regs         59 regs     
+     64 x 256  32      512  2 x  8  swizzled    20480    32    64 regs         64 regs         64 regs     
+     64 x 256  32      512  2 x  8  none        20480    32    56 regs         63 regs         63 regs     
+     64 x 256  32      512  4 x  4  swizzled    20480    32    64 regs         81 regs         81 regs     
+     64 x 256  32      512  4 x  4  none        20480    32    54 regs         54 regs         64 regs S   
+     64 x 256  32      512  8 x  2  swizzled        0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  32      512  8 x  2  none            0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  32     1024  1 x 32  swizzled    20480    16    64 regs         54 regs         60 regs     
+     64 x 256  32     1024  1 x 32  none        20480    16    43 regs         44 regs         49 regs     
+     64 x 256  32     1024  2 x 16  swizzled    20480    16    52 regs         64 regs         63 regs     
+     64 x 256  32     1024  2 x 16  none        20480    16    36 regs         39 regs         49 regs     
+     64 x 256  32     1024  4 x  8  swizzled    20480    16    54 regs         52 regs         64 regs     
+     64 x 256  32     1024  4 x  8  none        20480    16    32 regs         32 regs         32 regs S   
+     64 x 256  32     1024  8 x  4  swizzled        0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  32     1024  8 x  4  none            0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  64       32  1 x  1  swizzled    40960   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+     64 x 256  64       32  1 x  1  none        40960   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+     64 x 256  64       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+     64 x 256  64       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+     64 x 256  64       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+     64 x 256  64       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+     64 x 256  64       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+     64 x 256  64       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+     64 x 256  64       64  1 x  2  swizzled    40960   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+     64 x 256  64       64  1 x  2  none        40960   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+     64 x 256  64       64  2 x  1  swizzled    40960   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+     64 x 256  64       64  2 x  1  none        40960   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+     64 x 256  64       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+     64 x 256  64       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+     64 x 256  64       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+     64 x 256  64       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+     64 x 256  64      128  1 x  4  swizzled    40960   128   252 regs        254 regs        255 regs     
+     64 x 256  64      128  1 x  4  none        40960   128   170 regs        165 regs        201 regs     
+     64 x 256  64      128  2 x  2  swizzled    40960   128   254 regs        255 regs        255 regs     
+     64 x 256  64      128  2 x  2  none        40960   128   164 regs        208 regs        211 regs     
+     64 x 256  64      128  4 x  1  swizzled    40960   128   255 regs        254 regs        254 regs     
+     64 x 256  64      128  4 x  1  none        40960   128   164 regs        165 regs        165 regs     
+     64 x 256  64      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+     64 x 256  64      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+     64 x 256  64      256  1 x  8  swizzled    40960    64   128 regs        128 regs        139 regs     
+     64 x 256  64      256  1 x  8  none        40960    64    94 regs         95 regs        128 regs     
+     64 x 256  64      256  2 x  4  swizzled    40960    64   128 regs        128 regs        128 regs     
+     64 x 256  64      256  2 x  4  none        40960    64    94 regs         93 regs         96 regs     
+     64 x 256  64      256  4 x  2  swizzled    40960    64   128 regs        205 regs        208 regs     
+     64 x 256  64      256  4 x  2  none        40960    64    94 regs         93 regs         94 regs     
+     64 x 256  64      256  8 x  1  swizzled        0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  64      256  8 x  1  none            0     0   not built: warps do not split the square: 8 x 1 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  64      512  1 x 16  swizzled    40960    32   128 regs         93 regs        113 regs     
+     64 x 256  64      512  1 x 16  none        40960    32    56 regs         56 regs         63 regs     
+     64 x 256  64      512  2 x  8  swizzled    40960    32   125 regs         91 regs         92 regs     
+     64 x 256  64      512  2 x  8  none        40960    32    54 regs         54 regs         55 regs     
+     64 x 256  64      512  4 x  4  swizzled    40960    32   128 regs         81 regs         82 regs     
+     64 x 256  64      512  4 x  4  none        40960    32    48 regs         48 regs         61 regs     
+     64 x 256  64      512  8 x  2  swizzled        0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  64      512  8 x  2  none            0     0   not built: warps do not split the square: 8 x 2 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  64     1024  1 x 32  swizzled    40960    16    63 regs         56 regs         64 regs     
+     64 x 256  64     1024  1 x 32  none        40960    16    42 regs         42 regs         49 regs     
+     64 x 256  64     1024  2 x 16  swizzled    40960    16    51 regs         60 regs         64 regs S   
+     64 x 256  64     1024  2 x 16  none        40960    16    36 regs         40 regs         49 regs     
+     64 x 256  64     1024  4 x  8  swizzled    40960    16    53 regs         64 regs         64 regs     
+     64 x 256  64     1024  4 x  8  none        40960    16    32 regs         32 regs         32 regs S   
+     64 x 256  64     1024  8 x  4  swizzled        0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 256 (whole mma tiles of 16 x 8)
+     64 x 256  64     1024  8 x  4  none            0     0   not built: warps do not split the square: 8 x 4 warps on 64 x 256 (whole mma tiles of 16 x 8)
+    128 x  64  16       32  1 x  1  swizzled     6144   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 32 threads
+    128 x  64  16       32  1 x  1  none         6144   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 32 threads
+    128 x  64  16       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    128 x  64  16       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    128 x  64  16       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    128 x  64  16       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    128 x  64  16       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    128 x  64  16       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    128 x  64  16       64  1 x  2  swizzled     6144   128   202 regs        168 regs        236 regs     
+    128 x  64  16       64  1 x  2  none         6144   128   165 regs        167 regs        167 regs     
+    128 x  64  16       64  2 x  1  swizzled     6144   128   168 regs        168 regs        168 regs     
+    128 x  64  16       64  2 x  1  none         6144   128   164 regs        165 regs        166 regs     
+    128 x  64  16       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    128 x  64  16       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    128 x  64  16       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    128 x  64  16       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    128 x  64  16      128  1 x  4  swizzled     6144    64   121 regs         95 regs        167 regs     
+    128 x  64  16      128  1 x  4  none         6144    64    94 regs        125 regs        127 regs     
+    128 x  64  16      128  2 x  2  swizzled     6144    64   104 regs         96 regs        128 regs     
+    128 x  64  16      128  2 x  2  none         6144    64    93 regs        120 regs        127 regs     
+    128 x  64  16      128  4 x  1  swizzled     6144    64    96 regs         96 regs        128 regs     
+    128 x  64  16      128  4 x  1  none         6144    64   114 regs        127 regs         94 regs     
+    128 x  64  16      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    128 x  64  16      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    128 x  64  16      256  1 x  8  swizzled     6144    32    77 regs         48 regs         80 regs     
+    128 x  64  16      256  1 x  8  none         6144    32    46 regs         46 regs         57 regs     
+    128 x  64  16      256  2 x  4  swizzled     6144    32    69 regs         77 regs         63 regs     
+    128 x  64  16      256  2 x  4  none         6144    32    56 regs         54 regs         64 regs     
+    128 x  64  16      256  4 x  2  swizzled     6144    32    69 regs         79 regs         59 regs     
+    128 x  64  16      256  4 x  2  none         6144    32    54 regs         54 regs         64 regs     
+    128 x  64  16      256  8 x  1  swizzled     6144    32    68 regs         64 regs         60 regs     
+    128 x  64  16      256  8 x  1  none         6144    32    48 regs         48 regs         48 regs     
+    128 x  64  16      512  1 x 16  swizzled        0     0   not built: warps do not split the square: 1 x 16 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  16      512  1 x 16  none            0     0   not built: warps do not split the square: 1 x 16 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  16      512  2 x  8  swizzled     6144    16    40 regs         32 regs         94 regs     
+    128 x  64  16      512  2 x  8  none         6144    16    30 regs         30 regs         32 regs     
+    128 x  64  16      512  4 x  4  swizzled     6144    16    37 regs         39 regs         62 regs     
+    128 x  64  16      512  4 x  4  none         6144    16    38 regs         38 regs         40 regs     
+    128 x  64  16      512  8 x  2  swizzled     6144    16    32 regs         39 regs         62 regs     
+    128 x  64  16      512  8 x  2  none         6144    16    32 regs         32 regs         32 regs     
+    128 x  64  16     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  16     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  16     1024  2 x 16  swizzled        0     0   not built: warps do not split the square: 2 x 16 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  16     1024  2 x 16  none            0     0   not built: warps do not split the square: 2 x 16 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  16     1024  4 x  8  swizzled     6144     8    32 regs         32 regs         32 regs     
+    128 x  64  16     1024  4 x  8  none         6144     8    32 regs         32 regs         32 regs     
+    128 x  64  16     1024  8 x  4  swizzled     6144     8    28 regs         32 regs         32 regs     
+    128 x  64  16     1024  8 x  4  none         6144     8    28 regs         28 regs         32 regs     
+    128 x  64  32       32  1 x  1  swizzled    12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 32 threads
+    128 x  64  32       32  1 x  1  none        12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 32 threads
+    128 x  64  32       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    128 x  64  32       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    128 x  64  32       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    128 x  64  32       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    128 x  64  32       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    128 x  64  32       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    128 x  64  32       64  1 x  2  swizzled    12288   128   254 regs        254 regs        254 regs     
+    128 x  64  32       64  1 x  2  none        12288   128   164 regs        164 regs        212 regs     
+    128 x  64  32       64  2 x  1  swizzled    12288   128   220 regs        254 regs        254 regs     
+    128 x  64  32       64  2 x  1  none        12288   128   164 regs        165 regs        196 regs     
+    128 x  64  32       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    128 x  64  32       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    128 x  64  32       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    128 x  64  32       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    128 x  64  32      128  1 x  4  swizzled    12288    64   128 regs        141 regs        251 regs     
+    128 x  64  32      128  1 x  4  none        12288    64    92 regs         93 regs        127 regs     
+    128 x  64  32      128  2 x  2  swizzled    12288    64   128 regs        164 regs        168 regs     
+    128 x  64  32      128  2 x  2  none        12288    64    93 regs         95 regs        127 regs     
+    128 x  64  32      128  4 x  1  swizzled    12288    64   128 regs        128 regs        168 regs     
+    128 x  64  32      128  4 x  1  none        12288    64    94 regs         93 regs        125 regs     
+    128 x  64  32      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    128 x  64  32      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    128 x  64  32      256  1 x  8  swizzled    12288    32   127 regs         80 regs         78 regs     
+    128 x  64  32      256  1 x  8  none        12288    32    46 regs         46 regs         64 regs     
+    128 x  64  32      256  2 x  4  swizzled    12288    32    65 regs         68 regs         64 regs     
+    128 x  64  32      256  2 x  4  none        12288    32    53 regs         63 regs         59 regs     
+    128 x  64  32      256  4 x  2  swizzled    12288    32    64 regs         64 regs         64 regs     
+    128 x  64  32      256  4 x  2  none        12288    32    56 regs         63 regs         63 regs     
+    128 x  64  32      256  8 x  1  swizzled    12288    32    64 regs         64 regs         64 regs     
+    128 x  64  32      256  8 x  1  none        12288    32    54 regs         54 regs         56 regs     
+    128 x  64  32      512  1 x 16  swizzled        0     0   not built: warps do not split the square: 1 x 16 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  32      512  1 x 16  none            0     0   not built: warps do not split the square: 1 x 16 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  32      512  2 x  8  swizzled    12288    16    81 regs         40 regs         60 regs     
+    128 x  64  32      512  2 x  8  none        12288    16    30 regs         30 regs         49 regs     
+    128 x  64  32      512  4 x  4  swizzled    12288    16    64 regs         54 regs         57 regs     
+    128 x  64  32      512  4 x  4  none        12288    16    36 regs         38 regs         40 regs     
+    128 x  64  32      512  8 x  2  swizzled    12288    16    60 regs         40 regs         56 regs     
+    128 x  64  32      512  8 x  2  none        12288    16    32 regs         32 regs         32 regs     
+    128 x  64  32     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  32     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  32     1024  2 x 16  swizzled        0     0   not built: warps do not split the square: 2 x 16 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  32     1024  2 x 16  none            0     0   not built: warps do not split the square: 2 x 16 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  32     1024  4 x  8  swizzled    12288     8    32 regs         32 regs         32 regs     
+    128 x  64  32     1024  4 x  8  none        12288     8    30 regs         30 regs         31 regs     
+    128 x  64  32     1024  8 x  4  swizzled    12288     8    31 regs         32 regs         32 regs     
+    128 x  64  32     1024  8 x  4  none        12288     8    31 regs         28 regs         32 regs     
+    128 x  64  64       32  1 x  1  swizzled    24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 32 threads
+    128 x  64  64       32  1 x  1  none        24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 32 threads
+    128 x  64  64       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    128 x  64  64       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    128 x  64  64       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    128 x  64  64       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    128 x  64  64       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    128 x  64  64       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    128 x  64  64       64  1 x  2  swizzled    24576   128   254 regs        254 regs        254 regs     
+    128 x  64  64       64  1 x  2  none        24576   128   164 regs        164 regs        217 regs     
+    128 x  64  64       64  2 x  1  swizzled    24576   128   236 regs        249 regs        255 regs S   
+    128 x  64  64       64  2 x  1  none        24576   128   170 regs        165 regs        201 regs     
+    128 x  64  64       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    128 x  64  64       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    128 x  64  64       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    128 x  64  64       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    128 x  64  64      128  1 x  4  swizzled    24576    64   168 regs        143 regs        255 regs S   
+    128 x  64  64      128  1 x  4  none        24576    64    96 regs         91 regs        167 regs     
+    128 x  64  64      128  2 x  2  swizzled    24576    64   128 regs        128 regs        254 regs     
+    128 x  64  64      128  2 x  2  none        24576    64    96 regs         93 regs        128 regs     
+    128 x  64  64      128  4 x  1  swizzled    24576    64   128 regs        147 regs        255 regs     
+    128 x  64  64      128  4 x  1  none        24576    64    94 regs         93 regs        127 regs     
+    128 x  64  64      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    128 x  64  64      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    128 x  64  64      256  1 x  8  swizzled    24576    32   127 regs         80 regs S      111 regs     
+    128 x  64  64      256  1 x  8  none        24576    32    53 regs         54 regs         73 regs     
+    128 x  64  64      256  2 x  4  swizzled    24576    32   128 regs         80 regs        122 regs     
+    128 x  64  64      256  2 x  4  none        24576    32    56 regs         56 regs         63 regs     
+    128 x  64  64      256  4 x  2  swizzled    24576    32   125 regs         80 regs         80 regs     
+    128 x  64  64      256  4 x  2  none        24576    32    54 regs         54 regs         55 regs     
+    128 x  64  64      256  8 x  1  swizzled    24576    32   164 regs         64 regs         64 regs     
+    128 x  64  64      256  8 x  1  none        24576    32    48 regs         48 regs         61 regs     
+    128 x  64  64      512  1 x 16  swizzled        0     0   not built: warps do not split the square: 1 x 16 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  64      512  1 x 16  none            0     0   not built: warps do not split the square: 1 x 16 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  64      512  2 x  8  swizzled    24576    16    63 regs         58 regs         64 regs     
+    128 x  64  64      512  2 x  8  none        24576    16    30 regs         30 regs         56 regs     
+    128 x  64  64      512  4 x  4  swizzled    24576    16    40 regs         60 regs        128 regs     
+    128 x  64  64      512  4 x  4  none        24576    16    40 regs         38 regs         49 regs     
+    128 x  64  64      512  8 x  2  swizzled    24576    16    40 regs         64 regs        128 regs     
+    128 x  64  64      512  8 x  2  none        24576    16    38 regs         38 regs         40 regs     
+    128 x  64  64     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  64     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  64     1024  2 x 16  swizzled        0     0   not built: warps do not split the square: 2 x 16 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  64     1024  2 x 16  none            0     0   not built: warps do not split the square: 2 x 16 warps on 128 x 64 (whole mma tiles of 16 x 8)
+    128 x  64  64     1024  4 x  8  swizzled    24576     8    32 regs         48 regs         48 regs     
+    128 x  64  64     1024  4 x  8  none        24576     8    31 regs         30 regs         32 regs     
+    128 x  64  64     1024  8 x  4  swizzled    24576     8    32 regs         46 regs         32 regs     
+    128 x  64  64     1024  8 x  4  none        24576     8    31 regs         28 regs         32 regs     
+    128 x 128  16       32  1 x  1  swizzled     8192   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+    128 x 128  16       32  1 x  1  none         8192   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+    128 x 128  16       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    128 x 128  16       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    128 x 128  16       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    128 x 128  16       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    128 x 128  16       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    128 x 128  16       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    128 x 128  16       64  1 x  2  swizzled     8192   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    128 x 128  16       64  1 x  2  none         8192   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    128 x 128  16       64  2 x  1  swizzled     8192   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    128 x 128  16       64  2 x  1  none         8192   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    128 x 128  16       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    128 x 128  16       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    128 x 128  16       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    128 x 128  16       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    128 x 128  16      128  1 x  4  swizzled     8192   128   202 regs        167 regs        251 regs     
+    128 x 128  16      128  1 x  4  none         8192   128   196 regs        168 regs        231 regs     
+    128 x 128  16      128  2 x  2  swizzled     8192   128   168 regs        168 regs        255 regs     
+    128 x 128  16      128  2 x  2  none         8192   128   163 regs        164 regs        206 regs     
+    128 x 128  16      128  4 x  1  swizzled     8192   128   167 regs        168 regs        252 regs     
+    128 x 128  16      128  4 x  1  none         8192   128   168 regs        168 regs        167 regs     
+    128 x 128  16      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    128 x 128  16      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    128 x 128  16      256  1 x  8  swizzled     8192    64   127 regs         99 regs        168 regs     
+    128 x 128  16      256  1 x  8  none         8192    64    98 regs         94 regs         96 regs     
+    128 x 128  16      256  2 x  4  swizzled     8192    64   111 regs        119 regs        127 regs     
+    128 x 128  16      256  2 x  4  none         8192    64    94 regs         95 regs         96 regs     
+    128 x 128  16      256  4 x  2  swizzled     8192    64    98 regs         95 regs         99 regs     
+    128 x 128  16      256  4 x  2  none         8192    64    94 regs         94 regs         95 regs     
+    128 x 128  16      256  8 x  1  swizzled     8192    64   103 regs        168 regs        171 regs     
+    128 x 128  16      256  8 x  1  none         8192    64    96 regs         95 regs         93 regs     
+    128 x 128  16      512  1 x 16  swizzled     8192    32    96 regs         57 regs        126 regs     
+    128 x 128  16      512  1 x 16  none         8192    32    56 regs         56 regs         64 regs     
+    128 x 128  16      512  2 x  8  swizzled     8192    32    86 regs         93 regs         86 regs     
+    128 x 128  16      512  2 x  8  none         8192    32    56 regs         54 regs         64 regs     
+    128 x 128  16      512  4 x  4  swizzled     8192    32    87 regs         92 regs         59 regs     
+    128 x 128  16      512  4 x  4  none         8192    32    54 regs         54 regs         64 regs     
+    128 x 128  16      512  8 x  2  swizzled     8192    32    84 regs         64 regs         60 regs     
+    128 x 128  16      512  8 x  2  none         8192    32    49 regs         49 regs         49 regs     
+    128 x 128  16     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 128 x 128 (whole mma tiles of 16 x 8)
+    128 x 128  16     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 128 x 128 (whole mma tiles of 16 x 8)
+    128 x 128  16     1024  2 x 16  swizzled     8192    16    58 regs         32 regs S       63 regs     
+    128 x 128  16     1024  2 x 16  none         8192    16    44 regs         44 regs         49 regs     
+    128 x 128  16     1024  4 x  8  swizzled     8192    16    38 regs         41 regs         55 regs     
+    128 x 128  16     1024  4 x  8  none         8192    16    36 regs         39 regs         41 regs     
+    128 x 128  16     1024  8 x  4  swizzled     8192    16    32 regs         32 regs         50 regs     
+    128 x 128  16     1024  8 x  4  none         8192    16    32 regs         32 regs         32 regs S   
+    128 x 128  32       32  1 x  1  swizzled    16384   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+    128 x 128  32       32  1 x  1  none        16384   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+    128 x 128  32       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    128 x 128  32       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    128 x 128  32       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    128 x 128  32       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    128 x 128  32       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    128 x 128  32       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    128 x 128  32       64  1 x  2  swizzled    16384   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    128 x 128  32       64  1 x  2  none        16384   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    128 x 128  32       64  2 x  1  swizzled    16384   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    128 x 128  32       64  2 x  1  none        16384   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    128 x 128  32       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    128 x 128  32       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    128 x 128  32       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    128 x 128  32       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    128 x 128  32      128  1 x  4  swizzled    16384   128   254 regs        233 regs        255 regs S   
+    128 x 128  32      128  1 x  4  none        16384   128   164 regs        164 regs        243 regs     
+    128 x 128  32      128  2 x  2  swizzled    16384   128   220 regs        254 regs        254 regs     
+    128 x 128  32      128  2 x  2  none        16384   128   164 regs        165 regs        216 regs     
+    128 x 128  32      128  4 x  1  swizzled    16384   128   246 regs        168 regs        254 regs     
+    128 x 128  32      128  4 x  1  none        16384   128   164 regs        167 regs        167 regs     
+    128 x 128  32      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    128 x 128  32      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    128 x 128  32      256  1 x  8  swizzled    16384    64   128 regs        131 regs        170 regs     
+    128 x 128  32      256  1 x  8  none        16384    64    96 regs         94 regs         98 regs     
+    128 x 128  32      256  2 x  4  swizzled    16384    64   128 regs        167 regs        128 regs S   
+    128 x 128  32      256  2 x  4  none        16384    64    94 regs         95 regs        128 regs     
+    128 x 128  32      256  4 x  2  swizzled    16384    64   128 regs        127 regs        128 regs S   
+    128 x 128  32      256  4 x  2  none        16384    64    94 regs         93 regs         96 regs     
+    128 x 128  32      256  8 x  1  swizzled    16384    64   164 regs        106 regs        106 regs     
+    128 x 128  32      256  8 x  1  none        16384    64    94 regs         93 regs         93 regs     
+    128 x 128  32      512  1 x 16  swizzled    16384    32   127 regs         85 regs         79 regs     
+    128 x 128  32      512  1 x 16  none        16384    32    56 regs         56 regs         64 regs     
+    128 x 128  32      512  2 x  8  swizzled    16384    32    83 regs         82 regs        128 regs S   
+    128 x 128  32      512  2 x  8  none        16384    32    62 regs         62 regs         56 regs     
+    128 x 128  32      512  4 x  4  swizzled    16384    32    64 regs         64 regs         64 regs     
+    128 x 128  32      512  4 x  4  none        16384    32    58 regs         63 regs         63 regs     
+    128 x 128  32      512  8 x  2  swizzled    16384    32    64 regs         81 regs         81 regs     
+    128 x 128  32      512  8 x  2  none        16384    32    54 regs         64 regs         64 regs S   
+    128 x 128  32     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 128 x 128 (whole mma tiles of 16 x 8)
+    128 x 128  32     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 128 x 128 (whole mma tiles of 16 x 8)
+    128 x 128  32     1024  2 x 16  swizzled    16384    16    64 regs         54 regs         60 regs     
+    128 x 128  32     1024  2 x 16  none        16384    16    43 regs         44 regs         49 regs     
+    128 x 128  32     1024  4 x  8  swizzled    16384    16    52 regs         64 regs         63 regs     
+    128 x 128  32     1024  4 x  8  none        16384    16    36 regs         39 regs         49 regs     
+    128 x 128  32     1024  8 x  4  swizzled    16384    16    54 regs         52 regs         64 regs     
+    128 x 128  32     1024  8 x  4  none        16384    16    32 regs         32 regs         32 regs S   
+    128 x 128  64       32  1 x  1  swizzled    32768   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+    128 x 128  64       32  1 x  1  none        32768   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+    128 x 128  64       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    128 x 128  64       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    128 x 128  64       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    128 x 128  64       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    128 x 128  64       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    128 x 128  64       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    128 x 128  64       64  1 x  2  swizzled    32768   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    128 x 128  64       64  1 x  2  none        32768   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    128 x 128  64       64  2 x  1  swizzled    32768   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    128 x 128  64       64  2 x  1  none        32768   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    128 x 128  64       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    128 x 128  64       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    128 x 128  64       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    128 x 128  64       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    128 x 128  64      128  1 x  4  swizzled    32768   128   254 regs        253 regs        255 regs S   
+    128 x 128  64      128  1 x  4  none        32768   128   164 regs        164 regs        238 regs     
+    128 x 128  64      128  2 x  2  swizzled    32768   128   233 regs        242 regs        255 regs S   
+    128 x 128  64      128  2 x  2  none        32768   128   170 regs        165 regs        218 regs     
+    128 x 128  64      128  4 x  1  swizzled    32768   128   254 regs        255 regs        255 regs     
+    128 x 128  64      128  4 x  1  none        32768   128   164 regs        208 regs        220 regs     
+    128 x 128  64      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    128 x 128  64      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    128 x 128  64      256  1 x  8  swizzled    32768    64   171 regs        155 regs        209 regs     
+    128 x 128  64      256  1 x  8  none        32768    64    96 regs         94 regs        167 regs     
+    128 x 128  64      256  2 x  4  swizzled    32768    64   128 regs        128 regs        139 regs     
+    128 x 128  64      256  2 x  4  none        32768    64    94 regs         95 regs        128 regs     
+    128 x 128  64      256  4 x  2  swizzled    32768    64   128 regs        128 regs        128 regs     
+    128 x 128  64      256  4 x  2  none        32768    64    94 regs         93 regs         96 regs     
+    128 x 128  64      256  8 x  1  swizzled    32768    64   128 regs        128 regs        128 regs     
+    128 x 128  64      256  8 x  1  none        32768    64    94 regs         93 regs         94 regs     
+    128 x 128  64      512  1 x 16  swizzled    32768    32   127 regs         99 regs        111 regs     
+    128 x 128  64      512  1 x 16  none        32768    32    64 regs         64 regs         73 regs     
+    128 x 128  64      512  2 x  8  swizzled    32768    32   128 regs         93 regs        113 regs     
+    128 x 128  64      512  2 x  8  none        32768    32    56 regs         56 regs         56 regs     
+    128 x 128  64      512  4 x  4  swizzled    32768    32   125 regs         91 regs         92 regs     
+    128 x 128  64      512  4 x  4  none        32768    32    54 regs         54 regs         57 regs     
+    128 x 128  64      512  8 x  2  swizzled    32768    32   128 regs         81 regs         82 regs     
+    128 x 128  64      512  8 x  2  none        32768    32    48 regs         48 regs         61 regs     
+    128 x 128  64     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 128 x 128 (whole mma tiles of 16 x 8)
+    128 x 128  64     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 128 x 128 (whole mma tiles of 16 x 8)
+    128 x 128  64     1024  2 x 16  swizzled    32768    16    63 regs         56 regs         64 regs     
+    128 x 128  64     1024  2 x 16  none        32768    16    42 regs         42 regs         51 regs     
+    128 x 128  64     1024  4 x  8  swizzled    32768    16    51 regs         60 regs         64 regs S   
+    128 x 128  64     1024  4 x  8  none        32768    16    36 regs         40 regs         49 regs     
+    128 x 128  64     1024  8 x  4  swizzled    32768    16    53 regs         64 regs         64 regs     
+    128 x 128  64     1024  8 x  4  none        32768    16    32 regs         32 regs         32 regs S   
+    128 x 256  16       32  1 x  1  swizzled    12288  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 32 threads
+    128 x 256  16       32  1 x  1  none        12288  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 32 threads
+    128 x 256  16       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    128 x 256  16       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    128 x 256  16       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    128 x 256  16       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    128 x 256  16       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    128 x 256  16       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    128 x 256  16       64  1 x  2  swizzled    12288   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    128 x 256  16       64  1 x  2  none        12288   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    128 x 256  16       64  2 x  1  swizzled    12288   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    128 x 256  16       64  2 x  1  none        12288   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    128 x 256  16       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    128 x 256  16       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    128 x 256  16       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    128 x 256  16       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    128 x 256  16      128  1 x  4  swizzled    12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  16      128  1 x  4  none        12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  16      128  2 x  2  swizzled    12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  16      128  2 x  2  none        12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  16      128  4 x  1  swizzled    12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  16      128  4 x  1  none        12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  16      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    128 x 256  16      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    128 x 256  16      256  1 x  8  swizzled    12288   128   202 regs        174 regs        234 regs     
+    128 x 256  16      256  1 x  8  none        12288   128   165 regs        169 regs        167 regs     
+    128 x 256  16      256  2 x  4  swizzled    12288   128   169 regs        169 regs        173 regs     
+    128 x 256  16      256  2 x  4  none        12288   128   187 regs        200 regs        167 regs     
+    128 x 256  16      256  4 x  2  swizzled    12288   128   174 regs        172 regs        174 regs     
+    128 x 256  16      256  4 x  2  none        12288   128   167 regs        169 regs        165 regs     
+    128 x 256  16      256  8 x  1  swizzled    12288   128   176 regs        177 regs        179 regs     
+    128 x 256  16      256  8 x  1  none        12288   128   170 regs        168 regs        168 regs     
+    128 x 256  16      512  1 x 16  swizzled    12288    64   127 regs         99 regs        128 regs S   
+    128 x 256  16      512  1 x 16  none        12288    64    98 regs         94 regs         96 regs     
+    128 x 256  16      512  2 x  8  swizzled    12288    64   111 regs        119 regs        128 regs     
+    128 x 256  16      512  2 x  8  none        12288    64    94 regs         95 regs         97 regs     
+    128 x 256  16      512  4 x  4  swizzled    12288    64    98 regs         95 regs         99 regs     
+    128 x 256  16      512  4 x  4  none        12288    64    94 regs         94 regs         95 regs     
+    128 x 256  16      512  8 x  2  swizzled    12288    64    98 regs        128 regs S      128 regs S   
+    128 x 256  16      512  8 x  2  none        12288    64    96 regs         95 regs         93 regs     
+    128 x 256  16     1024  1 x 32  swizzled    12288    32    64 regs S       50 regs         64 regs S   
+    128 x 256  16     1024  1 x 32  none        12288    32    48 regs         48 regs         48 regs     
+    128 x 256  16     1024  2 x 16  swizzled    12288    32    61 regs         59 regs         64 regs     
+    128 x 256  16     1024  2 x 16  none        12288    32    56 regs         54 regs         57 regs     
+    128 x 256  16     1024  4 x  8  swizzled    12288    32    58 regs         59 regs         59 regs     
+    128 x 256  16     1024  4 x  8  none        12288    32    54 regs         54 regs         56 regs     
+    128 x 256  16     1024  8 x  4  swizzled    12288    32    52 regs         64 regs         60 regs     
+    128 x 256  16     1024  8 x  4  none        12288    32    49 regs         49 regs         49 regs     
+    128 x 256  32       32  1 x  1  swizzled    24576  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 32 threads
+    128 x 256  32       32  1 x  1  none        24576  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 32 threads
+    128 x 256  32       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    128 x 256  32       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    128 x 256  32       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    128 x 256  32       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    128 x 256  32       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    128 x 256  32       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    128 x 256  32       64  1 x  2  swizzled    24576   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    128 x 256  32       64  1 x  2  none        24576   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    128 x 256  32       64  2 x  1  swizzled    24576   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    128 x 256  32       64  2 x  1  none        24576   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    128 x 256  32       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    128 x 256  32       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    128 x 256  32       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    128 x 256  32       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    128 x 256  32      128  1 x  4  swizzled    24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  32      128  1 x  4  none        24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  32      128  2 x  2  swizzled    24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  32      128  2 x  2  none        24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  32      128  4 x  1  swizzled    24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  32      128  4 x  1  none        24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  32      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    128 x 256  32      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    128 x 256  32      256  1 x  8  swizzled    24576   128   254 regs        254 regs        254 regs     
+    128 x 256  32      256  1 x  8  none        24576   128   166 regs        164 regs        212 regs     
+    128 x 256  32      256  2 x  4  swizzled    24576   128   222 regs        236 regs        249 regs     
+    128 x 256  32      256  2 x  4  none        24576   128   164 regs        166 regs        196 regs     
+    128 x 256  32      256  4 x  2  swizzled    24576   128   252 regs        244 regs        239 regs     
+    128 x 256  32      256  4 x  2  none        24576   128   164 regs        167 regs        166 regs     
+    128 x 256  32      256  8 x  1  swizzled    24576   128   255 regs        176 regs        178 regs     
+    128 x 256  32      256  8 x  1  none        24576   128   164 regs        164 regs        164 regs     
+    128 x 256  32      512  1 x 16  swizzled    24576    64   128 regs        128 regs        128 regs     
+    128 x 256  32      512  1 x 16  none        24576    64    96 regs         94 regs         96 regs     
+    128 x 256  32      512  2 x  8  swizzled    24576    64   128 regs        128 regs S      128 regs S   
+    128 x 256  32      512  2 x  8  none        24576    64    94 regs         95 regs        128 regs     
+    128 x 256  32      512  4 x  4  swizzled    24576    64   128 regs        126 regs        128 regs S   
+    128 x 256  32      512  4 x  4  none        24576    64    94 regs         93 regs         96 regs     
+    128 x 256  32      512  8 x  2  swizzled    24576    64   128 regs S      106 regs        106 regs     
+    128 x 256  32      512  8 x  2  none        24576    64    94 regs         93 regs         93 regs     
+    128 x 256  32     1024  1 x 32  swizzled    24576    32    64 regs S       64 regs         64 regs     
+    128 x 256  32     1024  1 x 32  none        24576    32    46 regs         46 regs         57 regs     
+    128 x 256  32     1024  2 x 16  swizzled    24576    32    64 regs         64 regs         64 regs     
+    128 x 256  32     1024  2 x 16  none        24576    32    56 regs         56 regs         59 regs     
+    128 x 256  32     1024  4 x  8  swizzled    24576    32    64 regs         64 regs         64 regs     
+    128 x 256  32     1024  4 x  8  none        24576    32    54 regs         54 regs         55 regs     
+    128 x 256  32     1024  8 x  4  swizzled    24576    32    64 regs         64 regs         64 regs     
+    128 x 256  32     1024  8 x  4  none        24576    32    48 regs         48 regs         61 regs     
+    128 x 256  64       32  1 x  1  swizzled    49152  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 32 threads
+    128 x 256  64       32  1 x  1  none        49152  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 32 threads
+    128 x 256  64       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    128 x 256  64       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    128 x 256  64       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    128 x 256  64       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    128 x 256  64       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    128 x 256  64       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    128 x 256  64       64  1 x  2  swizzled    49152   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    128 x 256  64       64  1 x  2  none        49152   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    128 x 256  64       64  2 x  1  swizzled    49152   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    128 x 256  64       64  2 x  1  none        49152   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    128 x 256  64       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    128 x 256  64       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    128 x 256  64       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    128 x 256  64       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    128 x 256  64      128  1 x  4  swizzled    49152   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  64      128  1 x  4  none        49152   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  64      128  2 x  2  swizzled    49152   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  64      128  2 x  2  none        49152   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  64      128  4 x  1  swizzled    49152   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  64      128  4 x  1  none        49152   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    128 x 256  64      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    128 x 256  64      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    128 x 256  64      256  1 x  8  swizzled    49152   128   255 regs        254 regs        254 regs     
+    128 x 256  64      256  1 x  8  none        49152   128   166 regs        164 regs        217 regs     
+    128 x 256  64      256  2 x  4  swizzled    49152   128   252 regs        254 regs        255 regs     
+    128 x 256  64      256  2 x  4  none        49152   128   164 regs        165 regs        201 regs     
+    128 x 256  64      256  4 x  2  swizzled    49152   128   254 regs        255 regs        255 regs     
+    128 x 256  64      256  4 x  2  none        49152   128   164 regs        208 regs        211 regs     
+    128 x 256  64      256  8 x  1  swizzled    49152   128   255 regs        254 regs        254 regs     
+    128 x 256  64      256  8 x  1  none        49152   128   164 regs        165 regs        165 regs     
+    128 x 256  64      512  1 x 16  swizzled    49152    64   128 regs        128 regs        128 regs S   
+    128 x 256  64      512  1 x 16  none        49152    64    96 regs         94 regs        128 regs     
+    128 x 256  64      512  2 x  8  swizzled    49152    64   128 regs        128 regs        128 regs     
+    128 x 256  64      512  2 x  8  none        49152    64    94 regs         95 regs        128 regs     
+    128 x 256  64      512  4 x  4  swizzled    49152    64   128 regs        128 regs        128 regs     
+    128 x 256  64      512  4 x  4  none        49152    64    94 regs         93 regs         96 regs     
+    128 x 256  64      512  8 x  2  swizzled    49152    64   128 regs        128 regs S      128 regs S   
+    128 x 256  64      512  8 x  2  none        49152    64    94 regs         93 regs         94 regs     
+    128 x 256  64     1024  1 x 32  swizzled    49152    32    64 regs S       64 regs S       64 regs S   
+    128 x 256  64     1024  1 x 32  none        49152    32    46 regs         46 regs         64 regs     
+    128 x 256  64     1024  2 x 16  swizzled    49152    32    64 regs         64 regs S       64 regs S   
+    128 x 256  64     1024  2 x 16  none        49152    32    56 regs         56 regs         63 regs     
+    128 x 256  64     1024  4 x  8  swizzled    49152    32    64 regs         64 regs S       64 regs S   
+    128 x 256  64     1024  4 x  8  none        49152    32    54 regs         54 regs         55 regs     
+    128 x 256  64     1024  8 x  4  swizzled    49152    32    64 regs         64 regs         64 regs     
+    128 x 256  64     1024  8 x  4  none        49152    32    48 regs         48 regs         61 regs     
+    256 x  64  16       32  1 x  1  swizzled    10240   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+    256 x  64  16       32  1 x  1  none        10240   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+    256 x  64  16       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    256 x  64  16       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    256 x  64  16       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    256 x  64  16       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    256 x  64  16       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    256 x  64  16       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    256 x  64  16       64  1 x  2  swizzled    10240   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    256 x  64  16       64  1 x  2  none        10240   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    256 x  64  16       64  2 x  1  swizzled    10240   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    256 x  64  16       64  2 x  1  none        10240   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    256 x  64  16       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    256 x  64  16       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    256 x  64  16       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    256 x  64  16       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    256 x  64  16      128  1 x  4  swizzled    10240   128   249 regs        164 regs        254 regs     
+    256 x  64  16      128  1 x  4  none        10240   128   164 regs        166 regs        168 regs     
+    256 x  64  16      128  2 x  2  swizzled    10240   128   202 regs        168 regs        236 regs     
+    256 x  64  16      128  2 x  2  none        10240   128   165 regs        167 regs        167 regs     
+    256 x  64  16      128  4 x  1  swizzled    10240   128   168 regs        168 regs        168 regs     
+    256 x  64  16      128  4 x  1  none        10240   128   164 regs        165 regs        166 regs     
+    256 x  64  16      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    256 x  64  16      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    256 x  64  16      256  1 x  8  swizzled    10240    64   164 regs        168 regs        252 regs     
+    256 x  64  16      256  1 x  8  none        10240    64    94 regs         94 regs        167 regs     
+    256 x  64  16      256  2 x  4  swizzled    10240    64   121 regs         94 regs        167 regs     
+    256 x  64  16      256  2 x  4  none        10240    64    96 regs         94 regs        127 regs     
+    256 x  64  16      256  4 x  2  swizzled    10240    64   111 regs        124 regs        128 regs     
+    256 x  64  16      256  4 x  2  none        10240    64    94 regs         95 regs        128 regs     
+    256 x  64  16      256  8 x  1  swizzled    10240    64   100 regs         96 regs        128 regs     
+    256 x  64  16      256  8 x  1  none        10240    64    94 regs         93 regs        125 regs     
+    256 x  64  16      512  1 x 16  swizzled        0     0   not built: warps do not split the square: 1 x 16 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  16      512  1 x 16  none            0     0   not built: warps do not split the square: 1 x 16 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  16      512  2 x  8  swizzled    10240    32    96 regs         62 regs        126 regs     
+    256 x  64  16      512  2 x  8  none        10240    32    56 regs         56 regs         64 regs     
+    256 x  64  16      512  4 x  4  swizzled    10240    32    86 regs         93 regs         63 regs     
+    256 x  64  16      512  4 x  4  none        10240    32    56 regs         54 regs         64 regs S   
+    256 x  64  16      512  8 x  2  swizzled    10240    32    87 regs         92 regs         59 regs     
+    256 x  64  16      512  8 x  2  none        10240    32    54 regs         54 regs         64 regs     
+    256 x  64  16     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  16     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  16     1024  2 x 16  swizzled        0     0   not built: warps do not split the square: 2 x 16 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  16     1024  2 x 16  none            0     0   not built: warps do not split the square: 2 x 16 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  16     1024  4 x  8  swizzled    10240    16    58 regs         49 regs         63 regs     
+    256 x  64  16     1024  4 x  8  none        10240    16    44 regs         44 regs         49 regs     
+    256 x  64  16     1024  8 x  4  swizzled    10240    16    38 regs         42 regs         43 regs     
+    256 x  64  16     1024  8 x  4  none        10240    16    36 regs         39 regs         41 regs     
+    256 x  64  32       32  1 x  1  swizzled    20480   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+    256 x  64  32       32  1 x  1  none        20480   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+    256 x  64  32       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    256 x  64  32       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    256 x  64  32       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    256 x  64  32       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    256 x  64  32       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    256 x  64  32       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    256 x  64  32       64  1 x  2  swizzled    20480   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    256 x  64  32       64  1 x  2  none        20480   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    256 x  64  32       64  2 x  1  swizzled    20480   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    256 x  64  32       64  2 x  1  none        20480   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    256 x  64  32       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    256 x  64  32       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    256 x  64  32       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    256 x  64  32       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    256 x  64  32      128  1 x  4  swizzled    20480   128   252 regs        253 regs        255 regs     
+    256 x  64  32      128  1 x  4  none        20480   128   162 regs        164 regs        234 regs     
+    256 x  64  32      128  2 x  2  swizzled    20480   128   254 regs        254 regs        254 regs     
+    256 x  64  32      128  2 x  2  none        20480   128   164 regs        164 regs        212 regs     
+    256 x  64  32      128  4 x  1  swizzled    20480   128   220 regs        254 regs        254 regs     
+    256 x  64  32      128  4 x  1  none        20480   128   164 regs        165 regs        196 regs     
+    256 x  64  32      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    256 x  64  32      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    256 x  64  32      256  1 x  8  swizzled    20480    64   234 regs        128 regs S      255 regs S   
+    256 x  64  32      256  1 x  8  none        20480    64    94 regs         94 regs        167 regs     
+    256 x  64  32      256  2 x  4  swizzled    20480    64   128 regs        141 regs        251 regs     
+    256 x  64  32      256  2 x  4  none        20480    64    96 regs         94 regs        127 regs     
+    256 x  64  32      256  4 x  2  swizzled    20480    64   128 regs        167 regs        205 regs     
+    256 x  64  32      256  4 x  2  none        20480    64    94 regs         95 regs        127 regs     
+    256 x  64  32      256  8 x  1  swizzled    20480    64   128 regs        128 regs        192 regs     
+    256 x  64  32      256  8 x  1  none        20480    64    94 regs         93 regs        127 regs     
+    256 x  64  32      512  1 x 16  swizzled        0     0   not built: warps do not split the square: 1 x 16 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  32      512  1 x 16  none            0     0   not built: warps do not split the square: 1 x 16 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  32      512  2 x  8  swizzled    20480    32   127 regs         64 regs S       77 regs     
+    256 x  64  32      512  2 x  8  none        20480    32    56 regs         56 regs         64 regs     
+    256 x  64  32      512  4 x  4  swizzled    20480    32    83 regs         82 regs        128 regs S   
+    256 x  64  32      512  4 x  4  none        20480    32    53 regs         63 regs         59 regs     
+    256 x  64  32      512  8 x  2  swizzled    20480    32    64 regs         64 regs         64 regs     
+    256 x  64  32      512  8 x  2  none        20480    32    56 regs         63 regs         63 regs     
+    256 x  64  32     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  32     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  32     1024  2 x 16  swizzled        0     0   not built: warps do not split the square: 2 x 16 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  32     1024  2 x 16  none            0     0   not built: warps do not split the square: 2 x 16 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  32     1024  4 x  8  swizzled    20480    16    64 regs         54 regs         60 regs     
+    256 x  64  32     1024  4 x  8  none        20480    16    43 regs         44 regs         49 regs     
+    256 x  64  32     1024  8 x  4  swizzled    20480    16    52 regs         62 regs         63 regs     
+    256 x  64  32     1024  8 x  4  none        20480    16    36 regs         39 regs         49 regs     
+    256 x  64  64       32  1 x  1  swizzled    40960   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+    256 x  64  64       32  1 x  1  none        40960   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 32 threads
+    256 x  64  64       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    256 x  64  64       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    256 x  64  64       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    256 x  64  64       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    256 x  64  64       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    256 x  64  64       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    256 x  64  64       64  1 x  2  swizzled    40960   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    256 x  64  64       64  1 x  2  none        40960   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    256 x  64  64       64  2 x  1  swizzled    40960   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    256 x  64  64       64  2 x  1  none        40960   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 64 threads
+    256 x  64  64       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    256 x  64  64       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    256 x  64  64       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    256 x  64  64       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    256 x  64  64      128  1 x  4  swizzled    40960   128   255 regs        255 regs        255 regs     
+    256 x  64  64      128  1 x  4  none        40960   128   162 regs        164 regs        237 regs     
+    256 x  64  64      128  2 x  2  swizzled    40960   128   254 regs        254 regs        254 regs     
+    256 x  64  64      128  2 x  2  none        40960   128   164 regs        164 regs        217 regs     
+    256 x  64  64      128  4 x  1  swizzled    40960   128   236 regs        249 regs        255 regs S   
+    256 x  64  64      128  4 x  1  none        40960   128   170 regs        165 regs        201 regs     
+    256 x  64  64      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    256 x  64  64      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    256 x  64  64      256  1 x  8  swizzled    40960    64   249 regs        128 regs S      128 regs S   
+    256 x  64  64      256  1 x  8  none        40960    64    94 regs         92 regs        243 regs     
+    256 x  64  64      256  2 x  4  swizzled    40960    64   221 regs        143 regs        255 regs S   
+    256 x  64  64      256  2 x  4  none        40960    64    96 regs         94 regs        167 regs     
+    256 x  64  64      256  4 x  2  swizzled    40960    64   128 regs        128 regs        254 regs     
+    256 x  64  64      256  4 x  2  none        40960    64    94 regs         95 regs        127 regs     
+    256 x  64  64      256  8 x  1  swizzled    40960    64   128 regs        147 regs        255 regs     
+    256 x  64  64      256  8 x  1  none        40960    64    94 regs         93 regs        127 regs     
+    256 x  64  64      512  1 x 16  swizzled        0     0   not built: warps do not split the square: 1 x 16 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  64      512  1 x 16  none            0     0   not built: warps do not split the square: 1 x 16 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  64      512  2 x  8  swizzled    40960    32   127 regs         99 regs        111 regs     
+    256 x  64  64      512  2 x  8  none        40960    32    64 regs         64 regs         78 regs     
+    256 x  64  64      512  4 x  4  swizzled    40960    32   128 regs         93 regs        119 regs     
+    256 x  64  64      512  4 x  4  none        40960    32    56 regs         56 regs         63 regs     
+    256 x  64  64      512  8 x  2  swizzled    40960    32   125 regs         93 regs        107 regs     
+    256 x  64  64      512  8 x  2  none        40960    32    54 regs         54 regs         57 regs     
+    256 x  64  64     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  64     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  64     1024  2 x 16  swizzled        0     0   not built: warps do not split the square: 2 x 16 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  64     1024  2 x 16  none            0     0   not built: warps do not split the square: 2 x 16 warps on 256 x 64 (whole mma tiles of 16 x 8)
+    256 x  64  64     1024  4 x  8  swizzled    40960    16    63 regs         58 regs         63 regs     
+    256 x  64  64     1024  4 x  8  none        40960    16    42 regs         42 regs         49 regs     
+    256 x  64  64     1024  8 x  4  swizzled    40960    16    51 regs         60 regs         64 regs S   
+    256 x  64  64     1024  8 x  4  none        40960    16    36 regs         40 regs         49 regs     
+    256 x 128  16       32  1 x  1  swizzled    12288  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 32 threads
+    256 x 128  16       32  1 x  1  none        12288  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 32 threads
+    256 x 128  16       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    256 x 128  16       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    256 x 128  16       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    256 x 128  16       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    256 x 128  16       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    256 x 128  16       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    256 x 128  16       64  1 x  2  swizzled    12288   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    256 x 128  16       64  1 x  2  none        12288   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    256 x 128  16       64  2 x  1  swizzled    12288   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    256 x 128  16       64  2 x  1  none        12288   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    256 x 128  16       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    256 x 128  16       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    256 x 128  16       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    256 x 128  16       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    256 x 128  16      128  1 x  4  swizzled    12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  16      128  1 x  4  none        12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  16      128  2 x  2  swizzled    12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  16      128  2 x  2  none        12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  16      128  4 x  1  swizzled    12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  16      128  4 x  1  none        12288   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  16      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    256 x 128  16      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    256 x 128  16      256  1 x  8  swizzled    12288   128   243 regs        178 regs        255 regs S   
+    256 x 128  16      256  1 x  8  none        12288   128   166 regs        166 regs        253 regs     
+    256 x 128  16      256  2 x  4  swizzled    12288   128   202 regs        174 regs        251 regs     
+    256 x 128  16      256  2 x  4  none        12288   128   194 regs        171 regs        229 regs     
+    256 x 128  16      256  4 x  2  swizzled    12288   128   170 regs        168 regs        255 regs     
+    256 x 128  16      256  4 x  2  none        12288   128   188 regs        201 regs        217 regs     
+    256 x 128  16      256  8 x  1  swizzled    12288   128   174 regs        172 regs        252 regs     
+    256 x 128  16      256  8 x  1  none        12288   128   167 regs        169 regs        169 regs     
+    256 x 128  16      512  1 x 16  swizzled    12288    64   128 regs S      128 regs S      128 regs S   
+    256 x 128  16      512  1 x 16  none        12288    64    80 regs         80 regs        128 regs     
+    256 x 128  16      512  2 x  8  swizzled    12288    64   127 regs         99 regs        128 regs S   
+    256 x 128  16      512  2 x  8  none        12288    64    98 regs         94 regs         96 regs     
+    256 x 128  16      512  4 x  4  swizzled    12288    64   111 regs        119 regs        128 regs     
+    256 x 128  16      512  4 x  4  none        12288    64    94 regs         95 regs         97 regs     
+    256 x 128  16      512  8 x  2  swizzled    12288    64    98 regs         95 regs         99 regs     
+    256 x 128  16      512  8 x  2  none        12288    64    94 regs         94 regs         95 regs     
+    256 x 128  16     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 256 x 128 (whole mma tiles of 16 x 8)
+    256 x 128  16     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 256 x 128 (whole mma tiles of 16 x 8)
+    256 x 128  16     1024  2 x 16  swizzled    12288    32    64 regs S       50 regs         64 regs S   
+    256 x 128  16     1024  2 x 16  none        12288    32    48 regs         48 regs         48 regs     
+    256 x 128  16     1024  4 x  8  swizzled    12288    32    61 regs         59 regs         64 regs     
+    256 x 128  16     1024  4 x  8  none        12288    32    56 regs         54 regs         57 regs     
+    256 x 128  16     1024  8 x  4  swizzled    12288    32    58 regs         59 regs         59 regs     
+    256 x 128  16     1024  8 x  4  none        12288    32    54 regs         54 regs         56 regs     
+    256 x 128  32       32  1 x  1  swizzled    24576  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 32 threads
+    256 x 128  32       32  1 x  1  none        24576  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 32 threads
+    256 x 128  32       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    256 x 128  32       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    256 x 128  32       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    256 x 128  32       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    256 x 128  32       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    256 x 128  32       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    256 x 128  32       64  1 x  2  swizzled    24576   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    256 x 128  32       64  1 x  2  none        24576   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    256 x 128  32       64  2 x  1  swizzled    24576   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    256 x 128  32       64  2 x  1  none        24576   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    256 x 128  32       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    256 x 128  32       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    256 x 128  32       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    256 x 128  32       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    256 x 128  32      128  1 x  4  swizzled    24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  32      128  1 x  4  none        24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  32      128  2 x  2  swizzled    24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  32      128  2 x  2  none        24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  32      128  4 x  1  swizzled    24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  32      128  4 x  1  none        24576   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  32      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    256 x 128  32      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    256 x 128  32      256  1 x  8  swizzled    24576   128   252 regs        255 regs        255 regs S   
+    256 x 128  32      256  1 x  8  none        24576   128   162 regs        164 regs        253 regs     
+    256 x 128  32      256  2 x  4  swizzled    24576   128   254 regs        233 regs        255 regs S   
+    256 x 128  32      256  2 x  4  none        24576   128   166 regs        164 regs        241 regs     
+    256 x 128  32      256  4 x  2  swizzled    24576   128   220 regs        254 regs        254 regs     
+    256 x 128  32      256  4 x  2  none        24576   128   164 regs        166 regs        218 regs     
+    256 x 128  32      256  8 x  1  swizzled    24576   128   246 regs        174 regs        254 regs     
+    256 x 128  32      256  8 x  1  none        24576   128   164 regs        167 regs        206 regs     
+    256 x 128  32      512  1 x 16  swizzled    24576    64   128 regs S      128 regs        128 regs     
+    256 x 128  32      512  1 x 16  none        24576    64    78 regs         78 regs        128 regs     
+    256 x 128  32      512  2 x  8  swizzled    24576    64   128 regs        128 regs        128 regs     
+    256 x 128  32      512  2 x  8  none        24576    64    96 regs         94 regs         96 regs     
+    256 x 128  32      512  4 x  4  swizzled    24576    64   128 regs        128 regs S      128 regs S   
+    256 x 128  32      512  4 x  4  none        24576    64    94 regs         95 regs        128 regs     
+    256 x 128  32      512  8 x  2  swizzled    24576    64   128 regs        126 regs        128 regs S   
+    256 x 128  32      512  8 x  2  none        24576    64    94 regs         93 regs         96 regs     
+    256 x 128  32     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 256 x 128 (whole mma tiles of 16 x 8)
+    256 x 128  32     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 256 x 128 (whole mma tiles of 16 x 8)
+    256 x 128  32     1024  2 x 16  swizzled    24576    32    64 regs S       64 regs         64 regs     
+    256 x 128  32     1024  2 x 16  none        24576    32    46 regs         46 regs         57 regs     
+    256 x 128  32     1024  4 x  8  swizzled    24576    32    64 regs         64 regs         64 regs     
+    256 x 128  32     1024  4 x  8  none        24576    32    56 regs         56 regs         59 regs     
+    256 x 128  32     1024  8 x  4  swizzled    24576    32    64 regs         64 regs         64 regs     
+    256 x 128  32     1024  8 x  4  none        24576    32    54 regs         54 regs         57 regs     
+    256 x 128  64       32  1 x  1  swizzled    49152  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 32 threads
+    256 x 128  64       32  1 x  1  none        49152  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 32 threads
+    256 x 128  64       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    256 x 128  64       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    256 x 128  64       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    256 x 128  64       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    256 x 128  64       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    256 x 128  64       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    256 x 128  64       64  1 x  2  swizzled    49152   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    256 x 128  64       64  1 x  2  none        49152   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    256 x 128  64       64  2 x  1  swizzled    49152   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    256 x 128  64       64  2 x  1  none        49152   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 64 threads
+    256 x 128  64       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    256 x 128  64       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    256 x 128  64       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    256 x 128  64       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    256 x 128  64      128  1 x  4  swizzled    49152   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  64      128  1 x  4  none        49152   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  64      128  2 x  2  swizzled    49152   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  64      128  2 x  2  none        49152   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  64      128  4 x  1  swizzled    49152   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  64      128  4 x  1  none        49152   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 128 threads
+    256 x 128  64      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    256 x 128  64      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    256 x 128  64      256  1 x  8  swizzled    49152   128   255 regs        250 regs        255 regs S   
+    256 x 128  64      256  1 x  8  none        49152   128   162 regs        164 regs        253 regs     
+    256 x 128  64      256  2 x  4  swizzled    49152   128   254 regs        253 regs        255 regs S   
+    256 x 128  64      256  2 x  4  none        49152   128   166 regs        164 regs        250 regs     
+    256 x 128  64      256  4 x  2  swizzled    49152   128   233 regs        242 regs        255 regs S   
+    256 x 128  64      256  4 x  2  none        49152   128   164 regs        165 regs        218 regs     
+    256 x 128  64      256  8 x  1  swizzled    49152   128   254 regs        255 regs        255 regs     
+    256 x 128  64      256  8 x  1  none        49152   128   164 regs        208 regs        220 regs     
+    256 x 128  64      512  1 x 16  swizzled    49152    64   128 regs S      128 regs        128 regs S   
+    256 x 128  64      512  1 x 16  none        49152    64    78 regs         78 regs        128 regs     
+    256 x 128  64      512  2 x  8  swizzled    49152    64   128 regs        128 regs        128 regs S   
+    256 x 128  64      512  2 x  8  none        49152    64    96 regs         94 regs        128 regs     
+    256 x 128  64      512  4 x  4  swizzled    49152    64   128 regs        128 regs        128 regs     
+    256 x 128  64      512  4 x  4  none        49152    64    94 regs         95 regs        128 regs     
+    256 x 128  64      512  8 x  2  swizzled    49152    64   128 regs        128 regs        128 regs     
+    256 x 128  64      512  8 x  2  none        49152    64    94 regs         93 regs         96 regs     
+    256 x 128  64     1024  1 x 32  swizzled        0     0   not built: warps do not split the square: 1 x 32 warps on 256 x 128 (whole mma tiles of 16 x 8)
+    256 x 128  64     1024  1 x 32  none            0     0   not built: warps do not split the square: 1 x 32 warps on 256 x 128 (whole mma tiles of 16 x 8)
+    256 x 128  64     1024  2 x 16  swizzled    49152    32    64 regs S       64 regs S       64 regs S   
+    256 x 128  64     1024  2 x 16  none        49152    32    46 regs         46 regs         64 regs     
+    256 x 128  64     1024  4 x  8  swizzled    49152    32    64 regs         64 regs S       64 regs S   
+    256 x 128  64     1024  4 x  8  none        49152    32    56 regs         56 regs         63 regs     
+    256 x 128  64     1024  8 x  4  swizzled    49152    32    64 regs         64 regs S       64 regs S   
+    256 x 128  64     1024  8 x  4  none        49152    32    54 regs         54 regs         57 regs     
+    256 x 256  16       32  1 x  1  swizzled    16384  2048   not built: too many sums a thread: 2048 floats, a thread has at most 255 registers at 32 threads
+    256 x 256  16       32  1 x  1  none        16384  2048   not built: too many sums a thread: 2048 floats, a thread has at most 255 registers at 32 threads
+    256 x 256  16       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    256 x 256  16       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    256 x 256  16       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    256 x 256  16       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    256 x 256  16       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    256 x 256  16       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    256 x 256  16       64  1 x  2  swizzled    16384  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 64 threads
+    256 x 256  16       64  1 x  2  none        16384  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 64 threads
+    256 x 256  16       64  2 x  1  swizzled    16384  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 64 threads
+    256 x 256  16       64  2 x  1  none        16384  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 64 threads
+    256 x 256  16       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    256 x 256  16       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    256 x 256  16       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    256 x 256  16       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    256 x 256  16      128  1 x  4  swizzled    16384   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  16      128  1 x  4  none        16384   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  16      128  2 x  2  swizzled    16384   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  16      128  2 x  2  none        16384   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  16      128  4 x  1  swizzled    16384   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  16      128  4 x  1  none        16384   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  16      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    256 x 256  16      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    256 x 256  16      256  1 x  8  swizzled    16384   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  16      256  1 x  8  none        16384   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  16      256  2 x  4  swizzled    16384   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  16      256  2 x  4  none        16384   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  16      256  4 x  2  swizzled    16384   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  16      256  4 x  2  none        16384   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  16      256  8 x  1  swizzled    16384   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  16      256  8 x  1  none        16384   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  16      512  1 x 16  swizzled    16384   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  16      512  1 x 16  none        16384   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  16      512  2 x  8  swizzled    16384   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  16      512  2 x  8  none        16384   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  16      512  4 x  4  swizzled    16384   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  16      512  4 x  4  none        16384   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  16      512  8 x  2  swizzled    16384   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  16      512  8 x  2  none        16384   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  16     1024  1 x 32  swizzled    16384    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  16     1024  1 x 32  none        16384    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  16     1024  2 x 16  swizzled    16384    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  16     1024  2 x 16  none        16384    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  16     1024  4 x  8  swizzled    16384    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  16     1024  4 x  8  none        16384    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  16     1024  8 x  4  swizzled    16384    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  16     1024  8 x  4  none        16384    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  32       32  1 x  1  swizzled    32768  2048   not built: too many sums a thread: 2048 floats, a thread has at most 255 registers at 32 threads
+    256 x 256  32       32  1 x  1  none        32768  2048   not built: too many sums a thread: 2048 floats, a thread has at most 255 registers at 32 threads
+    256 x 256  32       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    256 x 256  32       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    256 x 256  32       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    256 x 256  32       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    256 x 256  32       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    256 x 256  32       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    256 x 256  32       64  1 x  2  swizzled    32768  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 64 threads
+    256 x 256  32       64  1 x  2  none        32768  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 64 threads
+    256 x 256  32       64  2 x  1  swizzled    32768  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 64 threads
+    256 x 256  32       64  2 x  1  none        32768  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 64 threads
+    256 x 256  32       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    256 x 256  32       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    256 x 256  32       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    256 x 256  32       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    256 x 256  32      128  1 x  4  swizzled    32768   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  32      128  1 x  4  none        32768   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  32      128  2 x  2  swizzled    32768   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  32      128  2 x  2  none        32768   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  32      128  4 x  1  swizzled    32768   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  32      128  4 x  1  none        32768   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  32      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    256 x 256  32      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    256 x 256  32      256  1 x  8  swizzled    32768   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  32      256  1 x  8  none        32768   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  32      256  2 x  4  swizzled    32768   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  32      256  2 x  4  none        32768   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  32      256  4 x  2  swizzled    32768   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  32      256  4 x  2  none        32768   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  32      256  8 x  1  swizzled    32768   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  32      256  8 x  1  none        32768   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  32      512  1 x 16  swizzled    32768   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  32      512  1 x 16  none        32768   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  32      512  2 x  8  swizzled    32768   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  32      512  2 x  8  none        32768   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  32      512  4 x  4  swizzled    32768   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  32      512  4 x  4  none        32768   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  32      512  8 x  2  swizzled    32768   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  32      512  8 x  2  none        32768   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  32     1024  1 x 32  swizzled    32768    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  32     1024  1 x 32  none        32768    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  32     1024  2 x 16  swizzled    32768    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  32     1024  2 x 16  none        32768    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  32     1024  4 x  8  swizzled    32768    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  32     1024  4 x  8  none        32768    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  32     1024  8 x  4  swizzled    32768    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  32     1024  8 x  4  none        32768    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  64       32  1 x  1  swizzled    65536  2048   not built: too many sums a thread: 2048 floats, a thread has at most 255 registers at 32 threads
+    256 x 256  64       32  1 x  1  none        65536  2048   not built: too many sums a thread: 2048 floats, a thread has at most 255 registers at 32 threads
+    256 x 256  64       32  2 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 2 down
+    256 x 256  64       32  2 x  0  none            0     0   not built: warps do not split: 1 warps, 2 down
+    256 x 256  64       32  4 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 4 down
+    256 x 256  64       32  4 x  0  none            0     0   not built: warps do not split: 1 warps, 4 down
+    256 x 256  64       32  8 x  0  swizzled        0     0   not built: warps do not split: 1 warps, 8 down
+    256 x 256  64       32  8 x  0  none            0     0   not built: warps do not split: 1 warps, 8 down
+    256 x 256  64       64  1 x  2  swizzled    65536  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 64 threads
+    256 x 256  64       64  1 x  2  none        65536  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 64 threads
+    256 x 256  64       64  2 x  1  swizzled    65536  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 64 threads
+    256 x 256  64       64  2 x  1  none        65536  1024   not built: too many sums a thread: 1024 floats, a thread has at most 255 registers at 64 threads
+    256 x 256  64       64  4 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 4 down
+    256 x 256  64       64  4 x  0  none            0     0   not built: warps do not split: 2 warps, 4 down
+    256 x 256  64       64  8 x  0  swizzled        0     0   not built: warps do not split: 2 warps, 8 down
+    256 x 256  64       64  8 x  0  none            0     0   not built: warps do not split: 2 warps, 8 down
+    256 x 256  64      128  1 x  4  swizzled    65536   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  64      128  1 x  4  none        65536   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  64      128  2 x  2  swizzled    65536   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  64      128  2 x  2  none        65536   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  64      128  4 x  1  swizzled    65536   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  64      128  4 x  1  none        65536   512   not built: too many sums a thread: 512 floats, a thread has at most 255 registers at 128 threads
+    256 x 256  64      128  8 x  0  swizzled        0     0   not built: warps do not split: 4 warps, 8 down
+    256 x 256  64      128  8 x  0  none            0     0   not built: warps do not split: 4 warps, 8 down
+    256 x 256  64      256  1 x  8  swizzled    65536   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  64      256  1 x  8  none        65536   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  64      256  2 x  4  swizzled    65536   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  64      256  2 x  4  none        65536   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  64      256  4 x  2  swizzled    65536   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  64      256  4 x  2  none        65536   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  64      256  8 x  1  swizzled    65536   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  64      256  8 x  1  none        65536   256   not built: too many sums a thread: 256 floats, a thread has at most 255 registers at 256 threads
+    256 x 256  64      512  1 x 16  swizzled    65536   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  64      512  1 x 16  none        65536   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  64      512  2 x  8  swizzled    65536   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  64      512  2 x  8  none        65536   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  64      512  4 x  4  swizzled    65536   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  64      512  4 x  4  none        65536   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  64      512  8 x  2  swizzled    65536   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  64      512  8 x  2  none        65536   128   not built: too many sums a thread: 128 floats, a thread has at most 128 registers at 512 threads
+    256 x 256  64     1024  1 x 32  swizzled    65536    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  64     1024  1 x 32  none        65536    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  64     1024  2 x 16  swizzled    65536    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  64     1024  2 x 16  none        65536    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  64     1024  4 x  8  swizzled    65536    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  64     1024  4 x  8  none        65536    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  64     1024  8 x  4  swizzled    65536    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+    256 x 256  64     1024  8 x  4  none        65536    64   not built: too many sums a thread: 64 floats, a thread has at most 64 registers at 1024 threads
+
+qkv forward: output {32768, 4608}, sum of 1536: 0.46 TFLOP
+    248832 settings in the sweep, 105024 to run, 143808 skipped
