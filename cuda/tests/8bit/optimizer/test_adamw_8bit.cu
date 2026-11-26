@@ -1,17 +1,17 @@
-// test_adamw_8bit.cu — tests for cuda/kernels/8bit/adamw_8bit.cuh (bfloat16 params and grads, a float master, m and
+// test_adamw_8bit.cu — tests for cuda/kernels/8bit/optimizer/adamw_8bit.cuh (bfloat16 params and grads, a float master, m and
 // v in 8 bits). Every check prints its test case, input, expected and actual value, and ok; the first FAIL stops
 // the program.
-// The timings are in cuda/tests/8bit/tune_adamw_8bit.cu.
+// The timings are in cuda/tests/8bit/optimizer/tune_adamw_8bit.cu.
 //
 #include <ATen/ops/_foreach_add.h>    // at::_foreach_add_: +1 on every step count; libtorch before any CUDA header
 #include <ATen/ops/_fused_adamw.h>    // at::_fused_adamw_: PyTorch's fused AdamW, the op fused=True calls
 #include <torch/nn/utils/clip_grad.h> // torch::nn::utils::clip_grad_norm_; only the headers needed, not <torch/torch.h>
 #include <torch/types.h>              // torch::randn, torch::from_blob
 #include <torch/utils.h>              // torch::manual_seed, torch::NoGradGuard
-#include "../common/test_helpers.h"             // ASSERT_EQ, ASSERT_NEAR, sample_data
-#include "../../common/model_params.cuh"  // AdamWConfig
-#include "../../kernels/fp32/adamw.cuh"   // adamw_update, which 8-bit AdamW is compared with
-#include "../../kernels/8bit/adamw_8bit.cuh"   // adamw_update_8bit
+#include "../../../common/test_helpers.h"             // ASSERT_EQ, ASSERT_NEAR, sample_data
+#include "../../../common/model_params.cuh"  // AdamWConfig
+#include "../../../kernels/fp32/adamw.cuh"   // adamw_update, which 8-bit AdamW is compared with
+#include "../../../kernels/8bit/optimizer/adamw_8bit.cuh"   // adamw_update_8bit
 
 // The common tests' largest difference from PyTorch after several steps, as a fraction of the largest value:
 // m and v in 8 bits move the params by up to 2.8e-4 of float's (a Python copy).

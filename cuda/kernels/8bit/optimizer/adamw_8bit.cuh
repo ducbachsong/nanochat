@@ -10,8 +10,8 @@
 #define ADAMW_8BIT_CUH
 
 #include <cuda_fp8.h>             // FP8 E4M3
-#include "../cuda_common.h"             // cudaCheck, warp_reduce_max
-#include "../../common/tensor.cuh"
+#include "../../cuda_common.h"          // cudaCheck, warp_reduce_max
+#include "../../../common/tensor.cuh"
 
 #define ADAMW_8BIT_THREADS_PER_BLOCK (4 * HARDWARE_THREADS_PER_WARP)             // the default block size: 4 warps; with ADAMW_8BIT_BLOCKS 0.623 ms against 0.652 for one float4 a thread at 8 warps (H100 NVL)
 #define ADAMW_8BIT_BLOCKS 40960                                                  // blocks in the launch, at most: past that each thread takes several float4s

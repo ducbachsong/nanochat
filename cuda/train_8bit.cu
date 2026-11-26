@@ -12,6 +12,7 @@
 //     ./train_8bit --steps 20 --tokens-per-step 32768 --val-every 10      # a quick try
 //     ./train_8bit --checkpoint-dir ckpt_8bit                             # a checkpoint every 1000 steps
 //     ./train_8bit --checkpoint-dir ckpt_8bit --resume ckpt_8bit          # on from the newest (checkpoint_8bit.cuh)
+//     ./train_8bit --optimizer muon --muon-learning-rate 0.02             # Muon8bit: one GPU, no checkpoints yet
 //
 // One step trains on tokens_per_step tokens, all GPUs together: each GPU runs micro_batches batches of
 // {8, 2048}, 524,288 / (GPUs x 16,384) of them: 4 on 8 GPUs, 32 on one. 8 rows, as train_bf16.cu runs.
@@ -27,6 +28,7 @@
 // and printing all three programs share: common/training.cuh.
 #include <chrono>
 #include <cstring>                                  // strlen: the model's name for print_run
+#include <memory>                                   // std::unique_ptr: AdamW8bit or Muon8bit
 #include "common/training.cuh"                 // TrainConfig, parse_args, learning_rate_at, print0, ...
 #include "model_8bit.cuh"                      // GPT2Activations8bit, gpt2_8bit_train_step, AdamW8bit
 #include "helper/checkpoint_8bit.cuh"          // the 8-bit run's own checkpoints
@@ -81,6 +83,43 @@ static TrainConfig train_defaults_of(void) {
     return defaults;
 }
 
+/// Gives Muon's settings for this run.
+///
+///   c   the run's settings
+static MuonConfig muon_config_of(const TrainConfig& c) {
+    // Its peak rides the same schedule as AdamW's: a step's Muon learning rate is muon_learning_rate x
+    // learning_rate_at(step) / max_learning_rate.
+    MuonConfig muon_config;
+    muon_config.learning_rate = c.muon_learning_rate;
+    muon_config.adamw_peak_learning_rate = c.max_learning_rate;
+    muon_config.momentum = c.muon_momentum;
+    muon_config.weight_decay = c.muon_weight_decay;
+    muon_config.newton_schulz_steps = c.muon_newton_schulz_steps;
+    muon_config.match_adamw = c.muon_match_adamw;
+    return muon_config;
+}
+
+/// Gives the run's optimizer: AdamW8bit, or Muon8bit for --optimizer muon.
+///
+///   c              the run's settings
+///   model_config   the sizes
+///   distributed    this GPU of how many
+static std::unique_ptr<Optimizer> optimizer_of(const TrainConfig& c, const GPT2Config& model_config,
+                                               const Distributed& distributed) {
+    // Muon8bit runs on one GPU and has no checkpoints yet (checkpoint_8bit.cuh saves AdamW8bit's state): stops
+    // with a message for either.
+    if (c.optimizer != "muon")
+        return std::make_unique<AdamW8bit>(GPT2Params::shapes(model_config), adamw_config_of(c), distributed.rank(),
+                                           distributed.world_size());
+    if (distributed.world_size() != 1 || !c.checkpoint_dir.empty() || !c.resume.empty()) {
+        print0(distributed, "error: --optimizer muon runs on one GPU with no checkpoints for now (Newton-Schulz needs "
+                            "each whole matrix; checkpoint_8bit.cuh saves AdamW8bit's state only)\n");
+        exit(EXIT_FAILURE);
+    }
+    return std::make_unique<Muon8bit>(GPT2Params::shapes(model_config), adamw_config_of(c), muon_config_of(c),
+                                      model_config.num_layers);
+}
+
 /// Gives the val loss: the mean loss of the first val_batches batches, averaged over the GPUs.
 ///
 ///   val_loader                       read from its start
@@ -116,8 +155,8 @@ int main(int argc, char** argv) {
     // 2. the model: its params and grads live in AdamW8bit, the model reads and writes views of them. Every rank
     // makes the same starting values from the same seed, and keeps the master of its own slice.
     GPT2Config model_config = model_config_of(c);                        // 32 layers x 2,304, 18 heads, 2,048 tokens
-    AdamW8bit optimizer(GPT2Params::shapes(model_config), adamw_config_of(c), distributed.rank(),
-                        distributed.world_size());
+    std::unique_ptr<Optimizer> optimizer_ptr = optimizer_of(c, model_config, distributed);
+    Optimizer& optimizer = *optimizer_ptr;
     GPT2Params params = params_of(optimizer, model_config);
     GPT2Params grads = grads_of(optimizer, model_config);
     Tensor::manual_seed(c.seed);
@@ -136,13 +175,18 @@ int main(int argc, char** argv) {
         snprintf(model_name_list + strlen(model_name_list), sizeof(model_name_list) - strlen(model_name_list), "%g",
                  model_config.logit_softcap);
     print_run(model_name_list, c, optimizer, micro_batches, train_loader, val_loader, distributed);
+    if (c.optimizer == "muon")
+        print0(distributed, "Muon on the blocks' matrices: learning rate %g on the same schedule, momentum %g (Nesterov), "
+                            "weight decay %g, %d Newton-Schulz steps, step scale %s; AdamW on wte, wpe and the 1-D tensors\n",
+               c.muon_learning_rate, c.muon_momentum, c.muon_weight_decay, c.muon_newton_schulz_steps,
+               c.muon_match_adamw ? "0.2 sqrt(max(rows, columns))" : "sqrt(max(1, rows / columns))");
 
     // 3. from a checkpoint: its master, m and sqrt(v), step count, rounding histories, params and the train
     // loader's place; the weights' 8-bit copies made again from the loaded params
     int first_step = 0;
     if (!c.resume.empty()) {
-        first_step = checkpoint_8bit_load(c.resume, c.steps, optimizer, activations.round_histories, train_loader,
-                                          distributed);
+        first_step = checkpoint_8bit_load(c.resume, c.steps, dynamic_cast<AdamW8bit&>(optimizer),
+                                          activations.round_histories, train_loader, distributed);
         gpt2_8bit_weights_changed(activations);
         print0(distributed, "resumed from %s: %d steps done\n", c.resume.c_str(), first_step);
     }
@@ -187,8 +231,8 @@ int main(int argc, char** argv) {
         }
         if (!c.checkpoint_dir.empty() && (steps_done % c.checkpoint_every == 0 || steps_done == c.steps)) {
             auto saving_started = std::chrono::steady_clock::now();
-            checkpoint_8bit_save(c.checkpoint_dir, steps_done, c.steps, optimizer, activations.round_histories,
-                                 train_loader, distributed, c.keep_checkpoints);
+            checkpoint_8bit_save(c.checkpoint_dir, steps_done, c.steps, dynamic_cast<const AdamW8bit&>(optimizer),
+                                 activations.round_histories, train_loader, distributed, c.keep_checkpoints);
             print0(distributed, "step %5d | checkpoint %s/%s (%s)\n", steps_done, c.checkpoint_dir.c_str(),
                    checkpoint_folder_name(steps_done).c_str(), duration_text(seconds_since(saving_started)).c_str());
         }

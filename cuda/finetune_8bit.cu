@@ -179,6 +179,7 @@ int main(int argc, char** argv) {
     // 1. the settings, the GPUs and the chat rows
     std::string init_from = take_init_from(argc, argv);
     TrainConfig c = parse_args(argc, argv, finetune_defaults_of());
+    stop_unless_adamw(c, "finetune_8bit");
     Distributed distributed(c.nccl_id_file);
     int micro_batches = micro_batches_of(c, distributed);
     ChatLoader train_loader(c.train_files, c.batch_size, c.seq_len, distributed.rank(), distributed.world_size());

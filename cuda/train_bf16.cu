@@ -104,6 +104,7 @@ static float val_loss(DataLoader& val_loader, const Tensor& token_ids, const Ten
 int main(int argc, char** argv) {
     // 1. the settings, the GPUs and the data: every file's header checked before anything else
     TrainConfig c = parse_args(argc, argv, train_defaults_of());
+    stop_unless_adamw(c, "train_bf16");
     Distributed distributed(c.nccl_id_file);                            // first: it picks this process's GPU
     int micro_batches = micro_batches_of(c, distributed);
     DataLoader train_loader(c.train_files, c.batch_size, c.seq_len, distributed.rank(), distributed.world_size());

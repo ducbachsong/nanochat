@@ -23,7 +23,8 @@
 #include "kernels/bf16/softmax_loss_bf16.cuh"      // the softmax, the loss and its gradient from the bfloat16 logits
 #include "kernels/8bit/attention_flash_8bit.cuh"   // attention_8bit_forward, _backward
 #include "kernels/8bit/qk_norm_8bit.cuh"           // QK-norm before attention (GPT2Config::qk_norm)
-#include "kernels/8bit/adamw_8bit.cuh"            // AdamW8bit's update
+#include "kernels/8bit/optimizer/adamw_8bit.cuh"         // AdamW8bit's update
+#include "kernels/8bit/optimizer/muon_8bit.cuh"         // Muon8bit's update of the blocks' matrices
 // GPT-2's 15 matrix products in 8 bits, each a kernel of its own with its own setting (its file's defines, from its
 // cuda/tests/8bit/prod/tune_<product>_8bit.cu) and its own 8-bit copies: a layer's forward, its backward's input_grad and
 // weight_grad, and the head's
@@ -253,6 +254,52 @@ private:
     Tensor m_scales_;                    // ...one float scale per ADAMW_VALUES_PER_SCALE values
     Tensor sqrt_v_bytes_;                // sqrt(v) / scale, the same
     Tensor sqrt_v_scales_;
+    [[noreturn]] void stop_no_moments_tensor(const char* what) const;   // m and v as tensors: not in 8 bits
+};
+
+/// The 8-bit model's params and grads, Muon on the blocks' matrices and AdamW on the rest, every state in 8 bits.
+class Muon8bit : public Optimizer {
+    // The model's params and grads (bfloat16), a float master for all of them, and three 8-bit states: Muon's
+    // momentum for the blocks' matrices, AdamW's m and sqrt(v) for wte and wpe (decayed), and for the 1-D tensors
+    // (not decayed). One GPU only: Newton–Schulz needs each whole matrix, and the slices cut them.
+public:
+    // ── making it ───────────────────────────────────────────────────────────────
+    Muon8bit(const std::vector<Shape>& param_shapes, const AdamWConfig& adamw_config,   // GPT2Params::shapes' order
+             const MuonConfig& muon_config, size_t num_layers);
+    void copy_params_to_master() override;                              // once, after filling param(k)
+
+    // ── reading ─────────────────────────────────────────────────────────────────
+    const Tensor& param(int k) const override;                          // parameter tensor k: bfloat16
+    const Tensor& grad(int k) const override;                           // its gradient: bfloat16
+    const Tensor& all_params() const override;                          // every param(k), one flat tensor
+    const Tensor& all_grads() const override;                           // every grad(k), one flat tensor
+    Tensor master_slice() const override;                               // the master, flat
+    const Tensor& m_slice() const override;                             // stops: no float or bfloat16 m
+    const Tensor& v_slice() const override;                             // ...nor v
+    const MuonConfig& muon_config() const;                              // Muon's settings
+    float muon_learning_rate() const;                                   // the next step's, from AdamW's
+
+protected:
+    void update(int t) override;                                        // step t: AdamW twice, Muon a matrix at a time
+
+private:
+    TensorBuffer model_buffer_;          // bfloat16: the params and grads
+    int params_group_index_;             // model_buffer_'s group of the params
+    int grads_group_index_;              // ...of the grads
+    int master_group_index_;             // buffer_'s group of the master params
+    MuonConfig muon_config_;
+    int muon_first_index_;               // the first of the blocks' matrices: params 2 .. 2 + 4 num_layers - 1
+    int muon_end_index_;                 // one past the last
+    size_t embeddings_count_;            // wte's and wpe's values: first in params
+    size_t muon_count_;                  // the blocks' matrices' values: next
+    size_t vectors_count_;               // the 1-D tensors' values: last
+    Tensor embeddings_m_bytes_, embeddings_m_scales_;           // AdamW's m and sqrt(v) of wte and wpe, as AdamW8bit's
+    Tensor embeddings_sqrt_v_bytes_, embeddings_sqrt_v_scales_;
+    Tensor vectors_m_bytes_, vectors_m_scales_;                 // ...of the 1-D tensors
+    Tensor vectors_sqrt_v_bytes_, vectors_sqrt_v_scales_;
+    Tensor muon_m_bytes_;                // Muon's momentum / scale in E4M3, one byte a value
+    Tensor muon_m_scales_;               // ...one float scale per ADAMW_VALUES_PER_SCALE values
+    Muon8bitScratch muon_scratch_;       // for the largest matrix
     [[noreturn]] void stop_no_moments_tensor(const char* what) const;   // m and v as tensors: not in 8 bits
 };
 
@@ -863,6 +910,152 @@ inline void AdamW8bit::update(int t) {
                       sqrt_v_bytes_.data_ptr<__nv_fp8_e4m3>(), sqrt_v_scales_.data(), slice_size(),
                       decayed_in_slice(), grad_norm().data(), config_.max_norm, config_.learning_rate, config_.beta1,
                       config_.beta2, config_.eps, config_.weight_decay, t, buffer_.group(master_group_index_).data());
+}
+
+// ── Muon8bit: making it ──────────────────────────────────────────────────────
+
+/// Makes an 8-bit Muon with AdamW for the rest, all 0.
+///
+///   param_shapes   GPT2Params::shapes' order: wte, wpe, the blocks' 4 num_layers matrices, then the 1-D tensors
+///   adamw_config   AdamW's settings for wte, wpe and the 1-D tensors; its max_norm clips Muon's gradients too
+///   muon_config    Muon's settings for the blocks' matrices
+///   num_layers     the blocks: their matrices are params 2 .. 2 + 4 num_layers - 1
+inline Muon8bit::Muon8bit(const std::vector<Shape>& param_shapes, const AdamWConfig& adamw_config,
+                          const MuonConfig& muon_config, size_t num_layers)
+    : Optimizer(param_shapes, adamw_config, DType::BFloat16, 0, 1), muon_config_(muon_config) {
+    // Makes an 8-bit Muon: the master and grad_norm in the float buffer; the params and grads in the bfloat16
+    // one; the three 8-bit states with their scales; all 0. Stops if the params are not in that order: wte and wpe
+    // matrices, the next 4 num_layers matrices, then only 1-D tensors.
+    // 1. where each part starts: wte and wpe, the blocks' matrices, the 1-D tensors
+    muon_first_index_ = 2;
+    muon_end_index_ = 2 + 4 * (int)num_layers;
+    if ((int)param_shapes.size() < muon_end_index_) {
+        fprintf(stderr, "error: Muon8bit needs wte, wpe and 4 x %zu block matrices first; got %zu params\n", num_layers,
+                param_shapes.size());
+        exit(EXIT_FAILURE);
+    }
+    embeddings_count_ = muon_count_ = vectors_count_ = 0;
+    size_t largest_count_val = 0;
+    size_t largest_short_val = 0;
+    for (int k = 0; k < (int)param_shapes.size(); k++) {
+        size_t numel_val = 1;
+        for (size_t size_val : param_shapes[k]) numel_val *= size_val;
+        bool matrix_val = param_shapes[k].size() == 2;
+        if (k < muon_first_index_ && matrix_val) embeddings_count_ += numel_val;
+        else if (k < muon_end_index_ && matrix_val) {
+            muon_count_ += numel_val;
+            largest_count_val = std::max(largest_count_val, numel_val);
+            largest_short_val = std::max(largest_short_val, std::min(param_shapes[k][0], param_shapes[k][1]));
+        } else if (k >= muon_end_index_ && !matrix_val) vectors_count_ += numel_val;
+        else {
+            fprintf(stderr, "error: Muon8bit needs params 0, 1 (wte, wpe) and 2 .. %d (the blocks' matrices) to be "
+                            "matrices and the rest 1-D; param %d is not\n", muon_end_index_ - 1, k);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    // 2. the master and grad_norm; the params and grads
+    master_group_index_ = buffer_.add_many(slice_shapes());
+    allocate();
+    params_group_index_ = model_buffer_.add_many(param_shapes);
+    grads_group_index_ = model_buffer_.add_many(param_shapes);
+    model_buffer_.allocate(DType::BFloat16);
+
+    // 3. the 8-bit states: 1 byte a value, a float scale a warp, each part its own
+    auto bytes_val = [](size_t count_val) { return Tensor::zeros({count_val}, DType::E4M3); };
+    auto scales_val = [](size_t count_val) { return Tensor::zeros({CEIL_DIV(count_val, (size_t)ADAMW_VALUES_PER_SCALE)}); };
+    embeddings_m_bytes_ = bytes_val(embeddings_count_), embeddings_m_scales_ = scales_val(embeddings_count_);
+    embeddings_sqrt_v_bytes_ = bytes_val(embeddings_count_), embeddings_sqrt_v_scales_ = scales_val(embeddings_count_);
+    vectors_m_bytes_ = bytes_val(vectors_count_), vectors_m_scales_ = scales_val(vectors_count_);
+    vectors_sqrt_v_bytes_ = bytes_val(vectors_count_), vectors_sqrt_v_scales_ = scales_val(vectors_count_);
+    muon_m_bytes_ = bytes_val(muon_count_), muon_m_scales_ = scales_val(muon_count_);
+    muon_scratch_ = Muon8bitScratch(largest_count_val, largest_short_val);
+}
+
+/// Copies the model's params into the float master, once, before the first step.
+inline void Muon8bit::copy_params_to_master() {
+    // Exact: every bfloat16 is a float.
+    buffer_.group(master_group_index_).copy_(all_params());
+}
+
+// ── Muon8bit: reading ────────────────────────────────────────────────────────
+
+/// Gives parameter tensor k, bfloat16.
+///
+///   k   0 .. num_params() - 1
+inline const Tensor& Muon8bit::param(int k) const { return model_buffer_.tensor(params_group_index_, k); }
+
+/// Gives the gradient of parameter k, bfloat16.
+///
+///   k   0 .. num_params() - 1
+inline const Tensor& Muon8bit::grad(int k) const { return model_buffer_.tensor(grads_group_index_, k); }
+
+/// Gives every param(k) as one flat tensor.
+inline const Tensor& Muon8bit::all_params() const { return model_buffer_.group(params_group_index_); }
+
+/// Gives every grad(k) as one flat tensor: one launch zeroes them all.
+inline const Tensor& Muon8bit::all_grads() const { return model_buffer_.group(grads_group_index_); }
+
+/// Gives the master params as one flat tensor.
+inline Tensor Muon8bit::master_slice() const { return buffer_.group(master_group_index_); }
+
+/// Stops: 8-bit m has no float or bfloat16 tensor to give.
+inline const Tensor& Muon8bit::m_slice() const { stop_no_moments_tensor("m_slice()"); }
+
+/// Stops: 8-bit v has no float or bfloat16 tensor to give.
+inline const Tensor& Muon8bit::v_slice() const { stop_no_moments_tensor("v_slice()"); }
+
+/// Gives Muon's settings.
+inline const MuonConfig& Muon8bit::muon_config() const { return muon_config_; }
+
+/// Gives the next step's Muon learning rate: its peak x AdamW's learning rate / AdamW's peak.
+inline float Muon8bit::muon_learning_rate() const {
+    // The schedule (learning_rate_at) sets AdamW's; Muon's follows the same warmup and decay from its own peak.
+    return muon_config_.learning_rate * config_.learning_rate / muon_config_.adamw_peak_learning_rate;
+}
+
+/// Stops with a message: m and v are bytes and scales here, not a tensor of values.
+///
+///   what   the call, for the message
+inline void Muon8bit::stop_no_moments_tensor(const char* what) const {
+    fprintf(stderr, "error: %s is not there with 8-bit m and v\n", what);
+    exit(EXIT_FAILURE);
+}
+
+// ── Muon8bit: the update ─────────────────────────────────────────────────────
+
+/// Does step t: AdamW on wte and wpe, AdamW on the 1-D tensors, then Muon on each block matrix.
+///
+///   t   the step number: 1, 2, 3, ...
+inline void Muon8bit::update(int t) {
+    // The params lie wte, wpe | the blocks' matrices | the 1-D tensors, so each AdamW part is one launch of
+    // adamw_update_8bit on its own run of values with its own 8-bit m and sqrt(v); Muon goes a matrix at a time,
+    // each with its own run of momentum bytes and scales (every matrix a multiple of ADAMW_VALUES_PER_SCALE values).
+    // grad_norm is the norm of all the gradients, so all three parts clip alike.
+    nv_bfloat16* params_ptr = all_params().data_ptr<nv_bfloat16>();
+    nv_bfloat16* grads_ptr = all_grads().data_ptr<nv_bfloat16>();
+    float* master_ptr = buffer_.group(master_group_index_).data();
+    // 1. AdamW: wte and wpe, all decayed
+    adamw_update_8bit(params_ptr, grads_ptr, embeddings_m_bytes_.data_ptr<__nv_fp8_e4m3>(), embeddings_m_scales_.data(),
+                      embeddings_sqrt_v_bytes_.data_ptr<__nv_fp8_e4m3>(), embeddings_sqrt_v_scales_.data(), embeddings_count_,
+                      embeddings_count_, grad_norm().data(), config_.max_norm, config_.learning_rate, config_.beta1,
+                      config_.beta2, config_.eps, config_.weight_decay, t, master_ptr);
+    // 2. AdamW: the 1-D tensors, none decayed
+    size_t vectors_start_val = embeddings_count_ + muon_count_;
+    adamw_update_8bit(params_ptr + vectors_start_val, grads_ptr + vectors_start_val, vectors_m_bytes_.data_ptr<__nv_fp8_e4m3>(),
+                      vectors_m_scales_.data(), vectors_sqrt_v_bytes_.data_ptr<__nv_fp8_e4m3>(), vectors_sqrt_v_scales_.data(),
+                      vectors_count_, 0, grad_norm().data(), config_.max_norm, config_.learning_rate, config_.beta1,
+                      config_.beta2, config_.eps, config_.weight_decay, t, master_ptr + vectors_start_val);
+    // 3. Muon: each block matrix
+    float muon_learning_rate_val = muon_learning_rate();
+    size_t matrix_start_val = 0;                            // within the Muon part
+    for (int k = muon_first_index_; k < muon_end_index_; k++) {
+        muon_update_8bit(param(k), grad(k), master_ptr + embeddings_count_ + matrix_start_val,
+                         muon_m_bytes_.data_ptr<__nv_fp8_e4m3>() + matrix_start_val,
+                         muon_m_scales_.data() + matrix_start_val / ADAMW_VALUES_PER_SCALE, muon_scratch_,
+                         grad_norm().data(), config_.max_norm, muon_learning_rate_val, muon_config_);
+        matrix_start_val += param(k).numel();
+    }
 }
 
 #endif // MODEL_8BIT_CUH

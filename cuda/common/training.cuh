@@ -29,6 +29,14 @@ struct TrainConfig {
     int warmup_steps = 700;
     float weight_decay = 0.1f;
     float max_norm = 1.0f;                   // clip the grads to this norm; 0: no clipping
+    std::string optimizer = "adamw";         // train_8bit: "adamw", or "muon" (the blocks' matrices by Muon, the rest by
+                                             // AdamW; one GPU); train_fp32 and train_bf16: "adamw" only
+    float muon_learning_rate = 0.02f;        // Muon's peak; it follows the schedule as AdamW's does
+    float muon_momentum = 0.95f;
+    float muon_weight_decay = 0.0f;
+    int muon_newton_schulz_steps = 5;
+    bool muon_match_adamw = false;           // 1: Muon's step x 0.2 sqrt(max(rows, columns)) (Moonshot's); 0: x sqrt(max(1,
+                                             // rows / columns)) (Keller Jordan's, nanochat's)
     int val_every = 250;
     int val_batches = 20;                    // on each GPU
     unsigned long long seed = 42;
@@ -45,6 +53,7 @@ void print_usage_and_stop(const char* program, int exit_code, const TrainConfig&
 TrainConfig parse_args(int argc, char** argv, const TrainConfig& defaults = TrainConfig());
 float learning_rate_at(int step, const TrainConfig& c);
 AdamWConfig adamw_config_of(const TrainConfig& c);
+void stop_unless_adamw(const TrainConfig& c, const char* program);
 
 // ── the run's size ────────────────────────────────────────────────────────────
 int micro_batches_of(const TrainConfig& c, const Distributed& distributed);
@@ -94,6 +103,14 @@ inline void print_usage_and_stop(const char* program, int exit_code, const Train
     printf("  --warmup-steps N              %d\n", d.warmup_steps);
     printf("  --weight-decay X              %g\n", d.weight_decay);
     printf("  --max-norm X                  %g   0: no clipping\n", d.max_norm);
+    printf("  --optimizer NAME              %s   adamw, or muon (train_8bit, one GPU: the blocks' matrices by Muon)\n",
+           d.optimizer.c_str());
+    printf("  --muon-learning-rate X        %g   Muon's peak, on the same schedule\n", d.muon_learning_rate);
+    printf("  --muon-momentum X             %g\n", d.muon_momentum);
+    printf("  --muon-weight-decay X         %g\n", d.muon_weight_decay);
+    printf("  --muon-newton-schulz-steps N  %d\n", d.muon_newton_schulz_steps);
+    printf("  --muon-match-adamw 0|1        %d   1: Muon's step x 0.2 sqrt(max(rows, columns)), AdamW's size\n",
+           d.muon_match_adamw ? 1 : 0);
     printf("  --val-every N                 %d\n", d.val_every);
     printf("  --val-batches N               %d   on each GPU\n", d.val_batches);
     printf("  --seed N                      %llu\n", d.seed);
@@ -135,6 +152,12 @@ inline TrainConfig parse_args(int argc, char** argv, const TrainConfig& defaults
         else if (flag == "--warmup-steps") c.warmup_steps = atoi(value);
         else if (flag == "--weight-decay") c.weight_decay = (float)atof(value);
         else if (flag == "--max-norm") c.max_norm = (float)atof(value);
+        else if (flag == "--optimizer") c.optimizer = value;
+        else if (flag == "--muon-learning-rate") c.muon_learning_rate = (float)atof(value);
+        else if (flag == "--muon-momentum") c.muon_momentum = (float)atof(value);
+        else if (flag == "--muon-weight-decay") c.muon_weight_decay = (float)atof(value);
+        else if (flag == "--muon-newton-schulz-steps") c.muon_newton_schulz_steps = atoi(value);
+        else if (flag == "--muon-match-adamw") c.muon_match_adamw = atoi(value) != 0;
         else if (flag == "--val-every") c.val_every = atoi(value);
         else if (flag == "--val-batches") c.val_batches = atoi(value);
         else if (flag == "--seed") c.seed = strtoull(value, nullptr, 10);
@@ -157,6 +180,14 @@ inline TrainConfig parse_args(int argc, char** argv, const TrainConfig& defaults
     }
     if (c.warmup_steps < 0) {
         fprintf(stderr, "error: --warmup-steps must be at least 0\n");
+        exit(EXIT_FAILURE);
+    }
+    if (c.optimizer != "adamw" && c.optimizer != "muon") {
+        fprintf(stderr, "error: --optimizer is adamw or muon; got %s\n", c.optimizer.c_str());
+        exit(EXIT_FAILURE);
+    }
+    if (c.muon_newton_schulz_steps < 1 || c.muon_momentum < 0.0f || c.muon_momentum >= 1.0f) {
+        fprintf(stderr, "error: --muon-newton-schulz-steps must be at least 1 and --muon-momentum in [0, 1)\n");
         exit(EXIT_FAILURE);
     }
     if (c.nccl_id_file.empty()) {
@@ -193,6 +224,17 @@ inline AdamWConfig adamw_config_of(const TrainConfig& c) {
     adamw_config.weight_decay = c.weight_decay;
     adamw_config.max_norm = c.max_norm;
     return adamw_config;
+}
+
+/// Stops unless the run's optimizer is AdamW: for the trainers with no Muon.
+///
+///   c         the run's settings
+///   program   the trainer, for the message
+inline void stop_unless_adamw(const TrainConfig& c, const char* program) {
+    if (c.optimizer != "adamw") {
+        fprintf(stderr, "error: %s trains with AdamW only; --optimizer %s is train_8bit's\n", program, c.optimizer.c_str());
+        exit(EXIT_FAILURE);
+    }
 }
 
 // ── the run's size ────────────────────────────────────────────────────────────
