@@ -1,0 +1,155 @@
+@misc{andersch2022hopper,
+  author       = {Andersch, Michael and Palmer, Greg and Krashinsky, Ronny and Stam, Nick and Mehta, Vishal and Brito, Gonzalo and Ramaswamy, Sridhar},
+  title        = {{NVIDIA} {Hopper} Architecture In-Depth},
+  howpublished = {NVIDIA Technical Blog},
+  year         = {2022},
+  url          = {https://developer.nvidia.com/blog/nvidia-hopper-architecture-in-depth/}
+}
+
+@techreport{nvidia2022h100,
+  author      = {{NVIDIA}},
+  title       = {{NVIDIA} {H100} Tensor Core {GPU} Architecture},
+  institution = {NVIDIA},
+  type        = {Whitepaper},
+  year        = {2022},
+  url         = {https://resources.nvidia.com/en-us-data-center-overview/gtc22-whitepaper-hopper}
+}
+
+@manual{nvidia2026hoppertuning,
+  author = {{NVIDIA}},
+  title  = {{NVIDIA} {Hopper} Tuning Guide},
+  note   = {Section 1.4.1.2, Tensor Memory Accelerator},
+  year   = {2026},
+  url    = {https://docs.nvidia.com/cuda/hopper-tuning-guide/index.html}
+}
+
+@manual{nvidia2026cudaguide,
+  author = {{NVIDIA}},
+  title  = {{CUDA} Programming Guide},
+  note   = {Shared memory banks; asynchronous data copies},
+  year   = {2026},
+  url    = {https://docs.nvidia.com/cuda/cuda-programming-guide/}
+}
+
+@manual{nvidia2024ptx,
+  author = {{NVIDIA}},
+  title  = {Parallel Thread Execution {ISA}, Release 8.5},
+  note   = {\texttt{cp.async.bulk.tensor}, \texttt{mbarrier}, tensor swizzling modes},
+  year   = {2024},
+  url    = {https://docs.nvidia.com/cuda/parallel-thread-execution/}
+}
+
+@article{luo2025dissecting,
+  author  = {Luo, Weile and Fan, Ruibo and Li, Zeyu and Du, Dayou and Liu, Hongyuan and Wang, Qiang and Chu, Xiaowen},
+  title   = {Dissecting the {NVIDIA} {Hopper} Architecture through Microbenchmarking and Multiple Level Analysis},
+  journal = {arXiv preprint arXiv:2501.12084},
+  year    = {2025}
+}
+
+@inproceedings{bose2026tma,
+  author    = {Bose, C. D. and Avalos Baddouh, C. and Pan, J. and Rogers, T. G.},
+  title     = {When and Why to Use {TMA}: A Workload-Grounded Characterization of Tensor Memory Acceleration on {NVIDIA} {Hopper} {GPUs}},
+  booktitle = {IEEE International Symposium on Workload Characterization (IISWC)},
+  year      = {2026},
+  note      = {arXiv:2610.34907}
+}
+
+@article{shah2024flashattention3,
+  author  = {Shah, Jay and Bikshandi, Ganesh and Zhang, Ying and Thakkar, Vijay and Ramani, Pradeep and Dao, Tri},
+  title   = {{FlashAttention-3}: Fast and Accurate Attention with Asynchrony and Low-precision},
+  journal = {arXiv preprint arXiv:2407.08608},
+  year    = {2024}
+}
+
+@article{spector2024thunderkittens,
+  author  = {Spector, Benjamin F. and Arora, Simran and Singhal, Aaryan and Fu, Daniel Y. and R{\'e}, Christopher},
+  title   = {{ThunderKittens}: Simple, Fast, and Adorable {AI} Kernels},
+  journal = {arXiv preprint arXiv:2410.20399},
+  year    = {2024}
+}
+
+@misc{colfax2024tma,
+  author       = {{Colfax Research}},
+  title        = {{CUTLASS} Tutorial: Mastering the {NVIDIA} Tensor Memory Accelerator ({TMA})},
+  howpublished = {Colfax Research},
+  year         = {2024},
+  url          = {https://research.colfax-intl.com/tutorial-hopper-tma/}
+}
+
+@misc{shankhdhar2024worklog,
+  author       = {Shankhdhar, Pranjal},
+  title        = {Outperforming {cuBLAS} on {H100}: a Worklog},
+  howpublished = {Blog post},
+  year         = {2024},
+  url          = {https://cudaforfun.substack.com/p/outperforming-cublas-on-h100-a-worklog}
+}
+
+@misc{thakkar2023cutlass,
+  author       = {Thakkar, Vijay and Ramani, Pradeep and Cecka, Cris and others},
+  title        = {{CUTLASS}},
+  howpublished = {Software, NVIDIA},
+  year         = {2023},
+  url          = {https://github.com/NVIDIA/cutlass}
+}
+
+@article{williams2009roofline,
+  author  = {Williams, Samuel and Waterman, Andrew and Patterson, David},
+  title   = {Roofline: An Insightful Visual Performance Model for Multicore Architectures},
+  journal = {Communications of the ACM},
+  volume  = {52},
+  number  = {4},
+  pages   = {65--76},
+  year    = {2009}
+}
+
+@article{little1961proof,
+  author  = {Little, John D. C.},
+  title   = {A Proof for the Queuing Formula: {$L = \lambda W$}},
+  journal = {Operations Research},
+  volume  = {9},
+  number  = {3},
+  pages   = {383--387},
+  year    = {1961}
+}
+
+@misc{volkov2010better,
+  author       = {Volkov, Vasily},
+  title        = {Better Performance at Lower Occupancy},
+  howpublished = {GPU Technology Conference (GTC)},
+  year         = {2010}
+}
+
+@inproceedings{chen2018autotvm,
+  author    = {Chen, Tianqi and Zheng, Lianmin and Yan, Eddie and Jiang, Ziheng and Moreau, Thierry and Ceze, Luis and Guestrin, Carlos and Krishnamurthy, Arvind},
+  title     = {Learning to Optimize Tensor Programs},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2018}
+}
+
+@inproceedings{chen2016xgboost,
+  author    = {Chen, Tianqi and Guestrin, Carlos},
+  title     = {{XGBoost}: A Scalable Tree Boosting System},
+  booktitle = {Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  year      = {2016}
+}
+
+@inproceedings{kingma2015adam,
+  author    = {Kingma, Diederik P. and Ba, Jimmy},
+  title     = {Adam: A Method for Stochastic Optimization},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2015}
+}
+
+@inproceedings{loshchilov2019adamw,
+  author    = {Loshchilov, Ilya and Hutter, Frank},
+  title     = {Decoupled Weight Decay Regularization},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2019}
+}
+
+@techreport{radford2019gpt2,
+  author      = {Radford, Alec and Wu, Jeffrey and Child, Rewon and Luan, David and Amodei, Dario and Sutskever, Ilya},
+  title       = {Language Models are Unsupervised Multitask Learners},
+  institution = {OpenAI},
+  year        = {2019}
+}
