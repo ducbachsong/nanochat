@@ -1,16 +1,16 @@
-// tune_adamw_bf16.cu — the timings of cuda/tests/bf16/test_adamw_bf16.cu, moved here so the tests only check numbers:
+// tune_adamw_bf16.cu — the timings of cuda/tests/bf16/optimizer/test_adamw_bf16.cu, moved here so the tests only check numbers:
 // time_the_kernel_with_other_block_and_thread_counts.
 //
-// Built as cuda/tests/bf16/test_adamw_bf16.cu is (see cuda/tests/README.md); what it prints also goes to
+// Built as cuda/tests/bf16/optimizer/test_adamw_bf16.cu is (see cuda/tests/README.md); what it prints also goes to
 // cuda/tests/results/<GPU>/adamw_bf16_<date>_<time>.txt.
 #include <ATen/ops/_foreach_add.h>    // at::_foreach_add_: +1 on every step count; libtorch before any CUDA header
 #include <ATen/ops/_fused_adamw.h>    // at::_fused_adamw_: PyTorch's fused AdamW, the op fused=True calls
 #include <torch/nn/utils/clip_grad.h> // torch::nn::utils::clip_grad_norm_; only the headers needed, not <torch/torch.h>
 #include <torch/utils.h>              // torch::NoGradGuard
-#include "../common/test_helpers.h"    // ASSERT_EQ, ASSERT_NEAR, sample_data
-#include "../tune_helpers.h"            // gpu_milliseconds, warm_up_gpu, print_gpu, MBU
-#include "../../common/model_params.cuh"    // AdamWConfig
-#include "../../kernels/bf16/adamw_bf16.cuh" // adamw_update_bf16
+#include "../../common/test_helpers.h"  // ASSERT_EQ, ASSERT_NEAR, sample_data
+#include "../../tune_helpers.h"          // gpu_milliseconds, warm_up_gpu, print_gpu, MBU
+#include "../../../common/model_params.cuh"    // AdamWConfig
+#include "../../../kernels/bf16/optimizer/adamw_bf16.cuh" // adamw_update_bf16
 
 #define GPT2_PARAMS 124439808         // GPT-2 small's values
 #define GPT2_DECAYED_PARAMS 124439040 // of them in matrices

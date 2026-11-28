@@ -1,15 +1,15 @@
-// test_adamw_bf16.cu — tests for cuda/kernels/bf16/adamw_bf16.cuh (bfloat16 params, grads, m and v, a float master)
+// test_adamw_bf16.cu — tests for cuda/kernels/bf16/optimizer/adamw_bf16.cuh (bfloat16 params, grads, m and v, a float master)
 // and cuda/model_bf16.cuh's AdamWBf16 on a bfloat16 model. Every check prints its test case, input, expected and
 // actual value, and ok; the first FAIL stops the program.
-// The timings are in cuda/tests/bf16/tune_adamw_bf16.cu.
+// The timings are in cuda/tests/bf16/optimizer/tune_adamw_bf16.cu.
 //
 #include <ATen/ops/_foreach_add.h>    // at::_foreach_add_: +1 on every step count; libtorch before any CUDA header
 #include <ATen/ops/_fused_adamw.h>    // at::_fused_adamw_: PyTorch's fused AdamW, the op fused=True calls
 #include <torch/nn/utils/clip_grad.h> // torch::nn::utils::clip_grad_norm_; only the headers needed, not <torch/torch.h>
 #include <torch/utils.h>              // torch::NoGradGuard
-#include "../common/test_helpers.h"             // ASSERT_EQ, ASSERT_NEAR, sample_data
-#include "../../model_fp32.cuh"     // AdamW, AdamWConfig: the float one the bfloat16 one is compared with
-#include "../../model_bf16.cuh"     // AdamWBf16; and adamw_update_bf16 (kernels/bf16/adamw_bf16.cuh)
+#include "../../common/test_helpers.h"          // ASSERT_EQ, ASSERT_NEAR, sample_data
+#include "../../../model_fp32.cuh"   // AdamW, AdamWConfig: the float one the bfloat16 one is compared with
+#include "../../../model_bf16.cuh"   // AdamWBf16; and adamw_update_bf16 (kernels/bf16/optimizer/adamw_bf16.cuh)
 
 // The common tests' largest difference from PyTorch after several steps, as a fraction of the largest value:
 // m and v rounded to bfloat16 each step move the params by up to 5.8e-5 of float's (a Python copy).

@@ -63,6 +63,17 @@ static GPT2Config two_layer_no_linear_bias_config()
     return config_val;
 }
 
+// two_layer_no_linear_bias_config's model with nanochat's two guards, as train_bf16 trains: QK-norm before attention
+// and a logit softcap, here 3 (not train_bf16's 15) so the cap bends most of the random model's logits.
+#define TEST_LOGIT_SOFTCAP 3.0f
+static GPT2Config two_layer_qk_norm_softcap_config()
+{
+    GPT2Config config_val = two_layer_no_linear_bias_config();
+    config_val.qk_norm = true;
+    config_val.logit_softcap = TEST_LOGIT_SOFTCAP;
+    return config_val;
+}
+
 // ── helpers ───────────────────────────────────────────────────────────────────
 
 /// Gives every parameter's name in GPT2Params::shapes()' order, to print with its check.
@@ -281,8 +292,9 @@ struct GPT2Tensors
 ///   input_tensor    the block's input
 ///   p_list          the 12 parameters in BlockParams::shapes()' order
 ///   num_heads_val   heads
+///   qk_norm_val     QK-norm on query's and key's head rows before attention (GPT2Config::qk_norm)
 static torch::Tensor pytorch_block_forward(const torch::Tensor &input_tensor, const std::vector<torch::Tensor> &p_list,
-                                           int64_t num_heads_val)
+                                           int64_t num_heads_val, bool qk_norm_val = false)
 {
     // Runs the block the plain PyTorch way, as GPT-2's model.py writes it, on PyTorch tensors: from input and the 12
     // parameters in BlockParams::shapes()' order, gives the output. The same as test_block.cu's. A linear bias
@@ -302,7 +314,13 @@ static torch::Tensor pytorch_block_forward(const torch::Tensor &input_tensor, co
     auto heads_val = [&](const torch::Tensor &part_tensor) {
         return part_tensor.view({batch_size_val, seq_len_val, num_heads_val, head_size_val}).transpose(1, 2);
     };
-    torch::Tensor y_tensor = torch::scaled_dot_product_attention(heads_val(parts_list[0]), heads_val(parts_list[1]),
+    // with QK-norm, each query and key head row gain · x / sqrt(mean(x²) + eps), no weight (qk_norm_bf16.cuh's)
+    auto normed_val = [&](const torch::Tensor &heads_tensor) {
+        if (!qk_norm_val) return heads_tensor;
+        return QK_NORM_BF16_GAIN * heads_tensor * torch::rsqrt(heads_tensor.pow(2).mean(-1, true) + QK_NORM_BF16_EPS);
+    };
+    torch::Tensor y_tensor = torch::scaled_dot_product_attention(normed_val(heads_val(parts_list[0])),
+                                                                 normed_val(heads_val(parts_list[1])),
                                                                  heads_val(parts_list[2]), {}, 0.0, true);
     y_tensor = y_tensor.transpose(1, 2).contiguous().view({batch_size_val, seq_len_val, embed_dim_val});
     torch::Tensor residual2_tensor = input_tensor + torch::linear(y_tensor, p_list[1], p_list[7]);
@@ -340,7 +358,7 @@ static torch::Tensor pytorch_gpt2_logits(const torch::Tensor &token_ids_tensor, 
         else      // ln1_weight, ln1_bias, qkv_bias, attention_out_bias, ln2_weight, ln2_bias, mlp_up_bias, mlp_down_bias
             block_list.insert(block_list.end(), {vectors_ptr[0], vectors_ptr[1], torch::Tensor(), torch::Tensor(),
                                                  vectors_ptr[2], vectors_ptr[3], torch::Tensor(), torch::Tensor()});
-        x_tensor = pytorch_block_forward(x_tensor, block_list, (int64_t)config_val.num_heads);
+        x_tensor = pytorch_block_forward(x_tensor, block_list, (int64_t)config_val.num_heads, config_val.qk_norm);
     }
     // 3. lnf (the last two tensors), then the head: wte, no bias
     x_tensor = torch::layer_norm(x_tensor, {(int64_t)config_val.embed_dim}, p_list[p_list.size() - 2],
@@ -376,7 +394,11 @@ struct PytorchGPT2
         for (const Tensor &param_tensor : mine_val.params_val.tensors())
             params_list.push_back(pytorch_copy_of(param_tensor).requires_grad_(true));
         logits_tensor = pytorch_gpt2_logits(pytorch_ids_of(mine_val.token_ids_tensor), params_list, mine_val.config_val);
-        loss_tensor = pytorch_loss(logits_tensor, pytorch_ids_of(mine_val.targets_tensor), mine_val.config_val.vocab_size);
+        // with a softcap c, the loss is of c · tanh(logit / c): mine keeps the logits before it (softmax_loss_bf16
+        // caps them as it reads them), so logits_tensor stays the head's own
+        float softcap_val = mine_val.config_val.logit_softcap;
+        torch::Tensor capped_tensor = softcap_val > 0.0f ? softcap_val * torch::tanh(logits_tensor / softcap_val) : logits_tensor;
+        loss_tensor = pytorch_loss(capped_tensor, pytorch_ids_of(mine_val.targets_tensor), mine_val.config_val.vocab_size);
         loss_tensor.backward();
     }
 };
@@ -449,6 +471,15 @@ static void forward_and_backward_with_no_linear_bias_in_bfloat16(void)
     // (torch::linear given no bias): the loss, the logits and all 20 parameter gradients (4 + 2 x 8) within
     // BFLOAT16_TOLERANCE.
     forward_and_backward_match_pytorch(__func__, two_layer_no_linear_bias_config(), 2, 64, DType::BFloat16, BFLOAT16_TOLERANCE);
+}
+
+static void forward_and_backward_with_qk_norm_and_softcap_in_bfloat16(void)
+{
+    // Expect: forward_and_backward_with_no_linear_bias_in_bfloat16's model with QK-norm and a logit softcap of
+    // TEST_LOGIT_SOFTCAP (GPT2Config::qk_norm, logit_softcap; train_bf16's guards). PyTorch's model the same way
+    // (query's and key's head rows normed before attention, the logits c · tanh(logit / c) before the loss, both by
+    // autograd): the loss, the head's logits (before the cap) and all 20 parameter gradients within BFLOAT16_TOLERANCE.
+    forward_and_backward_match_pytorch(__func__, two_layer_qk_norm_softcap_config(), 2, 64, DType::BFloat16, BFLOAT16_TOLERANCE);
 }
 
 static void forward_backward_gives_forward_then_backward_in_bfloat16(void)
@@ -732,6 +763,7 @@ int main(void)
     matches_pytorch_on_gpt2_widths();
     forward_and_backward_in_bfloat16();
     forward_and_backward_with_no_linear_bias_in_bfloat16();
+    forward_and_backward_with_qk_norm_and_softcap_in_bfloat16();
     forward_backward_gives_forward_then_backward_in_bfloat16();
 
     shapes_are_gpt2s_with_the_matrices_first();

@@ -1,7 +1,7 @@
-// train_8bit.cu — trains a GPT-2 of 32 layers x 2,304 (about 2.15B parameters) from scratch on the FineWeb-Edu token files with its products in 8 bits
-// (model_8bit.cuh), on one H100 or on several of one machine: the params, grads and activations bfloat16,
-// each product's two sides rounded to FP8 E4M3 just before it; AdamW8bit keeps float master params and m and
-// sqrt(v) in 8 bits for this GPU's slice. Its checkpoints are its own (checkpoint_8bit.cuh: m and sqrt(v) as bytes
+// train_8bit.cu — trains nanochat's d24 model (24 layers x 1,536, about 0.73B parameters) from scratch on the ClimbMix
+// token files with its products in 8 bits (model_8bit.cuh), on one H100 or on several of one machine: the params,
+// grads and activations bfloat16, each product's two sides rounded to FP8 E4M3 just before it; AdamW8bit keeps float
+// master params and m and sqrt(v) in 8 bits for this GPU's slice. Its checkpoints are its own (checkpoint_8bit.cuh: m and sqrt(v) as bytes
 // and scales), not train_bf16's. The other two: train_fp32.cu and train_bf16.cu.
 // The defaults are llm.c's GPT-2 (124M) run: 524,288 tokens a step, one pass over the train files (10B tokens:
 // 19,073 steps), warmup 700 steps, learning rate 6e-4 down to 0.
@@ -154,7 +154,7 @@ int main(int argc, char** argv) {
 
     // 2. the model: its params and grads live in AdamW8bit, the model reads and writes views of them. Every rank
     // makes the same starting values from the same seed, and keeps the master of its own slice.
-    GPT2Config model_config = model_config_of(c);                        // 32 layers x 2,304, 18 heads, 2,048 tokens
+    GPT2Config model_config = model_config_of(c);                        // 24 layers x 1,536, 12 heads, 2,048 tokens
     std::unique_ptr<Optimizer> optimizer_ptr = optimizer_of(c, model_config, distributed);
     Optimizer& optimizer = *optimizer_ptr;
     GPT2Params params = params_of(optimizer, model_config);

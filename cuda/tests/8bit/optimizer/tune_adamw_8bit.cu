@@ -8,11 +8,11 @@
 #include <torch/nn/utils/clip_grad.h> // torch::nn::utils::clip_grad_norm_; only the headers needed, not <torch/torch.h>
 #include <torch/types.h>              // torch::randn, torch::from_blob
 #include <torch/utils.h>              // torch::manual_seed, torch::NoGradGuard
-#include "../../../common/test_helpers.h"    // ASSERT_EQ, ASSERT_NEAR, sample_data
+#include "../../common/test_helpers.h" // ASSERT_EQ, ASSERT_NEAR, sample_data
 #include "../../tune_helpers.h"            // gpu_milliseconds, warm_up_gpu, print_gpu, MBU
 #include "../../../common/model_params.cuh"     // AdamWConfig
 #include "../../../kernels/fp32/adamw.cuh"      // adamw_update, timed against adamw_update_8bit
-#include "../../../kernels/bf16/adamw_bf16.cuh" // adamw_update_bf16, the same
+#include "../../../kernels/bf16/optimizer/adamw_bf16.cuh" // adamw_update_bf16, the same
 #include "../../../kernels/8bit/optimizer/adamw_8bit.cuh"   // adamw_update_8bit
 
 #define GPT2_PARAMS 124439808         // GPT-2 small's values

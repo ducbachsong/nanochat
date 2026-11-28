@@ -47,8 +47,8 @@ SLICE_INDEXES = {FLOAT_MAGIC: (7, 8), EIGHT_BIT_MAGIC: (6, 7)}   # header[...]: 
 KINDS = {FLOAT_MAGIC: "float or bfloat16 run", EIGHT_BIT_MAGIC: "8-bit run"}
 STEPS_DONE_INDEX, WORLD_SIZE_INDEX, RANK_INDEX = 2, 4, 5
 LAYER_NORM_EPS = 1e-5                      # LAYER_NORM_BF16_EPS: added to the variance, as GPT-2
-QK_NORM_GAIN = 1.2                         # QK_NORM_8BIT_GAIN: query's and key's head rows' RMS after QK-norm
-QK_NORM_EPS = 1e-6                         # QK_NORM_8BIT_EPS: added to mean(x²)
+QK_NORM_GAIN = 1.2                         # QK_NORM_BF16_GAIN: query's and key's head rows' RMS after QK-norm
+QK_NORM_EPS = 1e-6                         # QK_NORM_BF16_EPS: added to mean(x²)
 
 
 def step_folder_of(path):
@@ -194,9 +194,9 @@ def main():
     parser.add_argument("--max-seq-len", type=int, default=2048)
     parser.add_argument("--attention-window", type=int, default=512, help="the short layers' window; 0: none")
     parser.add_argument("--linear-bias", type=int, default=0, help="1: the 4 linears have biases")
-    parser.add_argument("--qk-norm", type=int, default=1, help="1: QK-norm before attention (train_8bit's TRAIN_8BIT_QK_NORM)")
+    parser.add_argument("--qk-norm", type=int, default=1, help="1: QK-norm before attention (train_8bit's TRAIN_8BIT_QK_NORM, train_bf16's TRAIN_BF16_QK_NORM)")
     parser.add_argument("--logit-softcap", type=float, default=15.0,
-                        help="logits capped to c tanh(logit / c) (train_8bit's TRAIN_8BIT_LOGIT_SOFTCAP); 0: none")
+                        help="logits capped to c tanh(logit / c) (train_8bit's TRAIN_8BIT_LOGIT_SOFTCAP, train_bf16's TRAIN_BF16_LOGIT_SOFTCAP); 0: none")
     parser.add_argument("--dtype", choices=["bf16", "f32"], default="bf16", help="the weights' dtype in the file")
     parser.add_argument("--tokenizer", default=os.path.join(DATA, "climbmix", "tokenizer.pkl"),
                         help="copied into the folder if it is there")

@@ -14,6 +14,7 @@ cuda/tests/
   tune_helpers.h          gpu_milliseconds, warm_up_gpu, print_gpu, GB/s and MBU
   test_<x>.cu, tune_<x>.cu        the rest that is not one number type's: block, model, checkpoint, dataloader
   fp32/  bf16/  8bit/             each kernel of cuda/kernels/<type>/: test_<kernel>.cu and tune_<kernel>.cu
+    bf16/optimizer/               the bfloat16 optimizer of cuda/kernels/bf16/optimizer/: AdamW
     8bit/optimizer/               the 8-bit optimizers of cuda/kernels/8bit/optimizer/: AdamW, Muon, SGD
   results/
     T4/  L4/  A100/  H100/  H200/  B200/
@@ -21,7 +22,8 @@ cuda/tests/
 ```
 
 The table below lists the tunes; each sits next to its test, in `cuda/tests/` (`block`, `model`), `cuda/tests/fp32/` (no
-suffix), `cuda/tests/bf16/` (`_bf16`) or `cuda/tests/8bit/` (`_8bit`; the optimizers' in `cuda/tests/8bit/optimizer/`).
+suffix), `cuda/tests/bf16/` (`_bf16`; the optimizer's in `cuda/tests/bf16/optimizer/`) or `cuda/tests/8bit/` (`_8bit`; the optimizers' in
+`cuda/tests/8bit/optimizer/`).
 
 | File | What it times |
 |---|---|
@@ -93,7 +95,7 @@ rows a micro-batch while they fit in memory, and prints the MFU of each and the 
 
 Build a tune the way its test is built, with `tune_<kernel>.cu` in place of `test_<kernel>.cu`, from the same
 folder. The tests and tunes sit as their kernels do in `cuda/kernels/`: `cuda/tests/fp32/`, `cuda/tests/bf16/` and
-`cuda/tests/8bit/` for the kernels in those folders (`cuda/tests/8bit/optimizer/` for `cuda/kernels/8bit/optimizer/`), `cuda/tests/` itself for the rest (tensor, block, model, ...). On Colab, with the libtorch that comes with PyTorch:
+`cuda/tests/8bit/` for the kernels in those folders (`cuda/tests/bf16/optimizer/` and `cuda/tests/8bit/optimizer/` for `cuda/kernels/bf16/optimizer/` and `cuda/kernels/8bit/optimizer/`), `cuda/tests/` itself for the rest (tensor, block, model, ...). On Colab, with the libtorch that comes with PyTorch:
 
 ```
 TORCH=$(python -c "import torch, os; print(os.path.dirname(torch.__file__))")

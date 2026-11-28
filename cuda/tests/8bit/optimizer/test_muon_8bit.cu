@@ -5,7 +5,7 @@
 #include <ATen/ops/linalg_svdvals.h>  // at::linalg_svdvals: the singular values of Newton–Schulz's output
 #include <torch/types.h>              // torch::tensor, torch::matmul
 #include <torch/utils.h>              // torch::NoGradGuard
-#include "../../../common/test_helpers.h"             // ASSERT_EQ, ASSERT_NEAR
+#include "../../common/test_helpers.h"          // ASSERT_EQ, ASSERT_NEAR
 #include "../../../kernels/8bit/optimizer/muon_8bit.cuh"     // muon_update_8bit, muon_8bit_newton_schulz
 
 // ── helpers ───────────────────────────────────────────────────────────────────

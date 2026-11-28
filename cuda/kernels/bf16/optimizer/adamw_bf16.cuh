@@ -9,8 +9,8 @@
 #ifndef ADAMW_BF16_CUH
 #define ADAMW_BF16_CUH
 
-#include "../cuda_common.h"
-#include "../../common/tensor.cuh"
+#include "../../cuda_common.h"
+#include "../../../common/tensor.cuh"
 
 #define ADAMW_BF16_THREADS_PER_BLOCK (8 * HARDWARE_THREADS_PER_WARP)   // the default block size: 8 warps
 

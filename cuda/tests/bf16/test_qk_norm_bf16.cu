@@ -1,6 +1,6 @@
-// test_qk_norm_8bit.cu — tests for cuda/kernels/8bit/qk_norm_8bit.cuh (qk_norm_8bit_forward, qk_norm_8bit_backward):
-// QK-norm before the 8-bit model's attention, each head row of query and key scaled to a root mean square of
-// QK_NORM_8BIT_GAIN in bfloat16 qkv. Every check prints its test case, input, expected and actual value, and ok; the
+// test_qk_norm_bf16.cu — tests for cuda/kernels/bf16/qk_norm_bf16.cuh (qk_norm_bf16_forward, qk_norm_bf16_backward):
+// QK-norm before the bfloat16 and 8-bit models' attention, each head row of query and key scaled to a root mean square of
+// QK_NORM_BF16_GAIN in bfloat16 qkv. Every check prints its test case, input, expected and actual value, and ok; the
 // first FAIL stops the program.
 //
 // Part 1 checks against PyTorch in float on the same values, the backward by autograd; part 2 checks numbers worked
@@ -8,7 +8,7 @@
 #include <torch/types.h>              // torch::randn, torch::rsqrt, backward(); before any CUDA header
 #include <torch/utils.h>              // torch::manual_seed
 #include "../common/test_helpers.h"             // ASSERT_EQ, ASSERT_NEAR
-#include "../../kernels/8bit/qk_norm_8bit.cuh"
+#include "../../kernels/bf16/qk_norm_bf16.cuh"
 
 // y and dx are rounded to bfloat16 here (2^-9 of a value); the backward also reads y rounded: within 1e-2 of the
 // largest value. rstd is float on both sides: 1e-5.
@@ -62,7 +62,7 @@ static double relative_difference(const torch::Tensor &mine_tensor, const torch:
 /// Gives PyTorch's QK-norm of head rows x {..., head_size}: gain · x / sqrt(mean(x²) + eps), in float.
 static torch::Tensor pytorch_qk_norm(const torch::Tensor &x_tensor)
 {
-    return QK_NORM_8BIT_GAIN * x_tensor * torch::rsqrt(x_tensor.pow(2).mean(-1, true) + QK_NORM_8BIT_EPS);
+    return QK_NORM_BF16_GAIN * x_tensor * torch::rsqrt(x_tensor.pow(2).mean(-1, true) + QK_NORM_BF16_EPS);
 }
 
 /// Splits a PyTorch qkv {B, T, 3D} into its query, key and value as head rows {B, NH, T, HS}.
@@ -88,7 +88,7 @@ static void matches_pytorch(const char *test_ptr, size_t batch_size_val, size_t 
                             size_t num_heads_val)
 {
     // Runs the forward on random qkv (std 3, so the norm has work to do), then the backward on random dy with the
-    // forward's y as qkv_rounded; PyTorch's QK-norm in float on the same values, dx by autograd. Checks: query's and
+    // forward's y as qkv_normed; PyTorch's QK-norm in float on the same values, dx by autograd. Checks: query's and
     // key's y and dx within BFLOAT16_TOLERANCE, the rstds within FLOAT_TOLERANCE, value's part of qkv and of qkv_grad
     // untouched to the bit.
     // 1. mine: the forward, then the backward
@@ -98,10 +98,10 @@ static void matches_pytorch(const char *test_ptr, size_t batch_size_val, size_t 
     Tensor x_copy_tensor = qkv_tensor.to(DType::Float32).to(DType::BFloat16);    // x, before the forward writes over it
     Tensor query_rstd_tensor = Tensor::zeros({B, NH, T});
     Tensor key_rstd_tensor = Tensor::zeros({B, NH, T});
-    qk_norm_8bit_forward(qkv_tensor, query_rstd_tensor, key_rstd_tensor);
+    qk_norm_bf16_forward(qkv_tensor, query_rstd_tensor, key_rstd_tensor);
     Tensor dy_tensor = random_bf16_tensor({B, T, 3 * D});
     Tensor qkv_grad_tensor = dy_tensor.to(DType::Float32).to(DType::BFloat16);  // written over by the backward
-    qk_norm_8bit_backward(qkv_grad_tensor, qkv_tensor, query_rstd_tensor, key_rstd_tensor);
+    qk_norm_bf16_backward(qkv_grad_tensor, qkv_tensor, query_rstd_tensor, key_rstd_tensor);
     // 2. PyTorch's, in float on the same x and dy
     std::vector<torch::Tensor> x_list = pytorch_parts_of(pytorch_copy_of(x_copy_tensor), (int64_t)NH);
     std::vector<torch::Tensor> dy_list = pytorch_parts_of(pytorch_copy_of(dy_tensor), (int64_t)NH);
@@ -115,7 +115,7 @@ static void matches_pytorch(const char *test_ptr, size_t batch_size_val, size_t 
         torch::Tensor x_tensor = x_list[part_val].clone().requires_grad_(true);
         torch::Tensor expected_y_tensor = pytorch_qk_norm(x_tensor);
         (expected_y_tensor * dy_list[part_val]).sum().backward();
-        torch::Tensor expected_rstd_tensor = torch::rsqrt(x_list[part_val].pow(2).mean(-1) + QK_NORM_8BIT_EPS);
+        torch::Tensor expected_rstd_tensor = torch::rsqrt(x_list[part_val].pow(2).mean(-1) + QK_NORM_BF16_EPS);
         printf("    %s:\n", part_val == 0 ? "query" : "key");
         ASSERT_NEAR(relative_difference(y_list[part_val], expected_y_tensor.detach()), 0.0, BFLOAT16_TOLERANCE);
         ASSERT_NEAR(relative_difference(rstd_list[part_val], expected_rstd_tensor), 0.0, FLOAT_TOLERANCE);
@@ -152,7 +152,7 @@ static void one_head_row_by_hand(void)
     Tensor qkv_tensor = bf16_tensor_of({1, 1, 12}, {1, 2, 3, 4, 2, 2, 2, 2, 5, 6, 7, 8});
     Tensor query_rstd_tensor = Tensor::zeros({1, 1, 1});
     Tensor key_rstd_tensor = Tensor::zeros({1, 1, 1});
-    qk_norm_8bit_forward(qkv_tensor, query_rstd_tensor, key_rstd_tensor);
+    qk_norm_bf16_forward(qkv_tensor, query_rstd_tensor, key_rstd_tensor);
     std::vector<float> y_list = qkv_tensor.to(DType::Float32).tolist();
     print_test_name(__func__);
     ASSERT_NEAR(query_rstd_tensor.tolist()[0], 0.3651484f, 1e-6);
@@ -161,7 +161,7 @@ static void one_head_row_by_hand(void)
     for (int index_val = 0; index_val < 12; index_val++)
         ASSERT_NEAR(y_list[index_val], expected_y_list[index_val], 1e-2);
     Tensor qkv_grad_tensor = bf16_tensor_of({1, 1, 12}, {1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1});
-    qk_norm_8bit_backward(qkv_grad_tensor, qkv_tensor, query_rstd_tensor, key_rstd_tensor);
+    qk_norm_bf16_backward(qkv_grad_tensor, qkv_tensor, query_rstd_tensor, key_rstd_tensor);
     std::vector<float> dx_list = qkv_grad_tensor.to(DType::Float32).tolist();
     const float expected_dx_list[12] = {0.4235721f, -0.0292119f, -0.0438178f, -0.0584237f, 0, 0, 0, 0, 1, 1, 1, 1};
     for (int index_val = 0; index_val < 12; index_val++)
@@ -174,8 +174,8 @@ static void every_kernel_fits_its_block(void)
 {
     // Expect: both kernels can be launched with HARDWARE_MAX_THREADS_PER_BLOCK threads and nothing is spilled:
     // cudaFuncGetAttributes' maxThreadsPerBlock and localSizeBytes, read without running anything.
-    const void *kernels_list[] = {(const void *)qk_norm_8bit_forward_kernel, (const void *)qk_norm_8bit_backward_kernel};
-    const char *names_list[] = {"qk_norm_8bit_forward_kernel", "qk_norm_8bit_backward_kernel"};
+    const void *kernels_list[] = {(const void *)qk_norm_bf16_forward_kernel, (const void *)qk_norm_bf16_backward_kernel};
+    const char *names_list[] = {"qk_norm_bf16_forward_kernel", "qk_norm_bf16_backward_kernel"};
     for (int kernel_index_val = 0; kernel_index_val < 2; kernel_index_val++) {
         cudaFuncAttributes attributes_val;
         cudaCheck(cudaFuncGetAttributes(&attributes_val, kernels_list[kernel_index_val]));

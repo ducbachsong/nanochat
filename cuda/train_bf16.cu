@@ -1,7 +1,8 @@
-// train_bf16.cu — trains a GPT-2 of 32 layers x 2,304 (about 2.15B parameters) from scratch on the FineWeb-Edu token files in bfloat16 (model_bf16.cuh), on
-// one GPU or on several GPUs of one machine. The model's params, grads and activations are bfloat16; AdamWBf16
-// keeps float master params and bfloat16 m and v for this GPU's slice. The other two: train_fp32.cu (all float)
-// and train_8bit.cu (the products and m and v in 8 bits). The defaults are llm.c's GPT-2 (124M) run: 524,288
+// train_bf16.cu — trains nanochat's d24 model (24 layers x 1,536, about 0.73B parameters) from scratch on the ClimbMix
+// token files in bfloat16 (model_bf16.cuh), on one GPU or on several GPUs of one machine, with QK-norm and the logit
+// softcap as train_8bit.cu. The model's params, grads and activations are bfloat16; AdamWBf16 keeps float master
+// params and bfloat16 m and v for this GPU's slice. The other two: train_fp32.cu (all float) and train_8bit.cu (the
+// products and m and v in 8 bits). The defaults are llm.c's GPT-2 (124M) run: 524,288
 // tokens a step, one pass over the train files (10B tokens: 19,073 steps), warmup 700 steps, learning rate 6e-4
 // down to 0.
 //
@@ -31,6 +32,7 @@
 // Every 200 steps a progress line: the time so far, the time left at this run's pace, and the clock time it
 // will be done. The settings, flags and printing all three programs share: common/training.cuh.
 #include <chrono>
+#include <cstring>                                  // strlen: the model's name for print_run
 #include "common/training.cuh"                 // TrainConfig, parse_args, learning_rate_at, print0, ...
 #include "model_bf16.cuh"                      // GPT2ActivationsBf16, gpt2_bf16_train_step, AdamWBf16
 #include "helper/checkpoint.cuh"
@@ -49,12 +51,16 @@
 #define TRAIN_BF16_BATCH_SIZE 8                         // the default rows a micro-batch: about 4.5 GB of activations a row at 2,048 tokens (tune_model finds the best)
 #define TRAIN_BF16_LINEAR_BIAS 0                      // the 4 linears' biases: 0, none (as nanochat; no bias grads, 32 x 9 x 2,304 fewer
                                                        // values); 1, GPT-2's. --linear-bias changes it. The LayerNorms keep theirs
+#define TRAIN_BF16_QK_NORM 1                           // 1: QK-norm before attention (nanochat's: query's and key's head rows to RMS 1.2);
+                                                       // 0: none. Without it (and the softcap) the 8-bit d24 run got worse from step ~1700
+#define TRAIN_BF16_LOGIT_SOFTCAP 15.0f                 // each logit capped to c · tanh(logit / c) before the softmax (nanochat's 15); 0: none
 
 /// Gives the model this program trains.
 ///
 ///   c   the run's settings: linear_bias
 static GPT2Config model_config_of(const TrainConfig& c) {
-    // GPT2Config with the sizes above, and the linears' biases or not as the run says.
+    // GPT2Config with the sizes above, QK-norm and the logit softcap as the defines say, and the linears' biases
+    // or not as the run says.
     GPT2Config config;
     config.linear_bias = c.linear_bias;
     config.num_layers = TRAIN_BF16_NUM_LAYERS;
@@ -64,6 +70,8 @@ static GPT2Config model_config_of(const TrainConfig& c) {
     config.vocab_size = TRAIN_BF16_VOCAB_SIZE;
     config.padded_vocab_size = TRAIN_BF16_VOCAB_SIZE;
     config.attention_window = TRAIN_BF16_ATTENTION_WINDOW;
+    config.qk_norm = TRAIN_BF16_QK_NORM != 0;
+    config.logit_softcap = TRAIN_BF16_LOGIT_SOFTCAP;
     return config;
 }
 
@@ -114,7 +122,7 @@ int main(int argc, char** argv) {
 
     // 2. the model: its params and grads live in AdamWBf16, the model reads and writes views of them. Every rank
     // makes the same starting values from the same seed, and keeps the master of its own slice.
-    GPT2Config model_config = model_config_of(c);                        // 32 layers x 2,304, 18 heads, 2,048 tokens
+    GPT2Config model_config = model_config_of(c);                        // 24 layers x 1,536, 12 heads, 2,048 tokens
     AdamWBf16 optimizer(GPT2Params::shapes(model_config), adamw_config_of(c), distributed.rank(),
                         distributed.world_size());
     GPT2Params params = params_of(optimizer, model_config);
@@ -128,7 +136,13 @@ int main(int argc, char** argv) {
     Tensor grads_slice = optimizer.all_grads().narrow(0, optimizer.slice_start(), optimizer.slice_size());
     Tensor grad_norm_block_sums = Tensor::zeros({2, GRAD_NORM_BF16_BLOCKS});
     GradNormBf16 grad_norm(grad_norm_block_sums);
-    print_run("bfloat16", c, optimizer, micro_batches, train_loader, val_loader, distributed);
+    char model_name_list[128];                                          // "bfloat16", then QK-norm and the softcap if on
+    snprintf(model_name_list, sizeof(model_name_list), "bfloat16%s%s", model_config.qk_norm ? ", QK-norm" : "",
+             model_config.logit_softcap > 0.0f ? ", logit softcap " : "");
+    if (model_config.logit_softcap > 0.0f)
+        snprintf(model_name_list + strlen(model_name_list), sizeof(model_name_list) - strlen(model_name_list), "%g",
+                 model_config.logit_softcap);
+    print_run(model_name_list, c, optimizer, micro_batches, train_loader, val_loader, distributed);
 
     // 3. from a checkpoint: its master, m, v, step count, params and the train loader's place
     int first_step = 0;

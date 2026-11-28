@@ -22,7 +22,7 @@
 #include "kernels/bf16/residual_bf16.cuh"
 #include "kernels/bf16/softmax_loss_bf16.cuh"      // the softmax, the loss and its gradient from the bfloat16 logits
 #include "kernels/8bit/attention_flash_8bit.cuh"   // attention_8bit_forward, _backward
-#include "kernels/8bit/qk_norm_8bit.cuh"           // QK-norm before attention (GPT2Config::qk_norm)
+#include "kernels/bf16/qk_norm_bf16.cuh"           // QK-norm before attention (GPT2Config::qk_norm)
 #include "kernels/8bit/optimizer/adamw_8bit.cuh"         // AdamW8bit's update
 #include "kernels/8bit/optimizer/muon_8bit.cuh"         // Muon8bit's update of the blocks' matrices
 // GPT-2's 15 matrix products in 8 bits, each a kernel of its own with its own setting (its file's defines, from its
@@ -541,7 +541,7 @@ inline void block_8bit_forward(const Tensor& output, const Tensor& input, const 
                                             activations.history(layer, MODEL_8BIT_HISTORY_QKV_INPUT)));
     // QK-norm: query's and key's head rows to RMS 1.2 in place, before attention rounds them to 8 bits
     if (activations.qk_norm)
-        qk_norm_8bit_forward(activations.qkv_scratch, activations.query_rstd[layer], activations.key_rstd[layer]);
+        qk_norm_bf16_forward(activations.qkv_scratch, activations.query_rstd[layer], activations.key_rstd[layer]);
     attention_8bit_forward(activations.attention_output[layer], activations.query_8bit[layer], activations.key_8bit[layer],
                            activations.value_8bit[layer], activations.query_scales[layer], activations.key_scales[layer],
                            activations.value_scales[layer], activations.attention_logsumexp[layer], activations.qkv_scratch,
@@ -680,7 +680,7 @@ inline void block_8bit_backward(const Tensor& input_grad, const BlockParams& par
                             ATTENTION_8BIT_THREADS_PER_BLOCK, ATTENTION_BF16_ROW_DOT_THREADS_PER_BLOCK, activations.attention_windows[layer],
                             qkv_grad_8bit_val ? &qkv_grad_val : nullptr);
     if (activations.qk_norm)
-        qk_norm_8bit_backward(activations.qkv_grad_scratch, activations.qkv_scratch, activations.query_rstd[layer],
+        qk_norm_bf16_backward(activations.qkv_grad_scratch, activations.qkv_scratch, activations.query_rstd[layer],
                               activations.key_rstd[layer]);
     if (!qkv_grad_8bit_val)
         round_8bit_per_tensor(activations.qkv_input_grad_copies_scratch.left_8bit_tensor, activations.qkv_weight_grad_copies_scratch.left_8bit_tensor,
